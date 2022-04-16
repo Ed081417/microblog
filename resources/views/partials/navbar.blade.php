@@ -2,9 +2,19 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark ">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">YNS</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+             <!-- Toggle button -->
+            <button
+            class="navbar-toggler"
+            type="button"
+            data-mdb-toggle="collapse"
+            data-mdb-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 {{-- <ul class="navbar-nav ms-auto mb-2 mb-md-0">
                     <li class="nav-item">
@@ -17,7 +27,7 @@
                     <button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button> --}}
                     
                     <a type="button" class="btn btn-dark " href="{{ route('login') }}" >Login</a>
-                    <a type="button" class="btn btn-dark " >Register</a>
+                    <a type="button" class="btn btn-dark " href="{{ route('register') }}">Register</a>
                 </form>
             </div>
         </div>
