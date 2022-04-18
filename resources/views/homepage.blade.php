@@ -5,7 +5,7 @@
 @section('content')
 
 
-    <div class="jumbotron p-3 p-md-5 text-white rounded bg-secondary"> 
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark"> 
     
             <div class="container col-md-6 px-0 headerjumbotron" >
               <h1 class="display-4">Start Your Blogging Career Here!</h1>

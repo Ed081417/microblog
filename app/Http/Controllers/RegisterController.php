@@ -2,19 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Register;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('auth.register');
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -23,7 +15,7 @@ class RegisterController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth.register');
     }
 
     /**

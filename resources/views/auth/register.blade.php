@@ -1,82 +1,59 @@
-@extends('partials.authlayout')
+<x-guest-layout>
+    <x-auth-card>
+        <x-slot name="logo">
+            <a href="/">
+                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            </a>
+        </x-slot>
 
+        <!-- Validation Errors -->
+        <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-@section('content')
-  <div class="container">
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-  
-      <form class="loginForm">
+            <!-- Name -->
+            <div>
+                <x-label for="name" :value="__('Name')" />
 
-        <div class="row justify-content-center">
-          <h2>Register</h2>
-          
-          <div class="col-md-6">
-                <hr>
-                <div class="row mb-4">
-                    <div class="col">
-                        <div class="form-outline">
-                            <input type="text" id="form3Example1" class="form-control" />
-                            <label class="form-label" for="form3Example1">First name</label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-outline">
-                            <input type="text" id="form3Example2" class="form-control" />
-                            <label class="form-label" for="form3Example2">Middle name</label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-outline">
-                            <input type="text" id="form3Example2" class="form-control" />
-                            <label class="form-label" for="form3Example2">Last name</label>
-                        </div>
-                    </div>
-                </div>
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+            </div>
 
-            
-                <div class="row mb-4">
-                    <div class="col">
-                        <div class="form-outline">
-                            <input type="date" id="form6Example1" class="form-control" />
-                            <label class="form-label" for="form6Example1">Date of Birth</label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-outline">
-                            <input type="text" id="form6Example2" class="form-control" />
-                            <label class="form-label" for="form6Example2">Username</label>
-                        </div>
-                    </div>
-                </div>
+            <!-- Email Address -->
+            <div class="mt-4">
+                <x-label for="email" :value="__('Email')" />
 
-                
-                <div class="form-outline mb-4">
-                    <input type="email" id="form3Example3" class="form-control" />
-                    <label class="form-label" for="form3Example3">Email address</label>
-                </div>
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+            </div>
 
-      
-                <div class="form-outline mb-4">
-                    <input type="password" id="form3Example4" class="form-control" />
-                    <label class="form-label" for="form3Example4">Password</label>
-                </div>
+            <!-- Password -->
+            <div class="mt-4">
+                <x-label for="password" :value="__('Password')" />
 
-                <div class="form-outline mb-4">
-                    <input type="password" id="form3Example4" class="form-control" />
-                    <label class="form-label" for="form3Example4">Confirm Password</label>
-                </div>
+                <x-input id="password" class="block mt-1 w-full"
+                                type="password"
+                                name="password"
+                                required autocomplete="new-password" />
+            </div>
 
-                <div class="form-outline mb-4">    
-                    <input type="file" class="form-control" id="customFile" />
-                </div>
+            <!-- Confirm Password -->
+            <div class="mt-4">
+                <x-label for="password_confirmation" :value="__('Confirm Password')" />
 
-                <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
-         
-                <div class="text-center">
-                    <p>Already have an account? <a href="{{ route('login') }}">Login</a></p>
-                </div>
-          </div>
-        </div> 
-      </form>
-  </div>
-@endsection
+                <x-input id="password_confirmation" class="block mt-1 w-full"
+                                type="password"
+                                name="password_confirmation" required />
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                    {{ __('Already registered?') }}
+                </a>
+
+                <x-button class="ml-4">
+                    {{ __('Register') }}
+                </x-button>
+            </div>
+        </form>
+    </x-auth-card>
+</x-guest-layout>
