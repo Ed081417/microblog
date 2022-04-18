@@ -7,7 +7,7 @@
      
 
         <!-- Validation Errors -->
-        {{-- <x-auth-validation-errors class="mb-4" :errors="$errors" /> --}}
+         {{-- <x-auth-validation-errors class="mb-4" :errors="$errors" />  --}}
 
         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
             @csrf
@@ -60,7 +60,7 @@
                 <x-input id="email" class="block w-full" type="email" name="email" :value="old('email')"  />
             </div>
             @error('email')
-                <span style="color: red;">*Email is required!</span>
+                <span style="color: red;">*Email is required!.</span>
             @enderror
 
             <div >

@@ -26,7 +26,7 @@
 
                 @auth
 
-                    <form class="d-flex ms-auto">
+                    <form method="POST" class="d-flex ms-auto" style="margin-right: 20px;">
                         @csrf
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mr-50">
                             <li class="nav-item">
@@ -35,20 +35,35 @@
                         </ul>
 
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
 
                         
                         
                     </form>
 
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form action="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <div class="dropdown">
+                            <a class="btn btn-dark dropdown-toggle" type="button" id="userprofile" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="userprofile">
+                              <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                              <li><a class="dropdown-item" href="#">Change Password</a></li>
+                              <li><a class="dropdown-item" href="{{ route('logout') }}">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </form>
+
+                    
+
+                    {{-- <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            </x-dropdown-link> --}}
                     </form>
                 @endauth
                 
