@@ -16,7 +16,7 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
 
-        {{-- @include('partials.header'); --}}
+   
     </head>
     <body class="font-sans antialiased">
         <div class=" min-h-screen bg-gray-100">
@@ -35,6 +35,6 @@
             </main>
         </div>
 
-        {{-- @include('partials.footer'); --}}
+    
     </body>
 </html>

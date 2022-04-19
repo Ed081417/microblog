@@ -16,7 +16,7 @@
     
 
     <div class="container">
-      <div class="row" style="">
+      <div class="row" style="text-align: center;">
         <div class="col-lg-4 ">
           <img class="rounded-circle" src="{{asset('assets/img/w1.png')}}" alt="Generic placeholder image" width="140" height="140">
           <h2>Post</h2>

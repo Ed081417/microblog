@@ -37,11 +37,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
-            'image' => ['image', 'mimes:jpeg,png,jpg','max:5048'],
-        ]);
+        // $request->validate([
+        //     'title' => ['required', 'string', 'max:255'],
+        //     'description' => ['required', 'string', 'max:500'],
+        //     'image' => ['image', 'mimes:jpeg,png,jpg','max:5048'],
+        // ]);
 
         $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $newImageName);

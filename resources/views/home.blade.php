@@ -56,46 +56,51 @@
                   </button>
 
                   <!-- Modal -->
-                  <div class="modal fade" id="postModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="postModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="postModalLabel">Write Something</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <form action="{{ route('posts') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal fade" id="postModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="postModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="postModalLabel">Write Something</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+
+                          
+                            <div class="modal-body"> 
+                                                    
+                                    <div class="mb-3">
+                                      <input type="text" class="form-control" name="title" id="title" placeholder="Title">
+                                      @error('title')
+                                          <span style="color: red;">*Title is required!</span>
+                                      @enderror
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                      <textarea class="form-control" name="description" id="description" placeholder="Description" rows="6"></textarea>
+                                      @error('description')
+                                          <span style="color: red;">*Description is required!</span>
+                                      @enderror
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                      <input type="file" class="form-control" name="image" id="image" >
+                                    </div>                            
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Post</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          
+
                         </div>
-
-                        <form action="{{ route('posts') }}" method="POST" enctype="multipart/form-data">
-                          @csrf
-                          <div class="modal-body"> 
-                                                  
-                                  <div class="mb-3">
-                                    <input type="text" class="form-control" name="title" id="title" placeholder="Title">
-                                    @error('title')
-                                        <span style="color: red;">*Title is required!.</span>
-                                    @enderror
-                                  </div>
-                                  
-                                  <div class="mb-3">
-                                    <textarea class="form-control" name="description" id="description" placeholder="Description"></textarea>
-                                    @error('description')
-                                        <span style="color: red;">*Description is required!.</span>
-                                    @enderror
-                                  </div>
-                                  
-                                  <div class="mb-3">
-                                    <input type="file" class="form-control" name="image" id="image" >
-                                  </div>                            
-                          </div>
-
-                          <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Post</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          </div>
-                        </form>
-
                       </div>
                     </div>
-                  </div>
+
+                    
+                  </form>
+                  
                   {{-- Modal --}}
 
                   {{-- Users Posts --}}
@@ -103,7 +108,8 @@
                     <div class="card w-90">                
                       <div class="card-header imgHeader">
                         <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
-                        {{ $post->user->first_name . ' ' . $post->user->last_name}}
+                        <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>
+                        {{ $post->created_at }}
                       </div>
 
                       <div class="card-body">
@@ -162,6 +168,5 @@
 
       </div>
     </div>
-    
-   
+  
 @endsection
