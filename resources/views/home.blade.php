@@ -43,6 +43,11 @@
         {{-- Posts --}}
         <div class="col-6 ">           
             <div class="container">
+              @if (session()->has('message'))
+                <div class="alert alert-primary" role="alert">
+                   {{ session()->get('message') }}
+                </div>
+              @endif
               <div class="row ">
                 <div class="col">
                   <!-- Button trigger modal -->
@@ -59,64 +64,68 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <div class="modal-body">                       
-                            <div class="mb-3">
-                              <input type="text" class="form-control" id="postTitle" placeholder="Title">
-                            </div>
-                            
-                            <div class="mb-3">
-                              <textarea class="form-control" id="postDescription" placeholder="Description"></textarea>
-                            </div>
-                            
-                            <div class="mb-3">
-                              <input type="file" class="form-control" id="postTitle" >
-                            </div>
-                        </div>
+                        <form action="{{ route('posts') }}" method="POST" enctype="multipart/form-data">
+                          @csrf
+                          <div class="modal-body"> 
+                                                  
+                                  <div class="mb-3">
+                                    <input type="text" class="form-control" name="title" id="title" placeholder="Title">
+                                    @error('title')
+                                        <span style="color: red;">*Title is required!.</span>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="mb-3">
+                                    <textarea class="form-control" name="description" id="description" placeholder="Description"></textarea>
+                                    @error('description')
+                                        <span style="color: red;">*Description is required!.</span>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="mb-3">
+                                    <input type="file" class="form-control" name="image" id="image" >
+                                  </div>                            
+                          </div>
 
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-primary">Post</button>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Post</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </form>
+
                       </div>
                     </div>
                   </div>
                   {{-- Modal --}}
 
-
                   {{-- Users Posts --}}
-                  <div class="card w-90">                   
-                    <div class="card-header imgHeader">
-                      <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="rounded">
-                      {{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">One Piece Red</h5>
-                      <p class="card-text">One piece new Movie One Piece Red.</p>
-                      <img src="{{asset('assets/img/opred.png')}}" alt="..." class="img-fluid">
-                    </div>
-                    <div class="card-footer">
-                      <span>8</span> <a href="#">Like</a> <span>|</span>
-                      <span>8</span> <a href="#">Comment</a> <span>|</span>
-                      <span>8</span> <a href="#">Share</a> 
-                    </div>
-                  </div>
+                  @foreach ($posts as $post)
+                    <div class="card w-90">                
+                      <div class="card-header imgHeader">
+                        <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                        {{ $post->user->first_name . ' ' . $post->user->last_name}}
+                      </div>
 
-                  <div class="card w-90">                   
-                    <div class="card-header imgHeader">
-                      <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="rounded">
-                      {{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}
+                      <div class="card-body">
+
+                          @if ($post->image_path=="")
+                            <a href="#"> <h5>{{ $post->title }}</h5> </a>
+                            <p class="card-text">{{ $post->description }}</p>
+                          @else
+                            <a href="#"> <h5>{{ $post->title }}</h5> </a>
+                            <p class="card-text">{{ $post->description }}</p>
+                            <img src="{{asset('images/' . $post->image_path)}}" alt="..." class="img-fluid">
+                          @endif
+
+                      </div>
+
+                      <div class="card-footer">
+                        <span>8</span> <a href="#">Like</a> <span>|</span>
+                        <span>8</span> <a href="#">Comment</a> <span>|</span>
+                        <span>8</span> <a href="#">Share</a> 
+                      </div>
                     </div>
-                    <div class="card-body">
-                      <h5 class="card-title">One Piece Red</h5>
-                      <p class="card-text">One piece new Movie One Piece Red.</p>
-                      <img src="{{asset('assets/img/opred.png')}}" alt="..." class="img-fluid">
-                    </div>
-                    <div class="card-footer">
-                      <span>8</span> <a href="#">Like</a> <span>|</span>
-                      <span>8</span> <a href="#">Comment</a> <span>|</span>
-                      <span>8</span> <a href="#">Share</a> 
-                    </div>
-                  </div>
+                  @endforeach
                   {{-- Users Posts --}}
 
                 </div>
