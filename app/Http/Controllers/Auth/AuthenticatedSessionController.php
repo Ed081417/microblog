@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
-     */
+     */ 
     public function destroy(Request $request)
     {
         Auth::guard('web')->logout();

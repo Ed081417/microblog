@@ -1,6 +1,5 @@
 .row {
     margin-top: 20px; 
-    text-align: center;
 }
 
 .headerjumbotron {
@@ -9,4 +8,12 @@
 
 .loginForm {
     margin-top: 50px;
+}
+
+.card {
+    margin-top: 50px;
+}
+
+.card-header img {
+    width: 40px;
 }

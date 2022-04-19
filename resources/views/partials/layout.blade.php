@@ -3,7 +3,7 @@
 @include('partials.navbar'); 
 
 
-<div class="main-content" style="margin-top: 30px;">
+<div class="main-content">
   
     @yield('content')
 

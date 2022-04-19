@@ -1,19 +1,12 @@
 <div class="container">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark ">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">YNS</a>
+            <a class="navbar-brand" href="#" ></a>
              <!-- Toggle button -->
-            <button
-            class="navbar-toggler"
-            type="button"
-            data-mdb-toggle="collapse"
-            data-mdb-target="#navbarCollapse"
-            aria-controls="navbarCollapse"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-            <i class="fas fa-bars"></i>
-        </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" 
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 
@@ -26,25 +19,18 @@
 
                 @auth
 
-                    <form method="POST" class="d-flex ms-auto" style="margin-right: 20px;">
+                    <form method="POST" class="d-flex ms-auto" style="margin-right: 10px;">
                         @csrf
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mr-50">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                        </ul>
-
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-
-                        
+    
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">                     
                         
                     </form>
 
-                    <form action="POST" action="{{ route('logout') }}">
+                    <form action="POST" action="{{ route('logout') }}" style="margin-right: 90px;">
                         @csrf
-                        <div class="dropdown">
+                        <div class="dropdown ">
                             <a class="btn btn-dark dropdown-toggle" type="button" id="userprofile" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}
+                                <i class="bi bi-person-square"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userprofile">
                               <li><a class="dropdown-item" href="#">Account Settings</a></li>
