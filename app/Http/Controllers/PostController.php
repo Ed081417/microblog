@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 
@@ -40,18 +41,30 @@ class PostController extends Controller
         // $request->validate([
         //     'title' => ['required', 'string', 'max:255'],
         //     'description' => ['required', 'string', 'max:500'],
-        //     'image' => ['image', 'mimes:jpeg,png,jpg','max:5048'],
+        //     'image' => ['required','image', 'mimes:jpeg,png,jpg','max:5048'],
         // ]);
+        
+        // if($request->image == " ") {
+        //     $post = new Post;
+        //     $post->user_id = auth()->user()->id;
+        //     $post->title = $request->input('title');
+        //     $post->description = $request->input('description');
+        //     $post->save();
 
-        $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
+        // } else {
+        //     $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
+        //     $request->image->move(public_path('images'), $newImageName);
+
+        //     $post = new Post;
+        //     $post->user_id = auth()->user()->id;
+        //     $post->title = $request->input('title');
+        //     $post->description = $request->input('description');
+        //     $post->image_path = $newImageName;
+        //     $post->save();
+        // }   
+
+        $newImageName = time() . '-' . $request->id . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $newImageName);
-
-        // Post::create([
-        //     'title' => $request->input('title'),
-        //     'description' => $request->input('description'),
-        //     'image_path' => $newImageName,
-        //     'user_id' => auth()->user()->id
-        // ]);
 
         $post = new Post;
         $post->user_id = auth()->user()->id;
@@ -82,7 +95,11 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return response()->json([
+            'status' => 200,
+            'post' => $post,
+        ]);
     }
 
     /**

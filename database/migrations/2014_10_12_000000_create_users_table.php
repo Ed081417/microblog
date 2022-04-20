@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('image_path')->nullable();
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
             $table->dateTime('deleted_at')->nullable();
         });
     }

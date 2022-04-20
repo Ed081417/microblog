@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
             $table->string('image_path')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
             $table->dateTime('deleted_at')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });

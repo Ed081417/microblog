@@ -24,11 +24,13 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/home', function () {
+Route::get('home', function () {
     return view('home');
 })->middleware(['auth', 'verified'])->name('home');
 
-Route::get('home', [PostController::class, 'index'])->name('home');
+Route::get('home', [PostController::class, 'index'])->middleware(['auth', 'verified'])->name('viewposts');
 
 Route::post('posts', [PostController::class, 'store'])->name('posts');
+
+Route::get('edit-post/{id}', [PostController::class, 'edit'])->name('edit-post');
 
