@@ -105,8 +105,10 @@
                   {{-- Create Post Modal --}}
 
                   <!-- Update Post Modal -->
-                  <form action="" method="post" enctype="multipart/form-data">
+                  <form action="{{ url('update-post') }} " method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('put')
+                    
                     <div class="modal fade" id="updateModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="updateModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
@@ -115,30 +117,30 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
 
-                            <input type="text" name="post_id" id="post_id">
+                            <input type="hidden" name="post_id" id="post_id">
                             
                             <div class="modal-body"> 
                                     <div class="mb-3">
-                                      <input type="text" class="form-control" name="title" id="title" placeholder="Title" >
+                                      <input type="text" class="form-control" name="updateTitle" id="updateTitle" placeholder="Title" >
                                       {{-- @error('title')
                                           <span style="color: red;">*Title is required!</span>
                                       @enderror --}}
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <textarea class="form-control" name="description" id="description" placeholder="Description" rows="6" ></textarea>
+                                      <textarea class="form-control" name="updateDesc" id="updateDesc" placeholder="Description" rows="6" ></textarea>
                                       {{-- @error('description')
                                           <span style="color: red;">*Description is required!</span>
                                       @enderror --}}
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <input type="file" class="form-control" name="image" id="image" >
+                                      <input type="file" class="form-control" name="updateImage" id="updateImage" >
                                     </div>                            
                             </div>
 
                             <div class="modal-footer">
-                              <button type="submit" class="btn btn-primary" id="updatePost">Post</button>
+                              <button type="submit" class="btn btn-primary">Update</button>
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                           
@@ -153,8 +155,6 @@
 
                   {{-- Users Posts --}}
                   @foreach ($posts as $post)
-
-                    <?php date_default_timezone_set('Asia/Manila'); ?>
                     
                     <div class="card w-90">                
                       <div class="card-header imgHeader">
@@ -244,11 +244,14 @@
                 type: "GET",
                 url: "/edit-post/"+post_id,
                 success: function (response) {
-                  console.log(response);
-                  // $('#title').val(response.post.title);
+                  console.log(response.post.image_path);
+                  // $("#post_id").val(post_id);
+                  $('#updateTitle').val(response.post.title);
+                  $('#updateDesc').val(response.post.description);
+                  //$('#updateImage').val(response.post.image_path);
                   // $('#description').val(response.post.description);
                   // $('#image').val(response.post.image_path);
-                  // $("#post_id").val(post_id);
+                  
                 }
               });
 

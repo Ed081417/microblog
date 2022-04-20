@@ -63,7 +63,7 @@ class PostController extends Controller
         //     $post->save();
         // }   
 
-        $newImageName = time() . '-' . $request->id . '.' . $request->image->extension();
+        $newImageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $newImageName);
 
         $post = new Post;
@@ -109,9 +109,20 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        // $newImageName = time() . '.' . $request->image->extension();
+        // $request->image->move(public_path('images'), $newImageName);
+
+        $post_id = $request->input('post_id');
+        $post = Post::find($post_id);
+        $post->title = $request->input('updateTitle');
+        $post->description = $request->input('updateDesc');
+        //$post->image_path = $newImageName;
+        $post->save();
+
+        return redirect()->back()->with('message', 'Post updated successfully!');
+
     }
 
     /**

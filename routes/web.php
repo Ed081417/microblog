@@ -31,6 +31,6 @@ Route::get('home', function () {
 Route::get('home', [PostController::class, 'index'])->middleware(['auth', 'verified'])->name('viewposts');
 
 Route::post('posts', [PostController::class, 'store'])->name('posts');
-
 Route::get('edit-post/{id}', [PostController::class, 'edit'])->name('edit-post');
+Route::put('update-post', [PostController::class, 'update'])->name('update-post');
 
