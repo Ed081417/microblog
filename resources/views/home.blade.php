@@ -15,13 +15,8 @@
             {{-- </a> --}}
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-              <li class="nav-item">
-                <a href="#" class="nav-link text-white" aria-current="home">
-                  Home
-                </a>
-              </li>
               <li>
-                <a href="#" class="nav-link text-white">
+                <a href="{{ route('user-posts') }}" class="nav-link text-white">
                   Posts
                 </a>
               </li>
@@ -165,10 +160,10 @@
                       <div class="card-body">
 
                           @if ($post->image_path=="")
-                            <a href="#"> <h5>{{ $post->title }}</h5> </a>
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> <h5>{{ $post->title }}</h5> </a>
                             <p class="card-text">{{ $post->description }}</p>
                           @else
-                            <a href="#"> <h5>{{ $post->title }}</h5> </a>
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> <h5>{{ $post->title }}</h5> </a>
                             <p class="card-text">{{ $post->description }}</p>
                             <img src="{{asset('images/' . $post->image_path)}}" alt="..." class="img-fluid">
                           @endif
@@ -179,13 +174,16 @@
                         <span>8</span> <a href="#">Like</a> <span>|</span>
                         <span>8</span> <a href="#">Comment</a> <span>|</span>
                         <span>8</span> <a href="#">Share</a> 
-
-                        <span style="float: right">
-                          Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
-                        </span>
-                        {{-- <span style="float: right">
-                          Post updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
-                        </span> --}}
+  
+                        @if ($post->created_at == $post->updated_at)
+                          <span style="float: right">
+                            Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
+                          </span>              
+                        @else
+                          <span style="float: right">
+                            Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
+                          </span>
+                        @endif
 
                       </div>
                     </div>

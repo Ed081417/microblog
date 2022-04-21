@@ -25,9 +25,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function view()
     {
-        //
+        return view('post.userposts')
+            ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
     }
 
     /**
@@ -46,7 +47,7 @@ class PostController extends Controller
             $post->save();
 
             return redirect()->back()->with('message', 'Posted Successfully!');
-            
+
         } else {
             $newImageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $newImageName);
@@ -70,7 +71,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('post.view')->with('post', Post::where('id', $id)->first());
     }
 
     /**

@@ -39,9 +39,6 @@
                     
                 </form>
             </div>
-            <div class="card-footer">    
-                <small class="text-muted"><span>Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} </span></small>
-            </div>
             
         </div>
     </div>
