@@ -40,4 +40,6 @@ Route::put('post/{id}', [PostController::class, 'update'])->name('update-post');
 Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-post');
 
 Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');
+Route::get('profile/{id}/edit', [UserController::class, 'edit'])->name('edit-profile');
+Route::put('profile/{id}', [UserController::class, 'update'])->name('update-profile');
 

@@ -2,18 +2,13 @@
 $(document).ready(function(){
     $('.alert-primary').fadeIn().delay(3000).fadeOut();
 
-    $('.alert-danger').fadeIn().delay(3000).fadeOut();
+    $('.alert-success').fadeIn().delay(3000).fadeOut();
+
+    $('.alert-danger').fadeIn().delay(3000).fadeOut();  
 
 });
 
-//Update Post Modal
-// $(document).ready(function(){
-//     $(document).on('click', '.updateBtn', function() {
-//         //$('#updateModal').modal('show');
-//         var post_id = $(this).val();
-//         alert(post_id);
-//     })
-// });
+
 
 
 //Validate form before submit

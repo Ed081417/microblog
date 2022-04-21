@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('user.editprofile')->with('user', User::where('id', $id)->first());
     }
 
     /**
@@ -69,7 +69,35 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($request->uploadnewImg==""){
+            User::where('id', $id)
+                ->update([
+                    'first_name' => $request->input('fname'),
+                    'middle_name' => $request->input('mname'),
+                    'last_name' => $request->input('lname'),
+                    'date_of_birth' => $request->input('dob'),
+                    'username' => $request->input('uname')
+                ]);
+        
+        return redirect('/profile')->with('message', 'Profile Updated Successfully!');
+
+        } else {
+
+            $newImageName = time() . '.' . $request->uploadnewImg->extension();
+            $request->uploadnewImg->move(public_path('images'), $newImageName);
+    
+            User::where('id', $id)
+                ->update([
+                    'first_name' => $request->input('fname'),
+                    'middle_name' => $request->input('mname'),
+                    'last_name' => $request->input('lname'),
+                    'date_of_birth' => $request->input('dob'),
+                    'username' => $request->input('uname'),
+                    'image_path' => $newImageName
+                ]);
+            
+        return redirect('/profile')->with('message', 'Post Updated Successfully!');
+        }
     }
 
     /**

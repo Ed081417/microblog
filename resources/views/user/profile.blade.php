@@ -13,9 +13,23 @@
         {{-- User Profile --}}
 
         <div class="col-6">
-            <a type="button" class="btn btn-success float-end" >
-                <i class="bi bi-pencil-square"></i> Update Profile
-            </a>
+           
+            
+            <div class="container">
+                <a href="/profile/{{ Auth::user()->id }}/edit" value="{{ Auth::user()->id }}"type="button" class="btn btn-success float-end" >
+                    <i class="bi bi-pencil-square"></i> Update Profile
+                </a>
+            </div>
+            
+
+             {{-- Flash messages --}}
+            <div class="container">
+                @if (session()->has('message'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session()->get('message') }}
+                    </div>
+                @endif
+            </div>
 
             <div class="card">
                 <h5 class="card-header">My Profile</h5>
