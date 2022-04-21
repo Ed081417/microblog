@@ -14,12 +14,12 @@
             
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" value="{{ $post->title }}" id="title" >
+                        <input type="text" class="form-control" value="{{ $post->title }}" name="title" >
                     </div>
         
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" rows="5">{{ $post->description }}</textarea>
+                        <textarea class="form-control" name="description" rows="5">{{ $post->description }}</textarea>
                     </div>
 
                     <div class="mb-3">
@@ -28,8 +28,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Choose New Image:</label>
-                        <input type="file" class="form-control" accept="image/*" id="uploadnewImg" >
+                        <label class="form-label">Upload New Image:</label>
+                        <input type="file" class="form-control" accept="image/*" name="uploadnewImg" id="uploadnewImg" >
                         <img id="newImg" class="img-fluid">
                     </div>
 

@@ -32,6 +32,6 @@ Route::get('home', [PostController::class, 'index'])->middleware(['auth', 'verif
 
 Route::post('posts', [PostController::class, 'store'])->name('posts');
 Route::get('post/{id}/edit', [PostController::class, 'edit'])->name('edit-post');
-Route::put('update-post', [PostController::class, 'update'])->name('update-post');
+Route::put('post/{id}', [PostController::class, 'update'])->name('update-post');
 Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-post');
 

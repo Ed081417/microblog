@@ -73,7 +73,7 @@ class PostController extends Controller
         $post->image_path = $newImageName;
         $post->save();
 
-        return redirect()->back()->with('message', 'Post successfully added!');
+        return redirect()->back()->with('message', 'Posted Successfully!');
     }
 
     /**
@@ -124,7 +124,18 @@ class PostController extends Controller
         // $post->update();
 
         // return redirect()->back()->with('message', 'Post updated successfully!');
+        $newImageName = time() . '.' . $request->uploadnewImg->extension();
+        $request->uploadnewImg->move(public_path('images'), $newImageName);
 
+        Post::where('id', $id)
+            ->update([
+                'user_id' => auth()->user()->id,
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'image_path' => $newImageName,
+            ]);
+        
+        return redirect('/home')->with('message', 'Post Updated Successfully!');
     }
 
     /**
