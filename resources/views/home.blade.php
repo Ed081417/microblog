@@ -43,11 +43,18 @@
         {{-- Posts --}}
         <div class="col-6 ">           
             <div class="container">
+
+              {{-- Flash messages --}}
               @if (session()->has('message'))
                 <div class="alert alert-primary" role="alert">
                    {{ session()->get('message') }}
                 </div>
+              @elseif (session()->has('status'))
+                <div class="alert alert-danger" role="alert">
+                  {{ session()->get('status') }}
+                </div>
               @endif
+
               <div class="row ">
                 <div class="col">
                   <!-- Button trigger modal -->
@@ -63,7 +70,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="postModalLabel">Write Something</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                           </div>
 
                           
@@ -71,21 +78,21 @@
                                     {{-- <div class="alert alert-danger" style="display:none"></div>       --}}
 
                                     <div class="mb-3">
-                                      <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
+                                      <input type="text" class="form-control" name="title" placeholder="Title" required>
                                       @error('title')
                                           <span style="color: red;">*Title is required!</span>
                                       @enderror
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <textarea class="form-control" name="description" id="description" placeholder="Description" rows="6" required></textarea>
+                                      <textarea class="form-control" name="description" placeholder="Description" rows="6" required></textarea>
                                       @error('description')
                                           <span style="color: red;">*Description is required!</span>
                                       @enderror
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <input type="file" class="form-control" name="image" id="image" required>
+                                      <input type="file" class="form-control" name="image" required>
                                     </div>                            
                             </div>
 
@@ -105,7 +112,7 @@
                   {{-- Create Post Modal --}}
 
                   <!-- Update Post Modal -->
-                  <form action="{{ url('update-post') }} " method="post" enctype="multipart/form-data">
+                  {{-- <form action="{{ route('update-post') }} " method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     
@@ -117,25 +124,25 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
 
-                            <input type="hidden" name="post_id" id="post_id">
+                            <input type="hidden"  name="post_id" id="post_id">
                             
                             <div class="modal-body"> 
                                     <div class="mb-3">
-                                      <input type="text" class="form-control" name="updateTitle" id="updateTitle" placeholder="Title" >
-                                      {{-- @error('title')
+                                      <input type="text" class="form-control" name="title" id="title" >
+                                      @error('title')
                                           <span style="color: red;">*Title is required!</span>
-                                      @enderror --}}
+                                      @enderror
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <textarea class="form-control" name="updateDesc" id="updateDesc" placeholder="Description" rows="6" ></textarea>
-                                      {{-- @error('description')
+                                      <textarea class="form-control" name="description" id="description" rows="6" ></textarea>
+                                      @error('description')
                                           <span style="color: red;">*Description is required!</span>
-                                      @enderror --}}
+                                      @enderror
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <input type="file" class="form-control" name="updateImage" id="updateImage" >
+                                      <input type="file" class="form-control" name="image" id="image" >
                                     </div>                            
                             </div>
 
@@ -148,8 +155,39 @@
                         </div>
                       </div>
                     </div>
-                  </form>           
+                  </form>            --}}
                   {{-- Update Post Modal --}}
+
+
+
+                  <!-- Delete Post Modal -->
+                  <form action=" {{ route('delete-post') }} " method="post" enctype="multipart/form-data">
+                    @csrf
+                    
+                    <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Delete Post</h5>
+                            {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                          </div>
+
+                            <input type="hidden" name="delete_post_id" id="delete_post_id">
+                            
+                            <div class="modal-body"> 
+                                    <p>Do you want to delete this post?</p>                         
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </form>           
+                  {{-- Delete Post Modal --}}
 
                   
 
@@ -163,11 +201,11 @@
                         <span>Posted on {{ date("F j, Y, g:i a", strtotime( $post->created_at)) }} </span>
               
                         @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
-                          <button type="button" value={{ $post->id }} class="btn btn-danger float-end" >
+                          <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
                             <i class="bi bi-trash"></i></button>
 
-                          <button type="button"  value="{{ $post->id }}" class="btn btn-success float-end updateBtn" >
-                            <i class="bi bi-pencil-square"></i></button>
+                          <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success float-end updateBtn" >
+                            <i class="bi bi-pencil-square"></i></a>
                         @endif                     
                         
                       </div>
@@ -235,26 +273,47 @@
 @section('scripts')
     <script>
       $(document).ready(function(){
-          $(document).on('click', '.updateBtn', function() {
+          // $(document).on('click', '.updateBtn', function() {
 
-              var post_id = $(this).val();
-              $('#updateModal').modal('show');
+          //     var post_id = $(this).val();
+          //     $('#updateModal').modal('show');
 
-              $.ajax ({
-                type: "GET",
-                url: "/edit-post/"+post_id,
-                success: function (response) {
-                  console.log(response.post.image_path);
-                  // $("#post_id").val(post_id);
-                  $('#updateTitle').val(response.post.title);
-                  $('#updateDesc').val(response.post.description);
-                  //$('#updateImage').val(response.post.image_path);
-                  // $('#description').val(response.post.description);
-                  // $('#image').val(response.post.image_path);
+          //     $.ajax ({
+          //       type: "GET",
+          //       url: "/edit-post/"+post_id,
+          //       success: function (response) {
+          //         //console.log(response.post.image_path);
+          //         // $("#post_id").val(post_id);
+          //         $('#title').val(response.post.title);
+          //         $('#description').val(response.post.description);
+          //         $('#image').val(response.post.image_path);
+          //         // $('#description').val(response.post.description);
+          //         // $('#image').val(response.post.image_path);
                   
-                }
-              });
+          //       }
+          //     });
 
+          // });
+
+          //Update Post
+          var loadFile = function(event) {
+              var output = document.getElementById('output');
+              output.src = URL.createObjectURL(event.target.files[0]);
+              output.onload = function() {
+                URL.revokeObjectURL(output.src) // free memory
+              }
+          };
+
+
+          //Delete Post
+          $('.deleteBtn').click(function (e) {
+            e.preventDefault();
+
+            var delete_post_id = $(this).val();
+            // console.log(delete_post_id);
+            $("#delete_post_id").val(delete_post_id);
+            $('#deleteModal').modal('show');
+           
           });
       });
 

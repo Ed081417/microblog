@@ -1,6 +1,9 @@
 //Post success alert
 $(document).ready(function(){
     $('.alert-primary').fadeIn().delay(3000).fadeOut();
+
+    $('.alert-danger').fadeIn().delay(3000).fadeOut();
+
 });
 
 //Update Post Modal

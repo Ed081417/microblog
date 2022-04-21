@@ -95,11 +95,13 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
-        return response()->json([
-            'status' => 200,
-            'post' => $post,
-        ]);
+        // $post = Post::find($id);
+        // return response()->json([
+        //     'status' => 200,
+        //     'post' => $post,
+        // ]);
+
+        return view('post.edit')->with('post', Post::where('id', $id)->first());
     }
 
     /**
@@ -109,19 +111,19 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         // $newImageName = time() . '.' . $request->image->extension();
         // $request->image->move(public_path('images'), $newImageName);
 
-        $post_id = $request->input('post_id');
-        $post = Post::find($post_id);
-        $post->title = $request->input('updateTitle');
-        $post->description = $request->input('updateDesc');
-        //$post->image_path = $newImageName;
-        $post->save();
+        // $id = $request->input('post_id');
+        // $post = Post::find($id);
+        // $post->title = $request->input('title');
+        // $post->description = $request->input('description');
+        // //$post->image_path = $newImageName;
+        // $post->update();
 
-        return redirect()->back()->with('message', 'Post updated successfully!');
+        // return redirect()->back()->with('message', 'Post updated successfully!');
 
     }
 
@@ -131,8 +133,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        // $post = Post::where('id', $id);
+        // $post->delete();
+
+        // return redirect()->back()->with('message', 'Post deleted successfully!');
+
+        $delete_post_id = $request->input('delete_post_id');
+        $post = Post::find($delete_post_id);
+        $post->delete();
+
+        return redirect()->back()->with('status', 'Post deleted successfully!');
     }
 }

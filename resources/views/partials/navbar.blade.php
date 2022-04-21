@@ -17,11 +17,12 @@
                     </form>
                 @endguest
 
-                @auth
+                @auth               
 
                     <form method="POST" class="d-flex ms-auto" style="margin-right: 10px;">
                         @csrf
-    
+                        
+                        <a href=" {{ route('viewposts') }} " type="button" class="btn btn-primary" style="margin-right: 10px;">Home </a> 
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">                     
                         
                     </form>
