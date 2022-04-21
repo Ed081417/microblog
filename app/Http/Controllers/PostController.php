@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\File; 
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
@@ -137,10 +138,29 @@ class PostController extends Controller
     public function destroy(Request $request)
     {
 
-        $delete_post_id = $request->input('delete_post_id');
-        $post = Post::find($delete_post_id);
-        $post->delete();
+        $post = Post::find($request->delete_post_id);
+        if($post->image_path != "") {
+            $image_location =  public_path().'/images' . '/' .$post->image_path;
+            if(File::exists($image_location)) {
+                File::delete($image_location);
+            }
+            $post->delete();
 
-        return redirect()->back()->with('status', 'Post deleted successfully!');
+            return redirect()->back()->with('status', 'Post deleted successfully!');
+        } else {
+            $post = Post::find($request->delete_post_id);
+            $post->delete();
+    
+            return redirect()->back()->with('status', 'Post deleted successfully!');
+    
+        }
+       
+
+
+        // $delete_post_id = $request->input('delete_post_id');
+        // $post = Post::find($delete_post_id);
+        // $post->delete();
+
+        // return redirect()->back()->with('status', 'Post deleted successfully!');
     }
 }
