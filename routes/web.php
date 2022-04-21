@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,6 @@ Route::post('posts', [PostController::class, 'store'])->name('posts');
 Route::get('post/{id}/edit', [PostController::class, 'edit'])->name('edit-post');
 Route::put('post/{id}', [PostController::class, 'update'])->name('update-post');
 Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-post');
+
+Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');
 

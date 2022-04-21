@@ -34,7 +34,7 @@
                                 <i class="bi bi-person-square"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userprofile">
-                              <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                              <li><a class="dropdown-item" href="{{ route('profile') }}">View Profile</a></li>
                               <li><a class="dropdown-item" href="#">Change Password</a></li>
                               <li><a class="dropdown-item" href="{{ route('logout') }}">Log Out</a></li>
                             </ul>
