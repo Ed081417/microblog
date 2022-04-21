@@ -77,20 +77,21 @@
 
                                     <div class="mb-3">
                                       <input type="text" class="form-control" name="title" placeholder="Title" required>
-                                      @error('title')
+                                      {{-- @error('title')
                                           <span style="color: red;">*Title is required!</span>
-                                      @enderror
+                                      @enderror --}}
                                     </div>
                                     
                                     <div class="mb-3">
                                       <textarea class="form-control" name="description" placeholder="Description" rows="6" required></textarea>
-                                      @error('description')
+                                      {{-- @error('description')
                                           <span style="color: red;">*Description is required!</span>
-                                      @enderror
+                                      @enderror --}}
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <input type="file" class="form-control" name="image" required>
+                                      <input type="file" class="form-control" name="image" id="image" >
+                                      <img id="uploadedImg" class="img-fluid">
                                     </div>                            
                             </div>
 
@@ -233,6 +234,13 @@
     <script>
       $(document).ready(function(){
 
+          //Image upload preview
+          image.onchange = evt => {
+              const [file] = image.files
+              if (file) {
+                uploadedImg.src = URL.createObjectURL(file)
+              }
+          }
 
           //Delete Post
           $('.deleteBtn').click(function (e) {

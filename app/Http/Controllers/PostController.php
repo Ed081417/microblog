@@ -38,42 +38,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'title' => ['required', 'string', 'max:255'],
-        //     'description' => ['required', 'string', 'max:500'],
-        //     'image' => ['required','image', 'mimes:jpeg,png,jpg','max:5048'],
-        // ]);
-        
-        // if($request->image == " ") {
-        //     $post = new Post;
-        //     $post->user_id = auth()->user()->id;
-        //     $post->title = $request->input('title');
-        //     $post->description = $request->input('description');
-        //     $post->save();
+        if($request->image==""){
+            $post = new Post;
+            $post->user_id = auth()->user()->id;
+            $post->title = $request->input('title');
+            $post->description = $request->input('description');
+            $post->save();
 
-        // } else {
-        //     $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
-        //     $request->image->move(public_path('images'), $newImageName);
+            return redirect()->back()->with('message', 'Posted Successfully!');
+            
+        } else {
+            $newImageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $newImageName);
 
-        //     $post = new Post;
-        //     $post->user_id = auth()->user()->id;
-        //     $post->title = $request->input('title');
-        //     $post->description = $request->input('description');
-        //     $post->image_path = $newImageName;
-        //     $post->save();
-        // }   
+            $post = new Post;
+            $post->user_id = auth()->user()->id;
+            $post->title = $request->input('title');
+            $post->description = $request->input('description');
+            $post->image_path = $newImageName;
+            $post->save();
 
-        $newImageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('images'), $newImageName);
-
-        $post = new Post;
-        $post->user_id = auth()->user()->id;
-        $post->title = $request->input('title');
-        $post->description = $request->input('description');
-        $post->image_path = $newImageName;
-        $post->save();
-
-        return redirect()->back()->with('message', 'Posted Successfully!');
+            return redirect()->back()->with('message', 'Posted Successfully!');
+        }
     }
 
     /**
@@ -113,29 +99,32 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $newImageName = time() . '.' . $request->image->extension();
-        // $request->image->move(public_path('images'), $newImageName);
-
-        // $id = $request->input('post_id');
-        // $post = Post::find($id);
-        // $post->title = $request->input('title');
-        // $post->description = $request->input('description');
-        // //$post->image_path = $newImageName;
-        // $post->update();
-
-        // return redirect()->back()->with('message', 'Post updated successfully!');
-        $newImageName = time() . '.' . $request->uploadnewImg->extension();
-        $request->uploadnewImg->move(public_path('images'), $newImageName);
-
-        Post::where('id', $id)
+        if($request->uploadnewImg==""){
+            Post::where('id', $id)
             ->update([
                 'user_id' => auth()->user()->id,
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
-                'image_path' => $newImageName,
             ]);
         
         return redirect('/home')->with('message', 'Post Updated Successfully!');
+
+        } else {
+
+            $newImageName = time() . '.' . $request->uploadnewImg->extension();
+            $request->uploadnewImg->move(public_path('images'), $newImageName);
+    
+            Post::where('id', $id)
+                ->update([
+                    'user_id' => auth()->user()->id,
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description'),
+                    'image_path' => $newImageName,
+                ]);
+            
+            return redirect('/home')->with('message', 'Post Updated Successfully!');
+        }
+        
     }
 
     /**
@@ -146,10 +135,6 @@ class PostController extends Controller
      */
     public function destroy(Request $request)
     {
-        // $post = Post::where('id', $id);
-        // $post->delete();
-
-        // return redirect()->back()->with('message', 'Post deleted successfully!');
 
         $delete_post_id = $request->input('delete_post_id');
         $post = Post::find($delete_post_id);
