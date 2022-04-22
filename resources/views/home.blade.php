@@ -7,7 +7,7 @@
       <div class="row ">
         {{-- Sidebar --}}
         <div class="col">
-          <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-secondary" style="width: 280px;">
+          <div class="d-flex flex-column flex-shrink-0 p-3 text-dark bg-light" style="width: 280px;">
             <a href="#"> <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-thumbnail"> </a>
             {{-- <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> --}}
@@ -16,12 +16,12 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
               <li>
-                <a href="{{ route('user-posts') }}" class="nav-link text-white">
+                <a href="{{ route('user-posts') }}" class="nav-link text-dark">
                   Posts
                 </a>
               </li>
               <li>
-                <a href="#" class="nav-link text-white">  
+                <a href="#" class="nav-link text-dark">  
                   Followers
                 </a>
               </li>
@@ -170,30 +170,37 @@
 
                       </div>
 
-                      <span>{{ $post->likes->count() }} {{ Str::plural('Like', $post->likes->count()) }}</span>
+                      {{-- <span>{{ $post->likes->count() }} {{ Str::plural('Like', $post->likes->count()) }}</span> --}}
 
                       <div class="card-footer" style="display: inline;">
                           @if (!$post->likedBy(auth()->user()))
-                            <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
-                              @csrf
-                              <button type="submit" class="btn btn-primary btn-sm">Like</button> 
-                            </form>
+                          <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
+                                @csrf
+                                <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                  {{ Str::plural('Like', $post->likes->count()) }} </button> 
+                          </form>
                           @else
                             <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                                  @csrf
+                                  @method('DELETE')
+          
+                                  <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                  <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
                             </form>
                           @endif
 
-                            <form action="#" style ="display:inline-block;">
-                                @csrf
-                                <span>8</span> <a href="#">Comment</a> 
-                            </form>
-                            <form action="#" style ="display:inline-block;">
-                                @csrf
-                                <span>8</span> <a href="#">Share</a> 
-                            </form>
+                          <form action="#" style ="display:inline-block;">
+                            @csrf
+                            <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Comments </button> 
+                          </form>
+
+                          <form action="#" style ="display:inline-block;">
+                              @csrf
+                              <span>8</span> <a href="#">Share</a> 
+                          </form>
 
                             @if ($post->created_at == $post->updated_at)
                               <span style="float: right">

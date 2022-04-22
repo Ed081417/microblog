@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
+use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FollowController;
 
@@ -40,6 +41,9 @@ Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-pos
 //Post Like
 Route::post('post/{post}/likes', [PostLikeController::class, 'store'])->name('like-post');
 Route::delete('post/{post}/likes', [PostLikeController::class, 'destroy'])->name('unlike-post');
+
+//Post Comment
+Route::post('post/{post}/comments', [PostCommentController::class, 'store'])->name('comment-post');
 
 //Profile
 Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');
