@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('followers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->string('title');
-            $table->longText('description');
-            $table->string('image_path')->nullable();
+            $table->integer('follower_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->dateTime('deleted_at')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('follower_id')->references('id')->on('users');
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('posts');
+        Schema::dropIfExists('follows');
     }
 };

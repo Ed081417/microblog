@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,27 +21,34 @@ Route::get('/', function () {
     return view('homepage');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 require __DIR__.'/auth.php';
 
+//Home
 Route::get('home', function () {
     return view('home');
 })->middleware(['auth', 'verified'])->name('home');
-
 Route::get('home', [PostController::class, 'index'])->middleware(['auth', 'verified'])->name('viewposts');
-
 Route::get('userposts', [PostController::class, 'view'])->middleware(['auth', 'verified'])->name('user-posts');
 
+//Post
 Route::get('post/{id}/view', [PostController::class, 'show'])->name('view-post');
 Route::post('posts', [PostController::class, 'store'])->name('posts');
 Route::get('post/{id}/edit', [PostController::class, 'edit'])->name('edit-post');
 Route::put('post/{id}', [PostController::class, 'update'])->name('update-post');
 Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-post');
 
+//Post Like
+Route::post('post/{post}/likes', [PostLikeController::class, 'store'])->name('like-post');
+Route::delete('post/{post}/likes', [PostLikeController::class, 'destroy'])->name('unlike-post');
+
+//Profile
 Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');
 Route::get('profile/{id}/edit', [UserController::class, 'edit'])->name('edit-profile');
 Route::put('profile/{id}', [UserController::class, 'update'])->name('update-profile');
+Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-profile');
+
+//Follow
+Route::get('user/profile', [FollowController::class, 'show'])->name('user-profile');
+Route::post('follow', [FollowController::class, 'store'])->name('follow');
+
 

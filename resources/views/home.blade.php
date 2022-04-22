@@ -143,8 +143,8 @@
                     <div class="card w-90">                
                       <div class="card-header imgHeader">
                         <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
-                        <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>
-                    
+                        <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>
+                        
                         
                        
                         @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
@@ -170,21 +170,41 @@
 
                       </div>
 
-                      <div class="card-footer">
-                        <span>8</span> <a href="#">Like</a> <span>|</span>
-                        <span>8</span> <a href="#">Comment</a> <span>|</span>
-                        <span>8</span> <a href="#">Share</a> 
-  
-                        @if ($post->created_at == $post->updated_at)
-                          <span style="float: right">
-                            Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
-                          </span>              
-                        @else
-                          <span style="float: right">
-                            Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
-                          </span>
-                        @endif
+                      <span>{{ $post->likes->count() }} {{ Str::plural('Like', $post->likes->count()) }}</span>
 
+                      <div class="card-footer" style="display: inline;">
+                          @if (!$post->likedBy(auth()->user()))
+                            <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
+                              @csrf
+                              <button type="submit" class="btn btn-primary btn-sm">Like</button> 
+                            </form>
+                          @else
+                            <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                            </form>
+                          @endif
+
+                            <form action="#" style ="display:inline-block;">
+                                @csrf
+                                <span>8</span> <a href="#">Comment</a> 
+                            </form>
+                            <form action="#" style ="display:inline-block;">
+                                @csrf
+                                <span>8</span> <a href="#">Share</a> 
+                            </form>
+
+                            @if ($post->created_at == $post->updated_at)
+                              <span style="float: right">
+                                Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
+                              </span>              
+                            @else
+                              <span style="float: right">
+                                Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
+                              </span>
+                            @endif
+    
                       </div>
                     </div>
                   @endforeach

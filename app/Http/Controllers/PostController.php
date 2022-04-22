@@ -32,6 +32,7 @@ class PostController extends Controller
             ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
     }
 
+
     /**
      * Store a newly created resource in storage.
      *

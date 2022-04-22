@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -46,7 +47,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        //View other user profile
+        return view('otheruser.profile')
+                ->with('user', User::where('id', $id)->first());
+
+        // return view('otheruser.profile')
+        //     ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
+
+   
     }
 
     /**
