@@ -6,22 +6,55 @@
     
     <div class="container d-flex justify-content-center">
 
+        <!-- Delete Post Modal -->
+        <form action="  {{ route('delete-comment') }} " method="POST">
+            @csrf
+            
+            <div class="modal fade" id="deleteCommentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteCommentLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCommentLabel">Delete Post</h5>
+                  </div>
+
+                    <input type="hidden" name="delete_comment_id" id="delete_comment_id">
+                    
+                    <div class="modal-body"> 
+                            <p>Do you want to delete this comment?</p>                         
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                  
+                </div>
+              </div>
+            </div>
+        </form>           
+          {{-- Delete Post Modal --}}
+
         <div class="card w-50 mb-5 ">
             {{-- Flash messages --}}
             @if (session()->has('message'))
                 <div class="alert alert-success" role="alert">
                     {{ session()->get('message') }}
                 </div>
-
+            @elseif (session()->has('status'))
+                <div class="alert alert-danger" role="alert">
+                    {{ session()->get('status') }}
+                </div>
             @endif
+
             <div class="card-header">
                 <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
                 <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>           
                 
                 @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
 
-                    <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success float-end updateBtn" >
-                    <i class="bi bi-pencil-square"></i></a>
+                    <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success 
+                        float-end updateBtn" ><i class="bi bi-pencil-square"></i></a>
                 @endif    
 
             </div>
@@ -79,8 +112,10 @@
                             Comments </button> 
                   </form>
                   <form action="#" style ="display:inline-block;">
-                      @csrf
-                      <span>8</span> <a href="#">Share</a> 
+                        @csrf
+                        <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Share </button> 
                   </form>
 
                   @if ($post->created_at == $post->updated_at)
@@ -117,19 +152,54 @@
                         <h5><a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
                                 {{ $comment->user->first_name . ' ' . $comment->user->last_name}}</a></h5>
 
+                        
+
+                        @if (isset(Auth::user()->id) && Auth::user()->id == $comment->user_id)
+                            <button type="button" value="{{ $comment->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >
+                            <i class="bi bi-trash"></i></button>
+
+                            <a href="#" type="button"  value="{{ $comment->id }}" class="btn btn-success btn-sm 
+                                    float-end updateBtn" >
+                            <i class="bi bi-pencil-square"></i></a>
+                        @endif   
+
                         <p>{{ $comment->comment }}</p>
-                        <footer class="blockquote-footer">Commented on {{ date("F j, Y", strtotime( $comment->created_at)) }}</footer>
+                        <footer class="blockquote-footer">commented on {{ date("F j, Y", strtotime( $comment->created_at)) }}</footer>
                         <hr>
 
                     </div>
 
                 @empty
-                    <h5>No Comments Yet.</h5>
+                    <div class="card-body">
+                        <h5>No Comments Yet.</h5>
+                    </div>
+                    
                 @endforelse
         
         </div>
 
        
     </div>
+    
+@endsection
+
+
+@section('scripts')
+    <script>
+      $(document).ready(function(){
+
+          //Delete Post
+          $('.deleteBtn').click(function (e) {
+            e.preventDefault();
+
+            var delete_comment_id = $(this).val();
+            // console.log(delete_post_id);
+            $("#delete_comment_id").val(delete_comment_id);
+            $('#deleteCommentModal').modal('show');
+           
+          });
+      });
+
+    </script>
     
 @endsection

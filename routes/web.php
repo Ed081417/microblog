@@ -44,6 +44,7 @@ Route::delete('post/{post}/likes', [PostLikeController::class, 'destroy'])->name
 
 //Post Comment
 Route::post('post/{post}/comments', [PostCommentController::class, 'store'])->name('comment-post');
+Route::post('delete-comment', [PostCommentController::class, 'destroy'])->name('delete-comment');
 
 //Profile
 Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');

@@ -7,7 +7,7 @@
       <div class="row ">
         {{-- Sidebar --}}
         <div class="col">
-          <div class="d-flex flex-column flex-shrink-0 p-3 text-dark bg-light" style="width: 280px;">
+          <div class="d-flex flex-column flex-shrink-0 p-3 text-light bg-secondary" style="width: 280px;">
             <a href="#"> <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-thumbnail"> </a>
             {{-- <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> --}}
@@ -16,12 +16,12 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
               <li>
-                <a href="{{ route('user-posts') }}" class="nav-link text-dark">
+                <a href="{{ route('user-posts') }}" class="nav-link text-light">
                   Posts
                 </a>
               </li>
               <li>
-                <a href="#" class="nav-link text-dark">  
+                <a href="#" class="nav-link text-light">  
                   Followers
                 </a>
               </li>
@@ -190,16 +190,17 @@
                             </form>
                           @endif
 
+                          
+                            <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
+                              class="btn btn-primary btn-sm"> {{ Str::plural('Comment', $post->comments->count()) }} </a> 
+                          
+
                           <form action="#" style ="display:inline-block;">
                             @csrf
                             <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
                             <button type="submit" class="btn btn-primary btn-sm">
-                                Comments </button> 
-                          </form>
-
-                          <form action="#" style ="display:inline-block;">
-                              @csrf
-                              <span>8</span> <a href="#">Share</a> 
+                                Share </button> 
                           </form>
 
                             @if ($post->created_at == $post->updated_at)

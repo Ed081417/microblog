@@ -84,11 +84,6 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        // $post = Post::find($id);
-        // return response()->json([
-        //     'status' => 200,
-        //     'post' => $post,
-        // ]);
 
         return view('post.edit')->with('post', Post::where('id', $id)->first());
     }
@@ -156,12 +151,5 @@ class PostController extends Controller
     
         }
        
-
-
-        // $delete_post_id = $request->input('delete_post_id');
-        // $post = Post::find($delete_post_id);
-        // $post->delete();
-
-        // return redirect()->back()->with('status', 'Post deleted successfully!');
     }
 }
