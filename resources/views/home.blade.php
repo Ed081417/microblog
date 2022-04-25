@@ -193,7 +193,7 @@
                           
                             <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
                             <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
-                              class="btn btn-primary btn-sm"> {{ Str::plural('Comment', $post->comments->count()) }} </a> 
+                              class="btn btn-primary btn-sm"> Comment </a> 
                           
 
                           <form action="#" style ="display:inline-block;">
@@ -232,6 +232,7 @@
               <div class="col">
                 <div class="card text-white bg-primary" >
                   <div class="card-header">Follow other People</div>
+                  
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}  
                       <a type="button" class="btn btn-primary btn-sm " href="#"><i class="bi bi-plus"></i>Follow</a>

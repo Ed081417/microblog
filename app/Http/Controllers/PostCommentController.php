@@ -61,9 +61,13 @@ class PostCommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comment $comment)
+    public function edit($id)
     {
-        //
+        $comment = Comment::find($id);
+        return response()->json([
+            'status' => 200,
+            'comment' => $comment,
+        ]);
     }
 
     /**
@@ -73,9 +77,14 @@ class PostCommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request)
     {
-        //
+        $comment_id = $request->input('update_comment_id');
+        $comment = Comment::find($comment_id);
+        $comment->comment = $request->input('comment');
+        $comment->update();
+
+        return redirect()->back()->with('message', 'Comment Updated Successfully!');
     }
 
     /**

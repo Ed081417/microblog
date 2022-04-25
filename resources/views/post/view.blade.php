@@ -6,7 +6,7 @@
     
     <div class="container d-flex justify-content-center">
 
-        <!-- Delete Post Modal -->
+        {{-- Delete Post Modal --}}
         <form action="  {{ route('delete-comment') }} " method="POST">
             @csrf
             
@@ -33,7 +33,42 @@
               </div>
             </div>
         </form>           
-          {{-- Delete Post Modal --}}
+        {{-- Delete Post Modal --}}
+
+        {{-- Update Post Modal --}}
+        <form action="{{ route('update-comment') }}" method="POST">
+          @csrf
+          @method('PUT')
+
+          <div class="modal fade" id="updateCommentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="updateCommentLabel"
+               aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="updateCommentLabel">Update Comment</h5>
+                </div>
+
+                  <input type="hidden" name="update_comment_id" id="update_comment_id">
+                  
+                  <div class="modal-body"> 
+                    
+                    <div class="mb-3">
+                      <textarea class="form-control" name="comment" id="comment" rows="4" required></textarea>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+        </form>           
+        {{-- Update Post Modal --}}
+
+
 
         <div class="card w-50 mb-5 ">
             {{-- Flash messages --}}
@@ -156,14 +191,14 @@
 
                         @if (isset(Auth::user()->id) && Auth::user()->id == $comment->user_id)
                             <button type="button" value="{{ $comment->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >
-                            <i class="bi bi-trash"></i></button>
+                              <i class="bi bi-trash"></i></button>
 
-                            <a href="#" type="button"  value="{{ $comment->id }}" class="btn btn-success btn-sm 
-                                    float-end updateBtn" >
-                            <i class="bi bi-pencil-square"></i></a>
+                            <button type="button"  value="{{ $comment->id }}" class="btn btn-success btn-sm float-end updateBtn" > 
+                              <i class="bi bi-pencil-square"></i></button>
                         @endif   
 
                         <p>{{ $comment->comment }}</p>
+
                         <footer class="blockquote-footer">commented on {{ date("F j, Y", strtotime( $comment->created_at)) }}</footer>
                         <hr>
 
@@ -197,6 +232,25 @@
             $("#delete_comment_id").val(delete_comment_id);
             $('#deleteCommentModal').modal('show');
            
+          });
+
+          //Update Post
+          $(document).on('click', '.updateBtn', function() {
+
+            var update_comment_id = $(this).val();
+            console.log(update_comment_id);
+            //$("#update_comment_id").val(update_comment_id);
+            $('#updateCommentModal').modal('show');
+
+            $.ajax({
+              type: "GET",
+              url: "/edit-comment/"+update_comment_id,
+              success: function (response) {
+                console.log(response);
+                $('#comment').val(response.comment.comment);
+                $("#update_comment_id").val(update_comment_id);
+              }
+            });       
           });
       });
 
