@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('shared_posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
             $table->integer('post_id')->unsigned();
-            $table->string('comment');
+            $table->integer('user_id')->unsigned();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->dateTime('deleted_at')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('comments');
+        Schema::dropIfExists('shares');
     }
 };

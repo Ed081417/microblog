@@ -47,21 +47,49 @@
 
                             </div>
 
-                            <div class="card-footer">
-                                <span>8</span> <a href="#">Like</a> <span>|</span>
-                                <span>8</span> <a href="#">Comment</a> <span>|</span>
-                                <span>8</span> <a href="#">Share</a> 
-
-                                @if ($post->created_at == $post->updated_at)
-                                <span style="float: right">
-                                    Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
-                                </span>              
+                            <div class="card-footer" style="display: inline;">
+                                @if (!$post->likedBy(auth()->user()))
+                                <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
+                                      @csrf
+                                      <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                      <button type="submit" class="btn btn-primary btn-sm">
+                                        {{ Str::plural('Like', $post->likes->count()) }} </button> 
+                                </form>
                                 @else
-                                <span style="float: right">
-                                    Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
-                                </span>
+                                  <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                
+                                        <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                        <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                                  </form>
                                 @endif
-
+      
+                                
+                                <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                                <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
+                                  class="btn btn-primary btn-sm"> Comment </a> 
+                              
+                                  
+                                <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
+                                @if (isset(Auth::user()->id) && Auth::user()->id != $post->user_id)
+                                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#shareModal"> 
+                                      Share </button> 
+                                @else
+                                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                    data-bs-target="#shareModal" disabled> Share </button>
+                                @endif
+      
+                                @if ($post->created_at == $post->updated_at)
+                                  <span style="float: right">
+                                    Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
+                                  </span>              
+                                @else
+                                  <span style="float: right">
+                                    Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
+                                  </span>
+                                @endif
+          
                             </div>
                         </div>
                     @endif

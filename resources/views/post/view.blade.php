@@ -98,11 +98,13 @@
         
                     @if ($post->image_path=="")
                         <h3>{{ $post->title }}</h3>
+            
+                        <div class="mb-3">
+                          <p name="description" rows="5">{{ $post->description }}</p>
+                        </div>
+                        <hr>
                         <footer class="blockquote-footer"><span>Posted on 
                                 {{ date("F j, Y", strtotime( $post->created_at)) }} </span></footer>
-                        <div class="mb-3">
-                            <p name="description" rows="5">{{ $post->description }}</p>
-                        </div>
                     @else
                         <h3>{{ $post->title }}</h3>
                         
@@ -123,47 +125,49 @@
             {{-- <span>{{ $post->likes->count() }} {{ Str::plural('Like', $post->likes->count()) }}</span> --}}
         
             <div class="card-footer" style="display: inline;">
-                @if (!$post->likedBy(auth()->user()))
-                  <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
-                        @csrf
-                        <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
-                        <button type="submit" class="btn btn-primary btn-sm">
-                            Like </button> 
-                  </form>
-                @else
-                  <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
+              @if (!$post->likedBy(auth()->user()))
+              <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
+                    @csrf
+                    <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                      {{ Str::plural('Like', $post->likes->count()) }} </button> 
+              </form>
+              @else
+                <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
+                      @csrf
+                      @method('DELETE')
 
-                        <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
-                        <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
-                  </form>
-                @endif
+                      <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                      <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                </form>
+              @endif
 
-                  <form action="#" style ="display:inline-block;">
-                        @csrf
-                        <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
-                        <button type="submit" class="btn btn-primary btn-sm">
-                            Comments </button> 
-                  </form>
-                  <form action="#" style ="display:inline-block;">
-                        @csrf
-                        <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
-                        <button type="submit" class="btn btn-primary btn-sm">
-                            Share </button> 
-                  </form>
+              
+              <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+              <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
+                class="btn btn-primary btn-sm"> Comment </a> 
+            
+                
+              <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
+              @if (isset(Auth::user()->id) && Auth::user()->id != $post->user_id)
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#shareModal"> 
+                    Share </button> 
+              @else
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                  data-bs-target="#shareModal" disabled> Share </button>
+              @endif
 
-                  @if ($post->created_at == $post->updated_at)
-                    <span style="float: right">
-                      Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
-                    </span>              
-                  @else
-                    <span style="float: right">
-                      Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
-                    </span>
-                  @endif
+              @if ($post->created_at == $post->updated_at)
+                <span style="float: right">
+                  Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
+                </span>              
+              @else
+                <span style="float: right">
+                  Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
+                </span>
+              @endif
 
-            </div>
+          </div>
            
             <div class="card-header">Comments </div>
 
@@ -185,9 +189,7 @@
                     <div class="card-body">
 
                         <h5><a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
-                                {{ $comment->user->first_name . ' ' . $comment->user->last_name}}</a></h5>
-
-                        
+                                {{ $comment->user->first_name . ' ' . $comment->user->last_name}}</a></h5>                 
 
                         @if (isset(Auth::user()->id) && Auth::user()->id == $comment->user_id)
                             <button type="button" value="{{ $comment->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >

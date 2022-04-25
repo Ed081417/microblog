@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\PostCommentController;
+use App\Http\Controllers\PostShareController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FollowController;
 
@@ -25,9 +26,7 @@ Route::get('/', function () {
 require __DIR__.'/auth.php';
 
 //Home
-Route::get('home', function () {
-    return view('home');
-})->middleware(['auth', 'verified'])->name('home');
+Route::get('home', function () { return view('home'); })->middleware(['auth', 'verified'])->name('home');
 Route::get('home', [PostController::class, 'index'])->middleware(['auth', 'verified'])->name('viewposts');
 Route::get('userposts', [PostController::class, 'view'])->middleware(['auth', 'verified'])->name('user-posts');
 
@@ -44,9 +43,12 @@ Route::delete('post/{post}/likes', [PostLikeController::class, 'destroy'])->name
 
 //Post Comment
 Route::post('post/{post}/comments', [PostCommentController::class, 'store'])->name('comment-post');
-Route::post('delete-comment', [PostCommentController::class, 'destroy'])->name('delete-comment');
 Route::get('edit-comment/{id}', [PostCommentController::class, 'edit'])->name('edit-comment');
 Route::put('update-comment', [PostCommentController::class, 'update'])->name('update-comment');
+Route::post('delete-comment', [PostCommentController::class, 'destroy'])->name('delete-comment');
+
+//Post Share
+Route::post('share-post', [PostShareController::class, 'store'])->name('share-post');
 
 //Profile
 Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');

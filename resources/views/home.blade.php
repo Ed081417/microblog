@@ -9,10 +9,8 @@
         <div class="col">
           <div class="d-flex flex-column flex-shrink-0 p-3 text-light bg-secondary" style="width: 280px;">
             <a href="#"> <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-thumbnail"> </a>
-            {{-- <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> --}}
             <span class="fs-4" style="text-align: center;">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}</span>
-            {{-- </a> --}}
+
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
               <li>
@@ -50,7 +48,7 @@
 
               <div class="row ">
                 <div class="col">
-                  <!-- Button trigger modal -->
+                  <!-- Create Post Modal -->
                   <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#postModal">
                     <i class="bi bi-pencil-square"></i> Make a Post
                   </button>
@@ -106,7 +104,7 @@
                   {{-- Create Post Modal --}}
 
 
-                  <!-- Delete Post Modal -->
+                  {{-- Delete Post Modal --}}
                   <form action=" {{ route('delete-post') }} " method="post" enctype="multipart/form-data">
                     @csrf
                     
@@ -135,16 +133,45 @@
                   </form>           
                   {{-- Delete Post Modal --}}
 
+                  {{-- Share Post Modal --}}
+                  <form action="{{ route('share-post') }}" method="post" >
+                    @csrf
+                  
+                    <div class="modal fade" id="shareModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="shareModalLabel" 
+                      aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="shareModalLabel">Share Post</h5>
+                          </div>
+
+                            <input type="hidden" name="share_post_id" id="share_post_id">
+                                    
+                            <div class="modal-body"> 
+                                    <p>Do you want to share this post?</p>                         
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Share</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </form>           
+                  {{-- Share Post Modal --}}  
+             
+
                   
 
                   {{-- Users Posts --}}
                   @foreach ($posts as $post)
-                    
+
                     <div class="card w-90">                
                       <div class="card-header imgHeader">
                         <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
                         <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>
-                        
                         
                        
                         @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
@@ -191,27 +218,35 @@
                           @endif
 
                           
-                            <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
-                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
-                              class="btn btn-primary btn-sm"> Comment </a> 
-                          
+                          <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                          <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
+                            class="btn btn-primary btn-sm"> Comment </a> 
+                        
+                            
+                          <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
 
-                          <form action="#" style ="display:inline-block;">
-                            @csrf
-                            <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                Share </button> 
-                          </form>
+                          @if (isset(Auth::user()->id) && Auth::user()->id != $post->user_id)
+                            <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
+                              Share</button>
+                            {{-- <button type="button" class="btn btn-primary btn-sm" value="{{ $post->id }}" id="shareBtn" 
+                              data-bs-toggle="modal" data-bs-target="#shareModal"> Share </button>  --}}
+                          {{-- @elseif($post->shares->contains(Auth::user()->id) && $post->shares->contains($post->id) )
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                            data-bs-target="#shareModal" disabled> Share </button>  --}}
+                          @else
+                            <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" 
+                              data-bs-target="#shareModal" disabled> Share </button>
+                          @endif
 
-                            @if ($post->created_at == $post->updated_at)
-                              <span style="float: right">
-                                Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
-                              </span>              
-                            @else
-                              <span style="float: right">
-                                Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
-                              </span>
-                            @endif
+                          @if ($post->created_at == $post->updated_at)
+                            <span style="float: right">
+                              Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
+                            </span>              
+                          @else
+                            <span style="float: right">
+                              Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
+                            </span>
+                          @endif
     
                       </div>
                     </div>
@@ -279,6 +314,34 @@
             $('#deleteModal').modal('show');
            
           });
+
+          //Delete Post
+          $('.sharedBtn').click(function (e) {
+            e.preventDefault();
+
+            var share_post_id = $(this).val();
+            // console.log(delete_post_id);
+            $("#share_post_id").val(share_post_id);
+            $('#shareModal').modal('show');
+           
+          });
+
+
+
+          // //Share Button
+          // function output() {
+          //   $("#share_post_id").val(share.value);
+          //   console.log(share.value);
+            
+          // }
+          // var share = document.getElementById("shareBtn");
+          // share.addEventListener("click", output, true);
+
+          // var share = document.querySelectorAll(".shareBtn");
+          // share.forEach(el =>{
+          //   el.addEventListener("click", output, true);
+          // });
+
       });
 
     </script>

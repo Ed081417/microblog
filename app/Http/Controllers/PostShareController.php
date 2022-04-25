@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Follow;
+use App\Models\Post;
+use App\Models\Share;
 use Illuminate\Http\Request;
 
-class FollowController extends Controller
+class PostShareController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class FollowController extends Controller
      */
     public function index()
     {
-        return view('otheruser.profile');
+        //
     }
 
     /**
@@ -35,32 +36,32 @@ class FollowController extends Controller
      */
     public function store(Request $request)
     {
-        $follow = new Follow;
-        $follow->user_id = $request->input('follow');
-        $follow->follower_id = auth()->user()->id;
-        $follow->save();
+        $share = new Share;
+        $share->post_id = $request->input('share_post_id');
+        $share->user_id = auth()->user()->id;
+        $share->save();
 
-        return redirect()->back()->with('message', 'Followed Successfully!');
+        return redirect()->back()->with('message', 'Post shared successfully!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Share  $share
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Share $share)
     {
-        return redirect('/user/profile')->with('message', 'Followed Successfully!');
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Share  $share
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Share $share)
     {
         //
     }
@@ -69,10 +70,10 @@ class FollowController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Share  $share
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Share $share)
     {
         //
     }
@@ -80,10 +81,10 @@ class FollowController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Share  $share
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Share $share)
     {
         //
     }
