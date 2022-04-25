@@ -48,10 +48,13 @@ class Post extends Model
         return $this->hasMany(Share::class);
     }
 
-    public function sharedBy(User $user)
-    {
-        return $this->shares->contains('user_id', $user->id);
-    }
+    // public function sharedBy(User $user)
+    // {
+    //     return $this->shares->contains('user_id', $user->id);
+    // }
 
+
+
+  
 
 }

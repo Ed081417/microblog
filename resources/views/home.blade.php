@@ -204,8 +204,7 @@
                           <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
                                 @csrf
                                 <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                  {{ Str::plural('Like', $post->likes->count()) }} </button> 
+                                <button type="submit" class="btn btn-primary btn-sm"> Like </button> 
                           </form>
                           @else
                             <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">

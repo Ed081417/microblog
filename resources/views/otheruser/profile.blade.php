@@ -5,20 +5,78 @@
 @section('content')
     
 <div class="container" style="margin-top: 20px;">
+
+    {{-- Unfollow Modal --}}
+    <form action=" {{ route('unfollow') }} " method="POST">
+        @csrf
+        
+        <div class="modal fade" id="unfollowModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="unfollowLabel"
+             aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="unfollowLabel">Unfollow</h5>
+              </div>
+
+                <input type="hidden" name="unfollow_user_id" id="unfollow_user_id">
+                
+                <div class="modal-body"> 
+                        <p>Are you sure you want to unfollow this person?</p>                         
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">Unfollow</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+    </form>           
+    {{-- Unfollow Modal --}}
+
     <div class="row">
         <div class="col">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-secondary" style="width: 280px;">
                 <a href="#"> <img src="{{ asset('images/' . $user->image_path) }}" alt="..." class="img-thumbnail"> </a>
                 <span class="fs-4" style="text-align: center;">{{ $user->first_name . ' ' .  $user->last_name}}</span>
                 @if (Auth::user()->id != $user->id)
-                    <form action="{{ route('follow') }}" method="POST">
-                        @csrf
+                    @if (!$user->followedBy(auth()->user()))
+                        <form action="{{ route('follow', $user) }}" method="POST" class="d-flex justify-content-center">
+                            @csrf
 
-                        <input type="hidden" name="follow" value="{{ $user->id }}">
-                        <button type="submit" class="btn btn-primary">Follow</button>
-                    </form>
-                    {{-- <input onclick="change()" type="button" value="Open Curtain" id="myButton1" /> --}}
+                            {{-- <input type="hidden" name="follow" value="{{ $user->id }}"> --}}
+                            <button type="submit" class="btn btn-primary">Follow</button>
+                        </form>
+                    @else
+                        {{-- <form action="{{ route('unfollow') }}" method="POST" class="d-flex justify-content-center">
+                            @csrf --}}
+
+                            {{-- <input type="hidden" name="unfollow_user_id" value="{{ $user->id }}"> --}}
+                            <div class="container d-flex justify-content-center">
+                                <button type="submit" value="{{ $user->id }}" class="btn btn-dark unfollowBtn">Unfollow</button>
+                            </div>
+                            
+                        {{-- </form> --}}
+                    @endif
                 @endif
+
+                {{-- @if (!$user->followedBy(auth()->user()))
+                    <form action="{{ route('like-post', $user) }}" method="POST" style ="display:inline-block;">
+                        @csrf
+                        <span class="badge bg-secondary">{{ $user->likes->count() }}</span>
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            {{ Str::plural('Like', $post->likes->count()) }} </button> 
+                    </form>
+                    @else
+                    <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+    
+                            <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                            <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                    </form>
+                @endif --}}
             
             </div>
         </div>
@@ -116,15 +174,20 @@
 
 @section('scripts')
     <script>
-    //   $(document).ready(function(){
+        $(document).ready(function(){
 
-    //     function follow() 
-    //     {
-    //         var elem = document.getElementById("followBtn");
-    //         if (elem.value=="Following") elem.value = "Follow";
-    //         else elem.value = "Following";
-    //     }
-    //   });
+            //Unfollow
+            $('.unfollowBtn').click(function (e) {
+            e.preventDefault();
+
+            var unfollow_user_id = $(this).val();
+            // console.log(delete_post_id);
+            $("#unfollow_user_id").val(unfollow_user_id);
+            $('#unfollowModal').modal('show');
+            
+            });
+
+        });
 
     </script>
     

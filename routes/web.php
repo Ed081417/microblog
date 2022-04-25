@@ -39,7 +39,7 @@ Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-pos
 
 //Post Like
 Route::post('post/{post}/likes', [PostLikeController::class, 'store'])->name('like-post');
-Route::delete('post/{post}/likes', [PostLikeController::class, 'destroy'])->name('unlike-post');
+Route::delete('post/{post}/unlikes', [PostLikeController::class, 'destroy'])->name('unlike-post');
 
 //Post Comment
 Route::post('post/{post}/comments', [PostCommentController::class, 'store'])->name('comment-post');
@@ -57,7 +57,7 @@ Route::put('profile/{id}', [UserController::class, 'update'])->name('update-prof
 Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-profile');
 
 //Follow
-Route::get('user/profile', [FollowController::class, 'show'])->name('user-profile');
-Route::post('follow', [FollowController::class, 'store'])->name('follow');
+Route::post('profile/{user}/follow', [FollowController::class, 'store'])->name('follow');
+Route::post('unfollow', [FollowController::class, 'destroy'])->name('unfollow');
 
 

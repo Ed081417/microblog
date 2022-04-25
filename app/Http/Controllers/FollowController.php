@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Follow;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FollowController extends Controller
@@ -17,15 +18,6 @@ class FollowController extends Controller
         return view('otheruser.profile');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,49 +25,21 @@ class FollowController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(User $user, Request $request)
     {
-        $follow = new Follow;
-        $follow->user_id = $request->input('follow');
-        $follow->follower_id = auth()->user()->id;
-        $follow->save();
+        // $follow = new Follow;
+        // $follow->user_id = $request->input('follow');
+        // $follow->follower_id = auth()->user()->id;
+        // $follow->save();
+
+        $user->follows()->create([
+            'follower_id' => $request->user()->id,
+        ]);
+
 
         return redirect()->back()->with('message', 'Followed Successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show()
-    {
-        return redirect('/user/profile')->with('message', 'Followed Successfully!');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -83,8 +47,11 @@ class FollowController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $follow = Follow::where('user_id', $request->unfollow_user_id)->where('follower_id', $request->user()->id);
+        $follow->delete();
+
+        return redirect()->back()->with('status', 'Unfollowed Successfully!');
     }
 }

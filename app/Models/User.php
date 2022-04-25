@@ -50,6 +50,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function followedBy(User $user)
+    {
+        return $this->follows->contains('follower_id', $user->id);
+    }
+
     public function user()
     {
         return $this->hasMany(Post::class);
@@ -70,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Share::class);
     }
 
-    public function follow()
+    public function follows()
     {
         return $this->hasMany(Follow::class);
     }
