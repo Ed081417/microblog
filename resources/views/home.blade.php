@@ -14,16 +14,25 @@
 
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
+
               <li>
                 <a href="{{ route('user-posts') }}" class="nav-link text-light">
                   Posts
                 </a>
               </li>
+
               <li>
-                <a href="#" class="nav-link text-light">  
+                <a href="{{ route('followers') }}" class="nav-link text-light">  
                   Followers
                 </a>
               </li>
+
+              <li>
+                <a href="{{ route('followings') }}" class="nav-link text-light">  
+                  Following
+                </a>
+              </li>
+
             </ul>
             <hr>
 
@@ -33,7 +42,7 @@
 
 
         {{-- Posts --}}
-        <div class="col-6 ">           
+        <div class="col-6">           
             <div class="container">
 
               {{-- Flash messages --}}
@@ -163,6 +172,64 @@
                   </form>           
                   {{-- Share Post Modal --}}  
              
+
+                  {{-- Shared Posts --}}
+                  @foreach ($posts as $post)
+                    
+                    @foreach ($post->shares as $sharedpost)
+
+                        <div class="card w-90">                
+                          <div class="card-header imgHeader">
+                            <img src="{{asset('images/' . $sharedpost->user->image_path)}}" alt="..." class="rounded">
+                            <a href="/user/{{ $sharedpost->user->id }}/profile" value="{{ $sharedpost->user->id }}">
+                              {{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a> 
+                            {{-- <span>You shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
+                              {{ $sharedpost->post->user->first_name }} </a></span> --}}
+                            @if ($sharedpost->user_id == Auth::user()->id)
+                              <span>You shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
+                                {{ $sharedpost->post->user->first_name }} </a></span>
+                            
+                            @elseif($sharedpost->post->user_id == Auth::user()->id)
+                              <span>Shared a post from you.</span>
+                            @else
+                              <span>Shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
+                                {{ $sharedpost->post->user->first_name }} </a></span>
+                            @endif
+                            
+                          
+                            @if (isset(Auth::user()->id) && Auth::user()->id == $sharedpost->user_id)
+                              <button type="button" value="{{ $sharedpost->id }}" class="btn btn-danger float-end deleteBtn" >
+                                <i class="bi bi-trash"></i></button>
+    
+                            @endif                     
+                            
+                          </div>
+    
+                          <div class="card-body">
+    
+                              @if ($sharedpost->post->image_path=="")
+                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
+                                  <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                              @else
+                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
+                                  <h5>{{ $post->title }}</h5> </a> <p class="card-text">{{ $post->description }}</p>
+                                <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid">
+                              @endif
+    
+                          </div>
+    
+                          <div class="card-footer" style="display: inline;">
+  
+                                <span style="float: right" class="text-muted">
+                                  Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
+                                </span>  
+        
+                          </div>
+                        </div>
+                    
+                    @endforeach
+                  @endforeach
+                  {{-- Shared Posts --}}
 
                   
 

@@ -13,6 +13,100 @@
 
             <div class="col-6">
                 <h2>My Posts</h2>
+
+                {{-- Shared Posts --}}
+                @foreach ($posts as $post)
+                    @foreach ($post->shares as $sharedpost)
+                        @if ($sharedpost->user_id == Auth::user()->id)
+                            <div class="card w-90">                
+                                <div class="card-header imgHeader">
+                                    <img src="{{asset('images/' . $sharedpost->user->image_path)}}" alt="..." class="rounded">
+                                    <a href="/user/{{ $sharedpost->user->id }}/profile" value="{{ $sharedpost->user->id }}">
+                                    {{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a> 
+                                    {{-- <span>You shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
+                                    {{ $sharedpost->post->user->first_name }} </a></span> --}}
+                                    @if ($sharedpost->user_id == Auth::user()->id)
+                                    <span>You shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
+                                        {{ $sharedpost->post->user->first_name }} </a></span>
+                                    
+                                    @elseif($sharedpost->post->user_id == Auth::user()->id)
+                                    <span>Shared a post from you.</span>
+                                    @else
+                                    <span>Shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
+                                        {{ $sharedpost->post->user->first_name }} </a></span>
+                                    @endif
+                                    
+                                
+                                    @if (isset(Auth::user()->id) && Auth::user()->id == $sharedpost->user_id)
+                                    <button type="button" value="{{ $sharedpost->id }}" class="btn btn-danger float-end deleteBtn" >
+                                        <i class="bi bi-trash"></i></button>
+
+                                    @endif                     
+                                    
+                                </div>
+
+                                <div class="card-body">
+
+                                    @if ($sharedpost->post->image_path=="")
+                                        <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
+                                        <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                                    @else
+                                        <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
+                                        <h5>{{ $post->title }}</h5> </a> <p class="card-text">{{ $post->description }}</p>
+                                        <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid">
+                                    @endif
+
+                                </div>
+
+                                <div class="card-footer" style="display: inline;">
+                                    {{-- @if (!$post->likedBy(auth()->user()))
+                                        <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
+                                                @csrf
+                                                <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                                <button type="submit" class="btn btn-primary btn-sm"> Like </button> 
+                                        </form>
+                                    @else
+                                        <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                    
+                                            <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                            <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                                        </form>
+                                    @endif
+                
+                                    <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                                    <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
+                                        class="btn btn-primary btn-sm"> Comment </a>                         
+                                        
+                                    <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
+
+                                    @if (!$post->sharedBy(auth()->user()) && $post->user_id != Auth::user()->id)
+                                        <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
+                                        Share</button>
+
+                                    @elseif($post->sharedBy(auth()->user()))
+                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                        data-bs-target="#shareModal" disabled> Shared </button> 
+
+                                    @else
+                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                        data-bs-target="#shareModal" disabled> Share </button>
+                                    @endif --}}
+
+                                    <span style="float: right" class="text-muted">
+                                    Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
+                                    </span>  
+                
+                                </div>
+                            </div>
+                        @endif
+                    
+                    @endforeach
+                @endforeach
+                {{-- Shared Posts --}}
+
+
                 {{-- Users Posts --}}
                 @foreach ($posts as $post)
                         

@@ -5,16 +5,21 @@
     <span class="fs-4" style="text-align: center;">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}</span>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
-    <li>
-        <a href="{{ route('user-posts') }}" class="nav-link text-white">
-        Posts
-        </a>
-    </li>
-    <li>
-        <a href="#" class="nav-link text-white">  
-        Followers
-        </a>
-    </li>
+        <li>
+            <a href="{{ route('user-posts') }}" class="nav-link text-white">
+                Posts
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('followers') }}" class="nav-link text-white">  
+                Followers
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('followings') }}" class="nav-link text-white">  
+                Following
+            </a>
+        </li>
     </ul>
     <hr>
 

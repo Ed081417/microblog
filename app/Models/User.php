@@ -53,7 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function followedBy(User $user)
     {
         return $this->follows->contains('follower_id', $user->id);
-    }
+    }  
 
     public function user()
     {
@@ -78,6 +78,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function follows()
     {
         return $this->hasMany(Follow::class);
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
     }
 
 

@@ -60,4 +60,8 @@ Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-pro
 Route::post('profile/{user}/follow', [FollowController::class, 'store'])->name('follow');
 Route::post('unfollow', [FollowController::class, 'destroy'])->name('unfollow');
 
+//View Followers/Followings
+Route::get('followers', [FollowController::class, 'followerList'])->name('followers');
+Route::get('followings', [FollowController::class, 'followingList'])->name('followings');
+
 

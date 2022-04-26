@@ -18,6 +18,16 @@ class FollowController extends Controller
         return view('otheruser.profile');
     }
 
+    public function followerList()
+    {
+        return view('follow.followers')->with('users', User::orderBy('updated_at', 'DESC')->get());
+    }
+
+    public function followingList()
+    {
+        return view('follow.followings')->with('users', User::orderBy('updated_at', 'DESC')->get());
+    }
+
 
     /**
      * Store a newly created resource in storage.
