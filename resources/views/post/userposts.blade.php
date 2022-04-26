@@ -72,12 +72,17 @@
                               
                                   
                                 <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
-                                @if (isset(Auth::user()->id) && Auth::user()->id != $post->user_id)
-                                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#shareModal"> 
-                                      Share </button> 
+                                @if (!$post->sharedBy(auth()->user()) && $post->user_id != Auth::user()->id)
+                                    <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
+                                        Share</button>
+
+                                @elseif($post->sharedBy(auth()->user()))
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                        data-bs-target="#shareModal" disabled> Shared </button> 
+
                                 @else
-                                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
-                                    data-bs-target="#shareModal" disabled> Share </button>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                        data-bs-target="#shareModal" disabled> Share </button>
                                 @endif
       
                                 @if ($post->created_at == $post->updated_at)

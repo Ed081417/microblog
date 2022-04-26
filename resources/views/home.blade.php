@@ -8,7 +8,8 @@
         {{-- Sidebar --}}
         <div class="col">
           <div class="d-flex flex-column flex-shrink-0 p-3 text-light bg-secondary" style="width: 280px;">
-            <a href="#"> <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-thumbnail"> </a>
+            <a href="{{ route('user-posts') }}"> <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." 
+                class="img-thumbnail"> </a>
             <span class="fs-4" style="text-align: center;">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}</span>
 
             <hr>
@@ -215,32 +216,31 @@
                                   <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
                             </form>
                           @endif
-
-                          
+     
                           <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
                           <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
-                            class="btn btn-primary btn-sm"> Comment </a> 
-                        
+                            class="btn btn-primary btn-sm"> Comment </a>                         
                             
                           <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
 
-                          @if (isset(Auth::user()->id) && Auth::user()->id != $post->user_id)
+                          @if (!$post->sharedBy(auth()->user()) && $post->user_id != Auth::user()->id)
                             <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
                               Share</button>
-                            {{-- <button type="button" class="btn btn-primary btn-sm" value="{{ $post->id }}" id="shareBtn" 
-                              data-bs-toggle="modal" data-bs-target="#shareModal"> Share </button>  --}}
-                          {{-- @elseif($post->shares->contains(Auth::user()->id) && $post->shares->contains($post->id) )
+
+                          @elseif($post->sharedBy(auth()->user()))
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
-                            data-bs-target="#shareModal" disabled> Shared </button>  --}}
+                              data-bs-target="#shareModal" disabled> Shared </button> 
+
                           @else
-                            <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" 
-                              data-bs-target="#shareModal" disabled> Share </button>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                            data-bs-target="#shareModal" disabled> Share </button>
                           @endif
 
                           @if ($post->created_at == $post->updated_at)
                             <span style="float: right" class="text-muted">
                               Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
-                            </span>              
+                            </span>  
+
                           @else
                             <span style="float: right" class="text-muted">
                               Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
@@ -314,32 +314,15 @@
            
           });
 
-          //Delete Post
+          //Share Post
           $('.sharedBtn').click(function (e) {
             e.preventDefault();
 
             var share_post_id = $(this).val();
-            // console.log(delete_post_id);
             $("#share_post_id").val(share_post_id);
             $('#shareModal').modal('show');
            
           });
-
-
-
-          // //Share Button
-          // function output() {
-          //   $("#share_post_id").val(share.value);
-          //   console.log(share.value);
-            
-          // }
-          // var share = document.getElementById("shareBtn");
-          // share.addEventListener("click", output, true);
-
-          // var share = document.querySelectorAll(".shareBtn");
-          // share.forEach(el =>{
-          //   el.addEventListener("click", output, true);
-          // });
 
       });
 

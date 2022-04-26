@@ -46,7 +46,7 @@
                     <hr>
                     <h5>Email: {{ Auth::user()->email }}</h5>
                     <hr>
-                    <h5>Account Created: {{ date("F j, Y", strtotime( Auth::user()->created_at)) }} </h5>
+                    <h5>Date Joined: {{ date("F j, Y", strtotime( Auth::user()->created_at)) }} </h5>
                     <hr>
                     <h5 for="description" c>Profile Image :</h5>
                     <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-fluid"> 

@@ -57,6 +57,23 @@
                             
                     @endif
                 @endif
+
+                @if (Auth::user()->id == $user->id)    
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                    <li>
+                        <a href="{{ route('user-posts') }}" class="nav-link text-light">
+                            Posts
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-light">  
+                            Followers
+                        </a>
+                    </li>
+                    </ul>
+                    <hr>
+                @endif
             
             </div>
         </div>
@@ -78,8 +95,12 @@
                 </div>
                 @endif
 
-
-                <h3>{{ $user->first_name }} {{ $user->last_name }} Posts</h3>
+                @if (Auth::user()->id == $user->id)
+                    <h3>My Posts</h3>
+                @else
+                    <h3>{{ $user->first_name }} {{ $user->last_name }} Posts</h3>
+                @endif
+                
 
                 @foreach ($user->user as $post)
                     <div class="card w-90">                
@@ -138,17 +159,17 @@
                             
                             <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
 
-                            @if (isset(Auth::user()->id) && Auth::user()->id != $post->user_id)
-                            <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
-                                Share</button>
-                            {{-- <button type="button" class="btn btn-primary btn-sm" value="{{ $post->id }}" id="shareBtn" 
-                                data-bs-toggle="modal" data-bs-target="#shareModal"> Share </button>  --}}
-                            {{-- @elseif($post->shares->contains(Auth::user()->id) && $post->shares->contains($post->id) )
-                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
-                            data-bs-target="#shareModal" disabled> Shared </button>  --}}
+                            @if (!$post->sharedBy(auth()->user()) && $post->user_id != Auth::user()->id)
+                                <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
+                                    Share</button>
+
+                            @elseif($post->sharedBy(auth()->user()))
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                    data-bs-target="#shareModal" disabled> Shared </button> 
+
                             @else
-                            <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" 
-                                data-bs-target="#shareModal" disabled> Share </button>
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                    data-bs-target="#shareModal" disabled> Share </button>
                             @endif
 
                             @if ($post->created_at == $post->updated_at)
