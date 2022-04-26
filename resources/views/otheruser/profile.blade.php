@@ -40,6 +40,7 @@
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-secondary" style="width: 280px;">
                 <a href="#"> <img src="{{ asset('images/' . $user->image_path) }}" alt="..." class="img-thumbnail"> </a>
                 <span class="fs-4" style="text-align: center;">{{ $user->first_name . ' ' .  $user->last_name}}</span>
+
                 @if (Auth::user()->id != $user->id)
                     @if (!$user->followedBy(auth()->user()))
                         <form action="{{ route('follow', $user) }}" method="POST" class="d-flex justify-content-center">
@@ -48,35 +49,14 @@
                             {{-- <input type="hidden" name="follow" value="{{ $user->id }}"> --}}
                             <button type="submit" class="btn btn-primary">Follow</button>
                         </form>
-                    @else
-                        {{-- <form action="{{ route('unfollow') }}" method="POST" class="d-flex justify-content-center">
-                            @csrf --}}
 
-                            {{-- <input type="hidden" name="unfollow_user_id" value="{{ $user->id }}"> --}}
-                            <div class="container d-flex justify-content-center">
-                                <button type="submit" value="{{ $user->id }}" class="btn btn-dark unfollowBtn">Unfollow</button>
-                            </div>
+                    @else
+                        <div class="container d-flex justify-content-center">
+                            <button type="submit" value="{{ $user->id }}" class="btn btn-dark unfollowBtn">Unfollow</button>
+                        </div>
                             
-                        {{-- </form> --}}
                     @endif
                 @endif
-
-                {{-- @if (!$user->followedBy(auth()->user()))
-                    <form action="{{ route('like-post', $user) }}" method="POST" style ="display:inline-block;">
-                        @csrf
-                        <span class="badge bg-secondary">{{ $user->likes->count() }}</span>
-                        <button type="submit" class="btn btn-primary btn-sm">
-                            {{ Str::plural('Like', $post->likes->count()) }} </button> 
-                    </form>
-                    @else
-                    <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-    
-                            <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
-                            <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
-                    </form>
-                @endif --}}
             
             </div>
         </div>
@@ -100,45 +80,96 @@
 
 
                 <h3>{{ $user->first_name }} {{ $user->last_name }} Posts</h3>
+
+                @foreach ($user->user as $post)
+                    <div class="card w-90">                
+                        <div class="card-header imgHeader">
+                        <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                        <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>
+                        
+                        
+                        @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
+                            <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
+                            <i class="bi bi-trash"></i></button>
+
+                            <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success float-end updateBtn" >
+                            <i class="bi bi-pencil-square"></i></a>
+                        @endif                     
+                        
+                        </div>
+
+                        <div class="card-body">
+
+                            @if ($post->image_path=="")
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> <h5>{{ $post->title }}</h5> </a>
+                            <p class="card-text">{{ $post->description }}</p>
+                            @else
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> <h5>{{ $post->title }}</h5> </a>
+                            <p class="card-text">{{ $post->description }}</p>
+                            <img src="{{asset('images/' . $post->image_path)}}" alt="..." class="img-fluid">
+                            @endif
+
+                        </div>
+
+                        {{-- <span>{{ $post->likes->count() }} {{ Str::plural('Like', $post->likes->count()) }}</span> --}}
+
+                        <div class="card-footer" style="display: inline;">
+                            @if (!$post->likedBy(auth()->user()))
+                            <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
+                                @csrf
+                                <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                <button type="submit" class="btn btn-primary btn-sm"> Like </button> 
+                            </form>
+                            @else
+                            <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+            
+                                    <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                    <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                            </form>
+                            @endif
+
+                            
+                            <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
+                            class="btn btn-primary btn-sm"> Comment </a> 
+                        
+                            
+                            <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
+
+                            @if (isset(Auth::user()->id) && Auth::user()->id != $post->user_id)
+                            <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
+                                Share</button>
+                            {{-- <button type="button" class="btn btn-primary btn-sm" value="{{ $post->id }}" id="shareBtn" 
+                                data-bs-toggle="modal" data-bs-target="#shareModal"> Share </button>  --}}
+                            {{-- @elseif($post->shares->contains(Auth::user()->id) && $post->shares->contains($post->id) )
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                            data-bs-target="#shareModal" disabled> Shared </button>  --}}
+                            @else
+                            <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" 
+                                data-bs-target="#shareModal" disabled> Share </button>
+                            @endif
+
+                            @if ($post->created_at == $post->updated_at)
+                            <span style="float: right" class="text-muted">
+                                Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
+                            </span>              
+                            @else
+                            <span style="float: right" class="text-muted">
+                                Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
+                            </span>
+                            @endif
+    
+                        </div>
+                    </div>
+                @endforeach
          
 
        
 
             </div>
             
-
-             {{-- Flash messages --}}
-            {{-- <div class="container">
-                @if (session()->has('message'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session()->get('message') }}
-                    </div>
-                @endif
-            </div>
-
-            <div class="card">
-                <h5 class="card-header">My Profile</h5>
-                <div class="card-body">
-                    <h5>First Name: {{ Auth::user()->first_name }}</h5>
-                    <hr>
-                    <h5>Middle Name: {{ Auth::user()->middle_name }}</h5>
-                    <hr>
-                    <h5>Last Name: {{ Auth::user()->last_name }}</h5>
-                    <hr>
-                    <h5>Date of Birth: {{ date("F j, Y", strtotime( Auth::user()->date_of_birth)) }} </h5>
-                    <hr>
-                    <h5>Username: {{ Auth::user()->username }}</h5>
-                    <hr>
-                    <h5>Email: {{ Auth::user()->email }}</h5>
-                    <hr>
-                    <h5>Account Created: {{ date("F j, Y", strtotime( Auth::user()->created_at)) }} </h5>
-                    <hr>
-                    <h5 for="description" c>Profile Image :</h5>
-                    <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-fluid"> 
-                    <hr>              
-            
-                </div>
-            </div> --}}
         </div>
         {{-- User Profile --}}
         

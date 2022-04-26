@@ -56,7 +56,7 @@ Route::get('profile/{id}/edit', [UserController::class, 'edit'])->name('edit-pro
 Route::put('profile/{id}', [UserController::class, 'update'])->name('update-profile');
 Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-profile');
 
-//Follow
+//Follow/Unfollow 
 Route::post('profile/{user}/follow', [FollowController::class, 'store'])->name('follow');
 Route::post('unfollow', [FollowController::class, 'destroy'])->name('unfollow');
 

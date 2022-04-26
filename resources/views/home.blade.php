@@ -231,18 +231,18 @@
                               data-bs-toggle="modal" data-bs-target="#shareModal"> Share </button>  --}}
                           {{-- @elseif($post->shares->contains(Auth::user()->id) && $post->shares->contains($post->id) )
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
-                            data-bs-target="#shareModal" disabled> Share </button>  --}}
+                            data-bs-target="#shareModal" disabled> Shared </button>  --}}
                           @else
                             <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" 
                               data-bs-target="#shareModal" disabled> Share </button>
                           @endif
 
                           @if ($post->created_at == $post->updated_at)
-                            <span style="float: right">
+                            <span style="float: right" class="text-muted">
                               Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
                             </span>              
                           @else
-                            <span style="float: right">
+                            <span style="float: right" class="text-muted">
                               Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
                             </span>
                           @endif
