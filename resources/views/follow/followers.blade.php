@@ -22,34 +22,16 @@
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
-                    
-                    {{-- @foreach ($users as $user)
-                        @foreach ($user->follows as $follower)     
-                            @if (Auth::user()->id == $follower->user_id)   
-                                <tbody>
-                                    <tr>
-                                        <td>{{ $follower->user->first_name . ' ' . $follower->user->last_name }}</td>
-                                        <td>{{ date("F j, Y", strtotime( $follower->created_at)) }}</td>
-                                        <td>Remove</td>
-                                    </tr>
-                                </tbody>
-                            @endif 
-                        @endforeach                  
-                    @endforeach --}}
 
-                    @foreach ($users as $user)
-                        @foreach ($user->follows as $follower)        
-                            @if ( $follower->user_id == Auth::user()->id)
-                                <tbody>
-                                    <tr>
-                                        <td>{{ $follower->user->first_name . ' ' . $follower->user->last_name }}</td>
-                                        <td>{{ date("F j, Y", strtotime( $follower->created_at)) }}</td>
-                                        <td>Remove</td>
-                                    </tr>
-                                </tbody>
-                            @endif  
-                        @endforeach                  
-                    @endforeach   
+                    @foreach (Auth::user()->followers as $follower)        
+                            <tbody>
+                                <tr>
+                                    <td>{{ $follower->first_name . ' ' . $follower->last_name }}</td>
+                                    <td>{{ date("F j, Y", strtotime( $follower->created_at)) }}</td>
+                                    <td>Remove</td>
+                                </tr>
+                            </tbody>
+                    @endforeach            
                                             
                 </table>            
                   

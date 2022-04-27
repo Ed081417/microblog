@@ -23,9 +23,9 @@
                     </tr>
                     </thead>
 
-                    @foreach ($users as $user)
+                    {{-- @foreach ($users as $user)
                         @foreach ($user->follows as $following)        
-                            @if ( $following->follower_id == Auth::user()->id)
+                            @if ( Auth::user()->id == $following->follower_id )
                                 <tbody>
                                     <tr>
                                         <td>{{ $following->user->first_name . ' ' . $following->user->last_name }}</td>
@@ -35,7 +35,18 @@
                                 </tbody>
                             @endif  
                         @endforeach                  
-                    @endforeach   
+                    @endforeach    --}}
+
+                    @foreach (Auth::user()->followings as $following)        
+                        <tbody>
+                            <tr>
+                                <td>{{ $following->first_name . ' ' . $following->last_name }}</td>
+                                <td>{{ date("F j, Y", strtotime( $following->created_at)) }}</td>
+                                <td>Remove</td>
+                            </tr>
+                        </tbody>
+                    @endforeach                  
+            
 
                 </table>    
                   

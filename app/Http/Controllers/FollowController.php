@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
 {
@@ -20,6 +21,7 @@ class FollowController extends Controller
 
     public function followerList()
     {
+        // return view('follow.followers')->with('followers', User::orderBy('updated_at', 'DESC' )->get());
         return view('follow.followers')->with('users', User::orderBy('updated_at', 'DESC')->get());
     }
 
