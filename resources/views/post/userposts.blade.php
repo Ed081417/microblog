@@ -12,7 +12,7 @@
 
 
             <div class="col-6">
-                <h2>My Posts</h2>
+                <h1 class="display-6">My Posts</h1>
 
                 {{-- Shared Posts --}}
                 @foreach ($posts as $post)
@@ -180,11 +180,11 @@
                                 @endif
       
                                 @if ($post->created_at == $post->updated_at)
-                                  <span style="float: right">
+                                  <span style="float: right" class="text-muted">
                                     Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
                                   </span>              
                                 @else
-                                  <span style="float: right">
+                                  <span style="float: right" class="text-muted">
                                     Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
                                   </span>
                                 @endif

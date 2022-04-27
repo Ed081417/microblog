@@ -13,26 +13,35 @@
 
             <div class="col-6">
                 
-                <h1 class="display-6">Followers</h1>
-                <table class="table table-hover">
+                <h1 class="display-6">Followers - {{ Auth::user()->followers->count() }}</h1>
+                
+                <hr>
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">Full Name</th>
                         <th scope="col">Date followed</th>
-                        <th scope="col">Action</th>
+                        {{-- <th scope="col">Action</th> --}}
                     </tr>
                     </thead>
-
-                    @foreach (Auth::user()->followers as $follower)        
-                            <tbody>
-                                <tr>
-                                    <td>{{ $follower->first_name . ' ' . $follower->last_name }}</td>
-                                    <td>{{ date("F j, Y", strtotime( $follower->created_at)) }}</td>
-                                    <td>Remove</td>
-                                </tr>
-                            </tbody>
-                    @endforeach            
-                                            
+                    <tbody>
+                        @foreach (Auth::user()->followers as $follower)        
+                                
+                            <tr>
+                                <td>
+                                    <a href="/user/{{ $follower->id }}/profile" value="{{ $follower->id }}">
+                                        {{ $follower->first_name . ' ' . $follower->last_name }}</a>
+                                </td>
+                                <td>
+                                    {{ date("F j, Y", strtotime( $follower->created_at)) }}
+                                </td>
+                                {{-- <td>
+                                    <button type="button" class="btn btn-danger btn-sm">Remove Follower</button>
+                                </td> --}}
+                            </tr>
+                                
+                        @endforeach            
+                    </tbody>                       
                 </table>            
                   
             </div>

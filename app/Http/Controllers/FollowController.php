@@ -39,10 +39,6 @@ class FollowController extends Controller
      */
     public function store(User $user, Request $request)
     {
-        // $follow = new Follow;
-        // $follow->user_id = $request->input('follow');
-        // $follow->follower_id = auth()->user()->id;
-        // $follow->save();
 
         $user->follows()->create([
             'follower_id' => $request->user()->id,

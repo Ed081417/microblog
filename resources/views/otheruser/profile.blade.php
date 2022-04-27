@@ -96,13 +96,13 @@
                 @endif
 
                 @if (Auth::user()->id == $user->id)
-                    <h3>My Posts</h3>
+                    <h1 class="display-6">My Posts</h1>
                 @else
-                    <h3>{{ $user->first_name }} {{ $user->last_name }} Posts</h3>
+                    <h1 class="display-6">{{ $user->first_name }} {{ $user->last_name }} Posts</h1>
                 @endif
                 
 
-                @foreach ($user->user as $post)
+                @foreach ($user->user->sortByDesc('updated_at') as $post)
                     <div class="card w-90">                
                         <div class="card-header imgHeader">
                         <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">

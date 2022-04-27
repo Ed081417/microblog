@@ -49,7 +49,7 @@ class UserController extends Controller
     {
         //View other user profile
         return view('otheruser.profile')
-                ->with('user', User::where('id', $id)->first());
+                ->with('user', User::where('id', $id)->orderBy('updated_at', 'DESC')->first());
 
         // return view('otheruser.profile')
         //     ->with('posts', Post::orderBy('updated_at', 'DESC')->get());

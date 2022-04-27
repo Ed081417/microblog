@@ -13,13 +13,14 @@
 
             <div class="col-6">
                 
-                <h1 class="display-6">Following</h1>
-                <table class="table table-hover">
+                <h1 class="display-6">Following - {{ Auth::user()->followings->count() }}</h1>
+                <hr>
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         <th scope="col">Full Name</th>
                         <th scope="col">Date followed</th>
-                        <th scope="col">Action</th>
+                        {{-- <th scope="col">Action</th> --}}
                     </tr>
                     </thead>
 
@@ -36,17 +37,24 @@
                             @endif  
                         @endforeach                  
                     @endforeach    --}}
-
-                    @foreach (Auth::user()->followings as $following)        
-                        <tbody>
+                    <tbody>                                
+                        @foreach (Auth::user()->followings as $following)        
+                            
                             <tr>
-                                <td>{{ $following->first_name . ' ' . $following->last_name }}</td>
-                                <td>{{ date("F j, Y", strtotime( $following->created_at)) }}</td>
-                                <td>Remove</td>
+                                <td>
+                                    <a href="/user/{{ $following->id }}/profile" value="{{ $following->id }}">
+                                        {{ $following->first_name . ' ' . $following->last_name }}</a>
+                                </td>
+                                <td>
+                                    {{ date("F j, Y", strtotime( $following->created_at)) }}
+                                </td>
+                                {{-- <td>
+                                    <button type="button" class="btn btn-secondary btn-sm">Unfollow</button>
+                                </td> --}}
                             </tr>
-                        </tbody>
-                    @endforeach                  
-            
+                            
+                        @endforeach                  
+                    </tbody>            
 
                 </table>    
                   

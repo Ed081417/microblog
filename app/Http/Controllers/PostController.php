@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,19 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('home')
-            ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
+        // return view('home')
+        //     ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
+
+        $posts = Post::whereIn('user_id', function($query)
+        {       
+            $query->select('user_id')
+                    ->from('followers')
+                    ->where('follower_id', Auth::user()->id);
+        })->orWhere('user_id', Auth::user()->id)
+            ->with('user')
+            ->orderBy('updated_at', 'DESC')->get();
+
+        return view('home')->with('posts', $posts);
     }
 
     /**

@@ -32,7 +32,7 @@
             </div>
 
             <div class="card">
-                <h5 class="card-header">My Profile</h5>
+                <h1 class="lead card-header">My Profile</h1>
                 <div class="card-body">
                     <h5>First Name: {{ Auth::user()->first_name }}</h5>
                     <hr>
