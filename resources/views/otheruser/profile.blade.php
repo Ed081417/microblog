@@ -67,10 +67,16 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-light">  
-                            Followers
+                        <a href="{{ route('followers') }}" class="nav-link text-light">  
+                          Followers
                         </a>
-                    </li>
+                      </li>
+        
+                      <li>
+                        <a href="{{ route('followings') }}" class="nav-link text-light">  
+                          Following
+                        </a>
+                      </li>
                     </ul>
                     <hr>
                 @endif

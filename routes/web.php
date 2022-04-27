@@ -7,6 +7,7 @@ use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostShareController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ use App\Http\Controllers\FollowController;
 |
 */
 
+//Landing Page
 Route::get('/', function () {
     return view('homepage');
 });
@@ -63,5 +65,8 @@ Route::post('unfollow', [FollowController::class, 'destroy'])->name('unfollow');
 //View Followers/Followings
 Route::get('followers', [FollowController::class, 'followerList'])->name('followers');
 Route::get('followings', [FollowController::class, 'followingList'])->name('followings');
+
+//Search Result
+Route::post('search', [SearchController::class, 'index'])->name('searchresult');
 
 
