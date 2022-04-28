@@ -39,7 +39,13 @@
         <div class="col-md">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-secondary" style="width: 280px;">
                 <a href="#"> <img src="{{ asset('images/' . $user->image_path) }}" alt="..." class="img-thumbnail"> </a>
-                <span class="fs-4" style="text-align: center;">{{ $user->first_name . ' ' .  $user->last_name}}</span>
+                @if ($user->middle_name=="")
+                    <span class="fs-4" style="text-align: center;">{{ $user->first_name . ' ' .  $user->last_name}}</span>
+                @else
+                    <span class="fs-4" style="text-align: center;">
+                        {{ $user->first_name . ' ' .  $user->middle_name . ' ' .  $user->last_name}}</span>
+                @endif
+                
 
                 @if (Auth::user()->id != $user->id)
                     @if (!$user->followedBy(auth()->user()))
@@ -56,27 +62,41 @@
                         </div>
                             
                     @endif
+
+                    <ul class="list-group mt-2">
+                        <li class="list-group-item active" aria-current="true">PROFILE</li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            Followers:<span class="badge bg-primary rounded-pill">14</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            Following:<span class="badge bg-primary rounded-pill">14</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            Birthdate:<span class="badge bg-primary rounded-pill">
+                                {{ date("F j, Y", strtotime( $user->date_of_birth)) }}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            Date Joined:<span class="badge bg-primary rounded-pill">
+                                {{ date("F j, Y", strtotime( $user->created_at)) }}</span></li>
+                    </ul>
                 @endif
 
                 @if (Auth::user()->id == $user->id)    
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
-                    <li>
-                        <a href="{{ route('user-posts') }}" class="nav-link text-light">
-                            Posts
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('followers') }}" class="nav-link text-light">  
-                          Followers
-                        </a>
-                      </li>
-        
-                      <li>
-                        <a href="{{ route('followings') }}" class="nav-link text-light">  
-                          Following
-                        </a>
-                      </li>
+                        <li>
+                            <a href="{{ route('user-posts') }}" class="nav-link text-light">
+                                Posts
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('followers') }}" class="nav-link text-light">  
+                            Followers
+                            </a>
+                        </li>
+            
+                        <li>
+                            <a href="{{ route('followings') }}" class="nav-link text-light">  
+                            Following
+                            </a>
+                        </li>
                     </ul>
                     <hr>
                 @endif

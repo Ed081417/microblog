@@ -59,6 +59,7 @@ Route::put('profile/{id}', [UserController::class, 'update'])->name('update-prof
 Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-profile');
 Route::get('change-password', [UserController::class, 'changePassword'])->name('change-password');
 Route::put('reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
+Route::get('change-email', [UserController::class, 'changeEmail'])->name('change-email');
 
 //Follow/Unfollow 
 Route::post('profile/{user}/follow', [FollowController::class, 'store'])->name('follow');

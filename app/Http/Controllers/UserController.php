@@ -25,24 +25,6 @@ class UserController extends Controller
         return view('user.changePassword');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-    //Reset password
     public function resetPassword(Request $request)
     {     
         $request->validate([
@@ -62,6 +44,33 @@ class UserController extends Controller
             return redirect('/change-password')->with('status', 'Current Password do not match!');
         }
         
+    }
+
+    public function changeEmail()
+    {
+        return view('user.changeEmail');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function store(Request $request)
+    {     
+        //
     }
 
     /**
