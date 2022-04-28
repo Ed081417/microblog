@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -16,6 +18,11 @@ class UserController extends Controller
     public function index()
     {
         return view('user.profile');
+    }
+
+    public function changePassword()
+    {
+        return view('user.changePassword');
     }
 
     /**
@@ -34,9 +41,27 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+
+    //Reset password
+    public function resetPassword(Request $request)
+    {     
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $current_password = $request->input('currentPassword');
+        if(Hash::check($current_password, Auth::user()->password)) 
+        {
+            $hashed_password = Hash::make($request->input('password'));
+            $reset_password = User::find(Auth::user()->id);
+            $reset_password->password = $hashed_password;
+            $reset_password->save();
+    
+            return redirect('/change-password')->with('message', 'Password reset successfully');
+        } else {
+            return redirect('/change-password')->with('status', 'Current Password do not match!');
+        }
+        
     }
 
     /**

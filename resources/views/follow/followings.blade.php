@@ -6,12 +6,12 @@
 
     <div class="container" style="margin-top: 20px;">
         <div class="row">
-            <div class="col">
+            <div class="col-md">
                 @include('partials.sidebar')
             </div>
 
 
-            <div class="col-6">
+            <div class="col-md-6">
                 
                 <h1 class="display-6">Following - {{ Auth::user()->followings->count() }}</h1>
                 <hr>
@@ -61,7 +61,7 @@
             </div>
 
             {{-- Followers --}}
-            <div class="col ">           
+            <div class="col-md">           
                 <div class="container">
                 <div class="row ">
                     <div class="col">

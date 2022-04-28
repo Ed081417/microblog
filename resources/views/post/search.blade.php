@@ -6,13 +6,13 @@
     
 <div class="container" style="margin-top: 20px;">
     <div class="row">
-        <div class="col">
+        <div class="col-md">
             @include('partials.sidebar')
         </div>
 
         {{-- Search Result --}}
 
-        <div class="col-6">
+        <div class="col-md-6">
 
             {{-- Flash messages --}}
             <div class="container">
@@ -133,11 +133,11 @@
         
 
         {{-- Followers --}}
-        <div class="col ">           
+        <div class="col-md">           
             <div class="container">
             <div class="row ">
                 <div class="col">
-                <div class="card text-white bg-primary" >
+                {{-- <div class="card text-white bg-primary" >
                     <div class="card-header">Follow other People</div>
                     <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}  
@@ -150,7 +150,7 @@
                         <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
                     </li>
                     </ul>
-                </div>
+                </div> --}}
                 </div>
             </div>
             </div>          

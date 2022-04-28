@@ -36,7 +36,7 @@
     {{-- Unfollow Modal --}}
 
     <div class="row">
-        <div class="col">
+        <div class="col-md">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-secondary" style="width: 280px;">
                 <a href="#"> <img src="{{ asset('images/' . $user->image_path) }}" alt="..." class="img-thumbnail"> </a>
                 <span class="fs-4" style="text-align: center;">{{ $user->first_name . ' ' .  $user->last_name}}</span>
@@ -86,7 +86,7 @@
 
         {{-- User Profile --}}
 
-        <div class="col-6">
+        <div class="col-md-6">
            
             
             <div class="container">
@@ -202,11 +202,11 @@
         
 
         {{-- Followers --}}
-        <div class="col ">           
+        <div class="col-md">           
             <div class="container">
             <div class="row ">
                 <div class="col">
-                <div class="card text-white bg-primary" >
+                {{-- <div class="card text-white bg-primary" >
                     <div class="card-header">Follow other People</div>
                     <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}  
@@ -219,7 +219,7 @@
                         <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
                     </li>
                     </ul>
-                </div>
+                </div> --}}
                 </div>
             </div>
             </div>          

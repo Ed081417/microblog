@@ -57,6 +57,8 @@ Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 've
 Route::get('profile/{id}/edit', [UserController::class, 'edit'])->name('edit-profile');
 Route::put('profile/{id}', [UserController::class, 'update'])->name('update-profile');
 Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-profile');
+Route::get('change-password', [UserController::class, 'changePassword'])->name('change-password');
+Route::put('reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
 
 //Follow/Unfollow 
 Route::post('profile/{user}/follow', [FollowController::class, 'store'])->name('follow');

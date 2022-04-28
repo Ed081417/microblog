@@ -6,7 +6,7 @@
     <div class="container sidebar" style="margin-top: 20px;">
       <div class="row ">
         {{-- Sidebar --}}
-        <div class="col">
+        <div class="col-md">
           <div class="d-flex flex-column flex-shrink-0 p-3 text-light bg-secondary" style="width: 280px;">
             <a href="{{ route('user-posts') }}"> <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." 
                 class="img-thumbnail"> </a>
@@ -48,7 +48,7 @@
 
 
         {{-- Posts --}}
-        <div class="col-6">           
+        <div class="col-md-6">           
             <div class="container">
 
               {{-- Flash messages --}}
@@ -321,11 +321,11 @@
 
 
         {{-- Followers --}}
-        <div class="col ">           
+        <div class="col-md ">           
           <div class="container">
             <div class="row ">
               <div class="col">
-                <div class="card text-white bg-primary" >
+                {{-- <div class="card text-white bg-primary" >
                   <div class="card-header">Follow other People</div>
                   
                   <ul class="list-group list-group-flush">
@@ -339,7 +339,7 @@
                       <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
                     </li>
                   </ul>
-                </div>
+                </div> --}}
               </div>
             </div>
           </div>          

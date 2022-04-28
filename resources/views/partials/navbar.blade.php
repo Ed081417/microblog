@@ -36,7 +36,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userprofile">
                               <li><a class="dropdown-item" href="{{ route('profile') }}">View Profile</a></li>
-                              <li><a class="dropdown-item" href="#">Change Password</a></li>
+                              <li><a class="dropdown-item" href="{{ route('change-password') }}">Change Password</a></li>
                               <li><a class="dropdown-item" href="{{ route('logout') }}">Log Out</a></li>
                             </ul>
                         </div>
