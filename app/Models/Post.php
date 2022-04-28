@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $table = 'posts';
 
@@ -17,6 +18,11 @@ class Post extends Model
         'description',
         'image_path'       
     ];
+
+    public function searchableAs()
+    {
+        return 'posts';
+    }
 
     public function likedBy(User $user)
     {

@@ -20,6 +20,11 @@
                 Following
             </a>
         </li>
+        <li>
+            <a href="{{ route('find-people') }}" class="nav-link text-light">  
+              Find People
+            </a>
+        </li>
     </ul>
     <hr>
 

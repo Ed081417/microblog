@@ -23,6 +23,9 @@
                 @endif
             </div>
 
+       
+            <h1 class="display-6">Find People</h1>
+
             <form action="/search/user" method="GET" >
                 @csrf
 
@@ -31,26 +34,7 @@
                 </div>                     
                 
             </form>
-
-            <h1 class="display-6">Search result...</h1>
-
-            @foreach ($users as $user)                 
-                    <div class="card mb-3" style="max-width: 550px;">
-                        <div class="row g-0" style="margin-top: 0;">
-                            <div class="col-md-4">
-                                <img src="{{ asset('images/' . $user->image_path) }}" class="img-thumbnail " >
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h3 class="card-title">{{ $user->first_name . ' ' . $user->last_name }}</h3>
-                                    <p class="text-muted"> Date Joined: {{ date("F j, Y", strtotime( $user->created_at)) }}</p>
-                                    <button class="btn btn-primary btn-sm">View Profile</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
-                                    
-            @endforeach  
+            
         </div>
         {{-- Followers --}}
         <div class="col ">           

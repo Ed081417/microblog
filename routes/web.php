@@ -67,6 +67,9 @@ Route::get('followers', [FollowController::class, 'followerList'])->name('follow
 Route::get('followings', [FollowController::class, 'followingList'])->name('followings');
 
 //Search Result
-Route::post('search', [SearchController::class, 'index'])->name('searchresult');
+// Route::post('search', [SearchController::class, 'index'])->name('searchresult');
+Route::get('findpeople', [SearchController::class, 'index'])->name('find-people');
+Route::get('/search/post', [SearchController::class, 'queryPost'])->name('search-post');
+Route::get('/search/user', [SearchController::class, 'queryUser'])->name('search-user');
 
 
