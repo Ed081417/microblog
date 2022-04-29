@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -81,7 +82,7 @@ class UserController extends Controller
 
                 Auth::login($reset_email);
                 return redirect(RouteServiceProvider::HOME);
-                
+
             } else {
                 return redirect('/change-email')->with('status', 'Current Password do not match!');
             }
@@ -163,21 +164,28 @@ class UserController extends Controller
         return redirect('/profile')->with('message', 'Profile Updated Successfully!');
 
         } else {
+            $image_location =  public_path().'/images' . '/' . Auth::user()->image_path;
+            if(File::exists($image_location)) {
+                File::delete($image_location);
 
-            $newImageName = time() . '.' . $request->uploadnewImg->extension();
-            $request->uploadnewImg->move(public_path('images'), $newImageName);
-    
-            User::where('id', $id)
-                ->update([
-                    'first_name' => $request->input('fname'),
-                    'middle_name' => $request->input('mname'),
-                    'last_name' => $request->input('lname'),
-                    'date_of_birth' => $request->input('dob'),
-                    'username' => $request->input('uname'),
-                    'image_path' => $newImageName
-                ]);
+                $newImageName = time() . '.' . $request->uploadnewImg->extension();
+                $request->uploadnewImg->move(public_path('images'), $newImageName);
+        
+                User::where('id', $id)
+                    ->update([
+                        'first_name' => $request->input('fname'),
+                        'middle_name' => $request->input('mname'),
+                        'last_name' => $request->input('lname'),
+                        'date_of_birth' => $request->input('dob'),
+                        'username' => $request->input('uname'),
+                        'image_path' => $newImageName
+                    ]);
+            } else {
+                return redirect('/profile')->with('status', 'Error updating profile. Try again.');
+            }
             
-        return redirect('/profile')->with('message', 'Post Updated Successfully!');
+            
+        return redirect('/profile')->with('message', 'Profile Updated Successfully!');
         }
     }
 
