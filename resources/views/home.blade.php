@@ -177,11 +177,12 @@
                   {{-- Share Post Modal --}}  
           
                   {{-- Users Posts --}}               
-                  @foreach ($posts as $post)
-                    {{-- @if (Auth::user()->followings) --}}
+                  @forelse ($posts as $post)
+                    
+                     
                       <div class="card w-90">                
                         <div class="card-header imgHeader">
-                          
+
                           @if (is_null($post->user->image_path))
                             <img src="{{asset('images/default.png')}}" alt="..." class="rounded">
                             <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
@@ -191,8 +192,7 @@
                             <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
                               {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>    
                           @endif
-                                             
-                        
+                                                                           
                           @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
                             <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
                               <i class="bi bi-trash"></i></button>
@@ -263,28 +263,32 @@
       
                         </div>
                       </div>
+            
+            
+                      
+                        
 
                       {{-- Share Post --}}
-                      {{-- @foreach ($post->shares as $sharedpost)                     
-                        <div class="card w-90">                
+                                          
+                        {{-- <div class="card w-90">                
                           <div class="card-header imgHeader">
-                            <img src="{{asset('images/' . $sharedpost->user->image_path)}}" alt="..." class="rounded">
-                            <a href="/user/{{ $sharedpost->user->id }}/profile" value="{{ $sharedpost->user->id }}">
-                              {{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a> 
-                            @if ($sharedpost->user_id == Auth::user()->id)
-                              <span>You shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
-                                {{ $sharedpost->post->user->first_name }} </a></span>
+                            <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                            <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                              {{ $post->user->first_name . ' ' . $post->user->last_name}}</a> 
+                            @if ($post->shares->user_id == Auth::user()->id)
+                              <span>You shared a post from <a href="/user/{{ $post->user->id }}/profile">
+                                {{ $post->shares->user->first_name }} </a></span>
                             
-                            @elseif($sharedpost->post->user_id == Auth::user()->id)
+                            @elseif($post->shares->user_id == Auth::user()->id)
                               <span>Shared a post from you.</span>
                             @else
-                              <span>Shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
-                                {{ $sharedpost->post->user->first_name }} </a></span>
+                              <span>Shared a post from <a href="/user/{{ $post->shares->user->id }}/profile">
+                                {{ $post->user->first_name }} </a></span>
                             @endif
                             
                           
-                            @if (isset(Auth::user()->id) && Auth::user()->id == $sharedpost->user_id)
-                              <button type="button" value="{{ $sharedpost->id }}" class="btn btn-danger float-end deleteBtn" >
+                            @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
+                              <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
                                 <i class="bi bi-trash"></i></button>
     
                             @endif                     
@@ -293,29 +297,33 @@
     
                           <div class="card-body">
     
-                              @if ($sharedpost->post->image_path=="")
-                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
-                                  <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                              @if ($post->post->image_path=="")
+                                <a href="/post/{{ $post->post->id }}/view" type="button"  value="{{ $post->post->id }}"> 
+                                  <h5>{{ $post->post->title }}</h5> </a> <p class="card-text">{{ $post->post->description }}</p>
                               @else
-                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
+                                <a href="/post/{{ $post->post->id }}/view" type="button"  value="{{ $post->post->id }}"> 
                                   <h5>{{ $post->title }}</h5> </a> <p class="card-text">{{ $post->description }}</p>
-                                <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid">
+                                <img src="{{asset('images/' . $post->post->image_path)}}" alt="..." class="img-fluid">
                               @endif
     
                           </div>   
                           <div class="card-footer" style="display: inline;">
                                 <span style="float: right" class="text-muted">
-                                  Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
+                                  Shared on {{ date("F j, Y", strtotime( $post->created_at)) }} 
                                 </span>          
                           </div>
-                        </div>    
+                        </div>     --}}
                              
-                      @endforeach --}}
+                    
                       {{-- Share Post --}}
                     
-                    {{-- @endif --}}
+                      @empty
+                        
+                      <div class="card-body mt-5">
+                        <h1 class="display-6">Make a post and start following other people.</h1>
+                      </div>
                   
-                  @endforeach
+                  @endforelse
         
                   {{-- Users Posts --}}
 

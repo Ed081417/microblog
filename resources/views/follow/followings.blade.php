@@ -38,7 +38,7 @@
                         @endforeach                  
                     @endforeach    --}}
                     <tbody>                                
-                        @foreach (Auth::user()->followings as $following)        
+                        @forelse (Auth::user()->followings as $following)        
                             
                             <tr>
                                 <td>
@@ -52,8 +52,13 @@
                                     <button type="button" class="btn btn-secondary btn-sm">Unfollow</button>
                                 </td> --}}
                             </tr>
-                            
-                        @endforeach                  
+                        
+                        @empty
+                            <div class="card-body">
+                                <h1 class="display-6">Follow other people.</h1>
+                            </div>
+
+                        @endforelse                  
                     </tbody>            
 
                 </table>    

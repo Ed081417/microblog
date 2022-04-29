@@ -35,40 +35,59 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'fname' => ['required', 'string', 'max:255'],
-            'mname' => ['string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'dob' => ['required', 'date'],
             'uname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'image' => [ 'image', 'mimes:jpeg,png,jpg','max:5048'],
+            'image' => [ 'required', 'image', 'mimes:jpeg,png,jpg','max:5048'],
         ]);
 
-        // if ($request->image->extension() != "") {
-        //     # code...
-        // } else {
-        //     # code...
-        // }
+        if (is_null($request->mname)) {
+            $middle_name = "";
+            $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $newImageName);
+
+            $user = User::create([
+                'first_name' => $request->fname,
+                'middle_name' => $middle_name,
+                'last_name' => $request->lname,
+                'date_of_birth' => $request->dob,
+                'username' => $request->uname,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'image_path' => $newImageName
+            ]);
+
+            event(new Registered($user));
+
+            Auth::login($user);
+
+            return redirect(RouteServiceProvider::HOME);
+
+        } else {
+            $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $newImageName);
+
+            $user = User::create([
+                'first_name' => $request->fname,
+                'middle_name' => $request->mname,
+                'last_name' => $request->lname,
+                'date_of_birth' => $request->dob,
+                'username' => $request->uname,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'image_path' => $newImageName
+            ]);
+
+            event(new Registered($user));
+
+            Auth::login($user);
+
+            return redirect(RouteServiceProvider::HOME);
+        }
         
-        $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
-
-        $request->image->move(public_path('images'), $newImageName);
-
-        $user = User::create([
-            'first_name' => $request->fname,
-            'middle_name' => $request->mname,
-            'last_name' => $request->lname,
-            'date_of_birth' => $request->dob,
-            'username' => $request->uname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'image_path' => $newImageName
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+              
+        
     }
 }
