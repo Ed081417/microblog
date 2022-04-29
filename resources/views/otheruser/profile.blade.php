@@ -66,9 +66,11 @@
                     <ul class="list-group mt-2">
                         <li class="list-group-item active" aria-current="true">PROFILE</li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            Followers:<span class="badge bg-primary rounded-pill">14</span></li>
+                            Followers:<span class="badge bg-primary rounded-pill">{{  $user->followers->count() }}</span></li>
                         <li class="list-group-item d-flex justify-content-between align-items-start">
-                            Following:<span class="badge bg-primary rounded-pill">14</span></li>
+                            Following:<span class="badge bg-primary rounded-pill">{{  $user->followings->count() }}</span></li>
+                        {{-- <li class="list-group-item d-flex justify-content-between align-items-start">
+                            Email:<span class="badge bg-primary rounded-pill">{{  $user->email }}</span></li> --}}
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             Birthdate:<span class="badge bg-primary rounded-pill">
                                 {{ date("F j, Y", strtotime( $user->date_of_birth)) }}</span></li>
@@ -76,29 +78,22 @@
                             Date Joined:<span class="badge bg-primary rounded-pill">
                                 {{ date("F j, Y", strtotime( $user->created_at)) }}</span></li>
                     </ul>
-                @endif
+                
 
-                @if (Auth::user()->id == $user->id)    
-                    <hr>
-                    <ul class="nav nav-pills flex-column mb-auto">
-                        <li>
-                            <a href="{{ route('user-posts') }}" class="nav-link text-light">
-                                Posts
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('followers') }}" class="nav-link text-light">  
-                            Followers
-                            </a>
-                        </li>
+                @else    
+                    <div class="list-group">
+                        <a href="{{ route('user-posts') }}" class="list-group-item list-group-item-action ">Posts</a>
             
-                        <li>
-                            <a href="{{ route('followings') }}" class="nav-link text-light">  
-                            Following
-                            </a>
-                        </li>
-                    </ul>
-                    <hr>
+                        <a href="{{ route('followers') }}" 
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                            Followers<span class="badge bg-primary rounded-pill">{{ Auth::user()->followers->count() }}</span></a>
+            
+                        <a href="{{ route('followings') }}" 
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                            Following<span class="badge bg-primary rounded-pill">{{ Auth::user()->followings->count() }}</span></a>
+            
+                        <a href="{{ route('find-people') }}" class="list-group-item list-group-item-action">Find People</a>
+                    </div>
                 @endif
             
             </div>

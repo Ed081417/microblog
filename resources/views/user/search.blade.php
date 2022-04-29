@@ -44,7 +44,12 @@
                                 <div class="card-body">
                                     <h3 class="card-title">{{ $user->first_name . ' ' . $user->last_name }}</h3>
                                     <p class="text-muted"> Date Joined: {{ date("F j, Y", strtotime( $user->created_at)) }}</p>
-                                    <button class="btn btn-primary btn-sm">View Profile</button>
+                                    @if ($user->id == Auth::user()->id)
+                                        <button  class="btn btn-primary btn-sm" disabled>View Profile</button>
+                                    @else
+                                        <a type="button" href="/user/{{ $user->id }}/profile" class="btn btn-primary btn-sm">
+                                            View Profile</a>     
+                                    @endif
                                 </div>
                             </div>
                         </div>
