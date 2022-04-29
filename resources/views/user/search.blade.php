@@ -45,10 +45,13 @@
                                     <h3 class="card-title">{{ $user->first_name . ' ' . $user->last_name }}</h3>
                                     <p class="text-muted"> Date Joined: {{ date("F j, Y", strtotime( $user->created_at)) }}</p>
                                     @if ($user->id == Auth::user()->id)
-                                        <button  class="btn btn-primary btn-sm" disabled>View Profile</button>
+                                        <button  class="btn btn-primary btn-sm" disabled>My Profile</button>
                                     @else
                                         <a type="button" href="/user/{{ $user->id }}/profile" class="btn btn-primary btn-sm">
-                                            View Profile</a>     
+                                            View Profile</a>  
+                                        {{-- <h5 style="display: inline; float: right;">
+                                            <span class="badge  bg-primary">FOLLOWING <i class="bi bi-check-circle-fill"></i></span>
+                                        </h5>    --}}
                                     @endif
                                 </div>
                             </div>

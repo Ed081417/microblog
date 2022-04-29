@@ -49,8 +49,14 @@
                     <h5>Date Joined: {{ date("F j, Y", strtotime( Auth::user()->created_at)) }} </h5>
                     <hr>
                     <h5 for="description" c>Profile Image :</h5>
-                    <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-fluid"> 
-                    <hr>              
+                    @if (is_null(Auth::user()->image_path))
+                        <img src="{{ asset('images/default.png') }}" alt="..." class="img-fluid"> 
+                        <hr> 
+                    @else
+                        <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-fluid"> 
+                        <hr> 
+                    @endif
+                                 
             
                 </div>
             </div>

@@ -41,9 +41,15 @@ class RegisteredUserController extends Controller
             'uname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg','max:5048'],
+            'image' => [ 'image', 'mimes:jpeg,png,jpg','max:5048'],
         ]);
 
+        // if ($request->image->extension() != "") {
+        //     # code...
+        // } else {
+        //     # code...
+        // }
+        
         $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
 
         $request->image->move(public_path('images'), $newImageName);

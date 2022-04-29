@@ -142,6 +142,22 @@ class UserController extends Controller
         return view('user.editprofile')->with('user', User::where('id', $id)->first());
     }
 
+
+    public function removeImg(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $image_location =  public_path().'/images' . '/' .Auth::user()->image_path;
+        if(File::exists($image_location)) {
+            File::delete($image_location);
+        }
+
+        $user->image_path = null;
+        $user->save();
+
+        return redirect()->back()->with('status', 'Image uploaded removed successfully!');
+    }
+
+
     /**
      * Update the specified resource in storage.
      *

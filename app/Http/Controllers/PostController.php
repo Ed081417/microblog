@@ -137,6 +137,21 @@ class PostController extends Controller
         
     }
 
+
+    public function removeImg(Request $request)
+    {
+        $post = Post::find($request->input('post_id'));
+        $image_location =  public_path().'/images' . '/' .$post->image_path;
+        if(File::exists($image_location)) {
+            File::delete($image_location);
+        }
+
+        $post->image_path = null;
+        $post->save();
+
+        return redirect()->back()->with('status', 'Image uploaded removed successfully!');
+    }
+
     /**
      * Remove the specified resource from storage.
      *

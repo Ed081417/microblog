@@ -42,6 +42,7 @@ Route::get('userposts', [PostController::class, 'view'])->middleware(['auth', 'v
 Route::post('posts', [PostController::class, 'store'])->name('posts');
 Route::get('post/{id}/edit', [PostController::class, 'edit'])->name('edit-post');
 Route::put('post/{id}', [PostController::class, 'update'])->name('update-post');
+Route::put('remove-image', [PostController::class, 'removeImg'])->name('remove-image');
 Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-post');
 
 //Post Like
@@ -61,6 +62,7 @@ Route::post('share-post', [PostShareController::class, 'store'])->name('share-po
 Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');
 Route::get('profile/{id}/edit', [UserController::class, 'edit'])->name('edit-profile');
 Route::put('profile/{id}', [UserController::class, 'update'])->name('update-profile');
+Route::put('remove-profileImg', [UserController::class, 'removeImg'])->name('remove-profileImg');
 Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-profile');
 Route::get('change-password', [UserController::class, 'changePassword'])->name('change-password');
 Route::put('reset-password', [UserController::class, 'resetPassword'])->name('reset-password');

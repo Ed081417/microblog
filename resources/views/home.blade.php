@@ -8,9 +8,16 @@
         {{-- Sidebar --}}
         <div class="col-md">
           <div class="card " style="max-width: 18rem;" >
-            <a href="{{ route('user-posts') }}">
-              <img src="{{ asset('images/' . Auth::user()->image_path) }}" class="card-img-top" alt="...">
-            </a>
+            @if (is_null(Auth::user()->image_path))
+              <a href="{{ route('user-posts') }}">
+                <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="...">
+              </a>
+            @else
+              <a href="{{ route('user-posts') }}">
+                <img src="{{ asset('images/' . Auth::user()->image_path) }}" class="card-img-top" alt="...">
+              </a> 
+            @endif
+            
             @if (Auth::user()->middle_name=="")
                 <h4 class="fs-4" style="text-align: center;">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}</h4>
             @else
@@ -174,9 +181,17 @@
                     {{-- @if (Auth::user()->followings) --}}
                       <div class="card w-90">                
                         <div class="card-header imgHeader">
-                          <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
-                          <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
-                            {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>                       
+                          
+                          @if (is_null($post->user->image_path))
+                            <img src="{{asset('images/default.png')}}" alt="..." class="rounded">
+                            <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                              {{ $post->user->first_name . ' ' . $post->user->last_name}}</a> 
+                          @else
+                            <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                            <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                              {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>    
+                          @endif
+                                             
                         
                           @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
                             <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >

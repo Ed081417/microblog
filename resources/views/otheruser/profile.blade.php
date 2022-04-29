@@ -37,65 +37,71 @@
 
     <div class="row">
         <div class="col-md">
-            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-secondary" style="width: 280px;">
-                <a href="#"> <img src="{{ asset('images/' . $user->image_path) }}" alt="..." class="img-thumbnail"> </a>
+            <div class="card " style="max-width: 18rem;" >
+                <a href="{{ route('user-posts') }}">
+                  <img src="{{ asset('images/' . $user->image_path) }}" class="card-img-top" alt="...">
+                </a>
                 @if ($user->middle_name=="")
-                    <span class="fs-4" style="text-align: center;">{{ $user->first_name . ' ' .  $user->last_name}}</span>
+                    <h4 class="fs-4" style="text-align: center;">{{ $user->first_name . ' ' .  $user->last_name}}</h4>
                 @else
-                    <span class="fs-4" style="text-align: center;">
-                        {{ $user->first_name . ' ' .  $user->middle_name . ' ' .  $user->last_name}}</span>
+                  <div class="card-header">
+                    <h4 class="fs-4" style="text-align: center;">
+                        {{ $user->first_name . ' ' . $user->middle_name . ' ' .  $user->last_name}}</h4>
+                  </div>
                 @endif
                 
+                <div class="card-body">
+                    @if (Auth::user()->id != $user->id)
+                        @if (!$user->followedBy(auth()->user()))
+                            <form action="{{ route('follow', $user) }}" method="POST" class="d-flex justify-content-center">
+                                @csrf
 
-                @if (Auth::user()->id != $user->id)
-                    @if (!$user->followedBy(auth()->user()))
-                        <form action="{{ route('follow', $user) }}" method="POST" class="d-flex justify-content-center">
-                            @csrf
+                                {{-- <input type="hidden" name="follow" value="{{ $user->id }}"> --}}
+                                <button type="submit" class="btn btn-primary">Follow</button>
+                            </form>
 
-                            {{-- <input type="hidden" name="follow" value="{{ $user->id }}"> --}}
-                            <button type="submit" class="btn btn-primary">Follow</button>
-                        </form>
+                        @else
+                            <div class="container d-flex justify-content-center">
+                                <button type="submit" value="{{ $user->id }}" class="btn btn-secondary unfollowBtn">Unfollow</button>
+                            </div>
+                                
+                        @endif
 
-                    @else
-                        <div class="container d-flex justify-content-center">
-                            <button type="submit" value="{{ $user->id }}" class="btn btn-dark unfollowBtn">Unfollow</button>
+                        <ul class="list-group mt-2">
+                            <li class="list-group-item active" aria-current="true">PROFILE</li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                Followers:<span class="badge bg-primary rounded-pill">{{  $user->followers->count() }}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                Following:<span class="badge bg-primary rounded-pill">{{  $user->followings->count() }}</span></li>
+                            {{-- <li class="list-group-item d-flex justify-content-between align-items-start">
+                                Email:<span class="badge bg-primary rounded-pill">{{  $user->email }}</span></li> --}}
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                Birthdate:<span class="badge bg-primary rounded-pill">
+                                    {{ date("F j, Y", strtotime( $user->date_of_birth)) }}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                Date Joined:<span class="badge bg-primary rounded-pill">
+                                    {{ date("F j, Y", strtotime( $user->created_at)) }}</span></li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <span class="badge bg-primary rounded-pill">{{  $user->email }}</span></li>
+                        </ul>
+                    
+
+                    @else    
+                        <div class="list-group">
+                            <a href="{{ route('user-posts') }}" class="list-group-item list-group-item-action ">Posts</a>
+                
+                            <a href="{{ route('followers') }}" 
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                                Followers<span class="badge bg-primary rounded-pill">{{ Auth::user()->followers->count() }}</span></a>
+                
+                            <a href="{{ route('followings') }}" 
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                                Following<span class="badge bg-primary rounded-pill">{{ Auth::user()->followings->count() }}</span></a>
+                
+                            <a href="{{ route('find-people') }}" class="list-group-item list-group-item-action">Find People</a>
                         </div>
-                            
                     @endif
-
-                    <ul class="list-group mt-2">
-                        <li class="list-group-item active" aria-current="true">PROFILE</li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            Followers:<span class="badge bg-primary rounded-pill">{{  $user->followers->count() }}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            Following:<span class="badge bg-primary rounded-pill">{{  $user->followings->count() }}</span></li>
-                        {{-- <li class="list-group-item d-flex justify-content-between align-items-start">
-                            Email:<span class="badge bg-primary rounded-pill">{{  $user->email }}</span></li> --}}
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            Birthdate:<span class="badge bg-primary rounded-pill">
-                                {{ date("F j, Y", strtotime( $user->date_of_birth)) }}</span></li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            Date Joined:<span class="badge bg-primary rounded-pill">
-                                {{ date("F j, Y", strtotime( $user->created_at)) }}</span></li>
-                    </ul>
-                
-
-                @else    
-                    <div class="list-group">
-                        <a href="{{ route('user-posts') }}" class="list-group-item list-group-item-action ">Posts</a>
-            
-                        <a href="{{ route('followers') }}" 
-                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
-                            Followers<span class="badge bg-primary rounded-pill">{{ Auth::user()->followers->count() }}</span></a>
-            
-                        <a href="{{ route('followings') }}" 
-                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
-                            Following<span class="badge bg-primary rounded-pill">{{ Auth::user()->followings->count() }}</span></a>
-            
-                        <a href="{{ route('find-people') }}" class="list-group-item list-group-item-action">Find People</a>
-                    </div>
-                @endif
-            
+                </div>
             </div>
         </div>
 
@@ -126,9 +132,16 @@
                 @foreach ($user->user->sortByDesc('updated_at') as $post)
                     <div class="card w-90">                
                         <div class="card-header imgHeader">
-                        <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
-                        <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>
-                        
+
+                        @if (is_null($post->user->image_path))
+                            <img src="{{asset('images/default.png')}}" alt="..." class="rounded">
+                            <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                                {{ $post->user->first_name . ' ' . $post->user->last_name}}</a> 
+                        @else
+                            <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                            <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                                {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>   
+                        @endif                      
                         
                         @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
                             <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >

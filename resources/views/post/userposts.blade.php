@@ -20,9 +20,18 @@
                         @if ($sharedpost->user_id == Auth::user()->id)
                             <div class="card w-90">                
                                 <div class="card-header imgHeader">
-                                    <img src="{{asset('images/' . $sharedpost->user->image_path)}}" alt="..." class="rounded">
-                                    <a href="/user/{{ $sharedpost->user->id }}/profile" value="{{ $sharedpost->user->id }}">
-                                    {{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a> 
+                                    @if (is_null( $sharedpost->user->image_path))
+                                        <img src="{{asset('images/default.png')}}" alt="..." class="rounded">
+                                        <a href="#">{{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a>  
+                                    @else
+                                        <img src="{{asset('images/' . $sharedpost->user->image_path)}}" alt="..." class="rounded">
+                                        <a href="/user/{{ $sharedpost->user->id }}/profile" value="{{ $sharedpost->user->id }}">
+                                            {{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a>    
+                                    @endif  
+
+                                    {{-- <img src="{{asset('images/' . $sharedpost->user->image_path)}}" alt="..." class="rounded">
+                                    <a href="/user/{{ $sharedpost->user->id }}/profile" value="{{ $sharedpost->user->id }}"> --}}
+                                    {{-- {{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a>  --}}
                                     {{-- <span>You shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
                                     {{ $sharedpost->post->user->first_name }} </a></span> --}}
                                     @if ($sharedpost->user_id == Auth::user()->id)
@@ -113,10 +122,17 @@
                     @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
                         <div class="card w-90">                
                             <div class="card-header imgHeader">
-                                <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
-                                <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>
-                            
-                                
+                                @if (is_null($post->user->image_path))
+                                    <img src="{{asset('images/default.png')}}" alt="..." class="rounded">
+                                    <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a> 
+                                @else
+                                    <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                                    <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                                        {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>   
+                                @endif  
+
+                                {{-- <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                                <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>                        --}}
                             
                                 @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
                                 <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
