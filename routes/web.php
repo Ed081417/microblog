@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\PostCommentController;
@@ -26,6 +28,9 @@ Route::get('/', function () {
 });
 
 require __DIR__.'/auth.php';
+
+//Change Email
+// Auth::routes(['verify' => true]);
 
 //Home
 Route::get('home', function () { return view('home'); })->middleware(['auth', 'verified'])->name('home');
@@ -60,6 +65,7 @@ Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-pro
 Route::get('change-password', [UserController::class, 'changePassword'])->name('change-password');
 Route::put('reset-password', [UserController::class, 'resetPassword'])->name('reset-password');
 Route::get('change-email', [UserController::class, 'changeEmail'])->name('change-email');
+Route::put('reset-email', [UserController::class, 'resetEmail'])->name('reset-email');
 
 //Follow/Unfollow 
 Route::post('profile/{user}/follow', [FollowController::class, 'store'])->name('follow');

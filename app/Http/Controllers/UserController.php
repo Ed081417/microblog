@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Post;
+
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
-{
+{   
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -49,6 +58,36 @@ class UserController extends Controller
     public function changeEmail()
     {
         return view('user.changeEmail');
+    }
+
+    public function resetEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email:rfc',
+        ]);
+
+        if($request->input('email') == $request->input('email_confirmation')) 
+        {
+            $current_password = $request->input('current_password');
+            if(Hash::check($current_password, Auth::user()->password)) 
+            {
+                $reset_email = User::find(Auth::user()->id);
+                $reset_email->email = $request->input('email');
+                $reset_email->email_verified_at = null;
+                $reset_email->save();
+        
+                // return redirect('home');
+                event(new Registered($reset_email));
+
+                Auth::login($reset_email);
+                return redirect(RouteServiceProvider::HOME);
+                
+            } else {
+                return redirect('/change-email')->with('status', 'Current Password do not match!');
+            }
+        } else {
+            return redirect('/change-email')->with('status', 'New email entered do not match!');
+        }
     }
 
     /**

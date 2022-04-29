@@ -24,17 +24,26 @@
                 </div>
             @endif
      
-            <h1 class="display-6">Change Email</h1>
+            <h1 class="display-6 mt-5">Change Email</h1>
             <hr class="my-4">
-            <p>Please enter your new email.</p>
+            <p>Please enter your password and your new email address.</p>
+            <p>Please make sure your new email account is active. We will send a verification link to your new email before you 
+                can use your account.</p>
 
-            <form method="" action="#">
+            <form method="POST" action="{{ route('reset-email') }}">
                 @csrf
-                {{-- @method('PUT') --}}
+                @method('PUT')
+
+                <input type="hidden" name="email_verified" class="form-control" placeholder="Email" >
 
                 <div class="input-group mb-3">            
                     <span class="input-group-text" id="email">Current</span>
                     <input type="email" class="form-control" value="{{ Auth::user()->email }}" name="currentEmail" disabled >
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="currentPassword">Password</span>
+                    <input type="password" name="current_password" class="form-control" placeholder="Password" >
                 </div>
 
                 <div class="input-group mb-3">
@@ -51,7 +60,7 @@
                     <p style="color: red">{{ $message }}</p>
                 @enderror
 
-                <button class="btn btn-secondary" type="submit">Reset Email</button>
+                <button class="btn btn-secondary" type="submit">Send Email Verification Link</button>
             </form>
         </div>
         {{-- User Change Password --}}

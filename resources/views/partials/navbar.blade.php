@@ -3,12 +3,12 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="#" ></a>
              <!-- Toggle button -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" 
+            {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" 
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button> --}}
 
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+            {{-- <div class="collapse navbar-collapse" id="navbarCollapse"> --}}
                 
                 @guest
                     <form class="d-flex ms-auto">                        
@@ -55,7 +55,7 @@
                     </form>
                 @endauth
                 
-            </div>
+            {{-- </div> --}}
         </div>
     </nav>
 

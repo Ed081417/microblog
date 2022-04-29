@@ -24,7 +24,7 @@
                 </div>
             @endif
      
-            <h1 class="display-6">Change Password</h1>
+            <h1 class="display-6 mt-5">Change Password</h1>
             <hr class="my-4">
             <p>Please check your email then enter your current and new password.</p>
 
