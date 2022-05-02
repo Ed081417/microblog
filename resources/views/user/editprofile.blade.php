@@ -26,7 +26,7 @@
                         <label class="form-label">First Name</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->first_name }}" name="fname" >
                         @error('fname')
-                            <span class="text-danger">*First name is required!</span>
+                            <span class="text-danger">*First name is required and must be letters only!</span>
                         @enderror
                     </div>
         
@@ -42,7 +42,7 @@
                         <label class="form-label">Last Name</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->last_name }}" name="lname" >
                         @error('lname')
-                            <span class="text-danger">*Last name is required!</span>
+                            <span class="text-danger">*Last name is required and must be letters only!</span>
                         @enderror
                     </div>
 
@@ -58,7 +58,7 @@
                         <label class="form-label">Username</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->username }}" name="uname" >
                         @error('uname')
-                            <span class="text-danger">*Username is required!</span>
+                            <span class="text-danger">*Username is required with letters and numbers only!</span>
                         @enderror
                     </div>
 

@@ -37,7 +37,7 @@ class PostCommentController extends Controller
     public function store(Post $post, Request $request)
     {
         $request->validate([
-            'comment' => ['required', 'string']
+            'comment' => ['required', 'alpha_num']
         ]);
 
         $post->comments()->create([
@@ -84,7 +84,7 @@ class PostCommentController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'updateComment' => ['required', 'string']
+            'updateComment' => ['required', 'alpha_num']
         ]);
 
         $comment_id = $request->input('update_comment_id');

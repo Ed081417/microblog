@@ -170,11 +170,11 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'fname' => ['required', 'string', 'max:150'],
+            'fname' => ['required', 'alpha', 'string', 'max:150'],
             // 'mname' => ['required', 'string', 'max:150'],
-            'lname' => ['required', 'string', 'max:150'],
+            'lname' => ['required', 'alpha', 'string', 'max:150'],
             'dob' => ['required', 'date'],
-            'uname' => ['required', 'string', 'max:150'],
+            'uname' => ['required', 'alpha_num', 'string', 'max:150'],
             'uploadnewImg' => ['mimes:jpg,jpeg,png']
 
         ]);

@@ -72,8 +72,8 @@ class PostController extends Controller
     public function store(Request $request)
     {   
         $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'min:140','max:255'],
+            'title' => ['required', 'alpha_num'],
+            'description' => ['required', 'alpha_num', 'min:140'],
             'image' => ['mimes:jpg,jpeg,png']
         ]);
 
@@ -134,8 +134,8 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'min:140'],
+            'title' => ['required', 'alpha_num', 'max:255'],
+            'description' => ['required', 'alpha_num', 'min:140'],
             'uploadnewImg' => ['mimes:jpg,jpeg,png']
         ]);
 
