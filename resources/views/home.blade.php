@@ -85,14 +85,14 @@
                                     <div class="mb-3">
                                       <input type="text" class="form-control" name="title" placeholder="Title" >
                                       @error('title')
-                                          <span style="color: red;">*Title is required!</span>
+                                          <span class="text-danger">*Title is required!</span>
                                       @enderror
                                     </div>
                                     
                                     <div class="mb-3">
                                       <textarea class="form-control" name="description" placeholder="Description" rows="6" ></textarea>
                                       @error('description')
-                                          <span style="color: red;">*Description is required and minimum of 140 characters!</span>
+                                          <span class="text-danger">*Description is required and minimum of 140 characters!</span>
                                       @enderror
                                     </div>
                                     
@@ -100,7 +100,7 @@
                                       <input type="file" class="form-control" name="image" id="image" >
                                       <img id="uploadedImg" class="img-fluid">
                                       @error('image')
-                                          <span style="color: red;">*Image should be of type *.jpg, *.jpeg, *.png only.</span>
+                                          <span class="text-danger">*Image should be of type *.jpg, *.jpeg, *.png only.</span>
                                       @enderror
                                     </div>                            
                             </div>
@@ -409,12 +409,11 @@
           //Clear input image field
           $('.clearImg').click(function (e) {
             e.preventDefault();
-
             $("#image").val('');
             document.getElementById('uploadedImg').src = "#"
+
             //$("#uploadedImg").remove();
             //$("#uploadedImg").src = "#";
-            
             // $('#postModal').modal('show');
           });
 

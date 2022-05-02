@@ -25,26 +25,41 @@
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->first_name }}" name="fname" >
+                        @error('fname')
+                            <span class="text-danger">*First name is required!</span>
+                        @enderror
                     </div>
         
                     <div class="mb-3">
                         <label class="form-label">Middle Name</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->middle_name }}" name="mname" >
+                        {{-- @error('mname')
+                            <span class="text-danger">*Middle name is required!</span>
+                        @enderror --}}
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Last Name</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->last_name }}" name="lname" >
+                        @error('lname')
+                            <span class="text-danger">*Last name is required!</span>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Date of Birth </label>
+                        <label class="form-label">Date of Birth(DD/MM/YYYY) </label>
                         <input type="date" class="form-control" value="{{ Auth::user()->date_of_birth }}" name="dob" >
+                        @error('dob')
+                            <span class="text-danger">*Date of birth is required!</span>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Username</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->username }}" name="uname" >
+                        @error('uname')
+                            <span class="text-danger">*Username is required!</span>
+                        @enderror
                     </div>
 
                     @if (is_null(Auth::user()->image_path))
@@ -56,6 +71,9 @@
                         <div class="mb-3">
                             <label class="form-label">Upload Image:</label>
                             <input type="file" class="form-control" accept="image/*" name="uploadnewImg" id="uploadnewImg" >
+                            @error('uploadnewImg')
+                                <span class="text-danger">*Image should be of type *.jpg, *.jpeg, *.png only.</span>
+                            @enderror
                             <img id="newImg" class="img-fluid">
                         </div>
                     @else
@@ -68,6 +86,9 @@
                         <div class="mb-3">
                             <label class="form-label">Upload New Image:</label>
                             <input type="file" class="form-control" accept="image/*" name="uploadnewImg" id="uploadnewImg" >
+                            @error('uploadnewImg')
+                                <span class="text-danger">*Image should be of type *.jpg, *.jpeg, *.png only.</span>
+                            @enderror
                             <img id="newImg" class="img-fluid">
                         </div>
                     @endif

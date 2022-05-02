@@ -45,6 +45,9 @@
                     <span class="input-group-text" id="currentPassword">Password</span>
                     <input type="password" name="current_password" class="form-control" placeholder="Password" >
                 </div>
+                @error('current_password')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
 
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="newEmail">New</span>
@@ -57,7 +60,7 @@
                 </div>
 
                 @error('email')
-                    <p style="color: red">{{ $message }}</p>
+                    <p class="text-danger">{{ $message }}</p>
                 @enderror
 
                 <button class="btn btn-secondary" type="submit">Send Email Verification Link</button>

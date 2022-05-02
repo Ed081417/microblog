@@ -36,6 +36,10 @@ class PostCommentController extends Controller
      */
     public function store(Post $post, Request $request)
     {
+        $request->validate([
+            'comment' => ['required', 'string']
+        ]);
+
         $post->comments()->create([
             'user_id' => $request->user()->id,
             'comment' => $request->input('comment'),
@@ -79,9 +83,13 @@ class PostCommentController extends Controller
      */
     public function update(Request $request)
     {
+        $request->validate([
+            'updateComment' => ['required', 'string']
+        ]);
+
         $comment_id = $request->input('update_comment_id');
         $comment = Comment::find($comment_id);
-        $comment->comment = $request->input('comment');
+        $comment->comment = $request->input('updateComment');
         $comment->update();
 
         return redirect()->back()->with('message', 'Comment Updated Successfully!');

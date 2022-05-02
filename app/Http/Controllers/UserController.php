@@ -38,6 +38,7 @@ class UserController extends Controller
     public function resetPassword(Request $request)
     {     
         $request->validate([
+            'currentPassword' => 'required',
             'password' => 'required|min:8|confirmed',
         ]);
 
@@ -64,6 +65,7 @@ class UserController extends Controller
     public function resetEmail(Request $request)
     {
         $request->validate([
+            'current_password' => 'required',
             'email' => 'required|email:rfc',
         ]);
 
@@ -143,7 +145,7 @@ class UserController extends Controller
     }
 
 
-    public function removeImg(Request $request)
+    public function removeImg()
     {
         $user = User::find(Auth::user()->id);
         $image_location =  public_path().'/images' . '/' .Auth::user()->image_path;
@@ -167,6 +169,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'fname' => ['required', 'string', 'max:150'],
+            // 'mname' => ['required', 'string', 'max:150'],
+            'lname' => ['required', 'string', 'max:150'],
+            'dob' => ['required', 'date'],
+            'uname' => ['required', 'string', 'max:150'],
+            'uploadnewImg' => ['mimes:jpg,jpeg,png']
+
+        ]);
+
+
         if($request->uploadnewImg==""){
             User::where('id', $id)
                 ->update([

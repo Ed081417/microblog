@@ -6,7 +6,7 @@
     
     <div class="container d-flex justify-content-center">
 
-        {{-- Delete Post Modal --}}
+        {{-- Delete Comment Modal --}}
         <form action="  {{ route('delete-comment') }} " method="POST">
             @csrf
             
@@ -33,9 +33,9 @@
               </div>
             </div>
         </form>           
-        {{-- Delete Post Modal --}}
+        {{-- Delete Comment Modal --}}
 
-        {{-- Update Post Modal --}}
+        {{-- Update Comment Modal --}}
         <form action="{{ route('update-comment') }}" method="POST">
           @csrf
           @method('PUT')
@@ -53,7 +53,10 @@
                   <div class="modal-body"> 
                     
                     <div class="mb-3">
-                      <textarea class="form-control" name="comment" id="comment" rows="4" required></textarea>
+                      <textarea class="form-control" name="updateComment" id="updateComment" rows="4" required></textarea>
+                      {{-- @error('updateComment')
+                          <span class="text-danger">*Comment cannot be empty!</span>
+                      @enderror --}}
                     </div>
                   </div>
 
@@ -65,8 +68,10 @@
               </div>
             </div>
           </div>
+
+
         </form>           
-        {{-- Update Post Modal --}}
+        {{-- Update Comment Modal --}}
 
 
 
@@ -180,7 +185,10 @@
                     @csrf
                     <div class="card-body">
                         <div class="mb-3">
-                            <textarea class="form-control" name="comment" id="comment" rows="2" placeholder="Enter Comment..."></textarea>
+                            <textarea class="form-control" name="comment" id="comment" rows="2" placeholder="Enter Comment..." ></textarea>
+                            @error('comment')
+                                <span class="text-danger">*Please enter a comment!</span>
+                            @enderror
                             
                         </div>
                         <button type="submit" class="btn btn-secondary ">Submit</button>
@@ -220,6 +228,7 @@
         
         </div>
 
+        
        
     </div>
     
@@ -245,7 +254,7 @@
           $(document).on('click', '.updateBtn', function() {
 
             var update_comment_id = $(this).val();
-            console.log(update_comment_id);
+            //console.log(update_comment_id);
             //$("#update_comment_id").val(update_comment_id);
             $('#updateCommentModal').modal('show');
 
@@ -253,8 +262,8 @@
               type: "GET",
               url: "/edit-comment/"+update_comment_id,
               success: function (response) {
-                console.log(response);
-                $('#comment').val(response.comment.comment);
+                //console.log(response);
+                $('#updateComment').val(response.comment.comment);
                 $("#update_comment_id").val(update_comment_id);
               }
             });       

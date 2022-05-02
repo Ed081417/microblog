@@ -47,6 +47,9 @@
                     <span class="input-group-text" id="currentPassword">Current</span>
                     <input type="password" name="currentPassword" class="form-control" placeholder="Password" >
                 </div>
+                @error('currentPassword')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
 
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="newPassword">New</span>
@@ -58,7 +61,7 @@
                     <input type="password" name="password_confirmation" class="form-control" placeholder="Password" >
                 </div>
                 @error('password')
-                    <p style="color: red">{{ $message }}</p>
+                    <p class="text-danger">{{ $message }}</p>
                 @enderror
 
                 <button class="btn btn-secondary" type="submit">Reset Password</button>
