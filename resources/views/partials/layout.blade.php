@@ -39,18 +39,23 @@
 
         </div>
 
-
-
+        
         
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
         crossorigin="anonymous"></script>
+
         <script type="text/javascript" src="{{asset('assets/js/customjs.js')}}"></script>
+        
+        @if (Session::has('errors'))
+          <script type="text/javascript" src="{{asset('assets/js/openmodal.js')}}"></script>
+        @endif
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
         @yield('scripts')
 
-        <div class="container">
+        {{-- <div class="container">
             <footer class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top">
               <div class="col-md-4 d-flex align-items-center">
                 <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
@@ -59,6 +64,6 @@
                 <span class="text-muted">© 2022 Microblog Laravel 9</span>
               </div>
             </footer>
-        </div>
+        </div> --}}
     </body>
 </html>

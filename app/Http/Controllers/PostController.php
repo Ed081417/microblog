@@ -20,33 +20,34 @@ class PostController extends Controller
     public function index()
     {
 
-        // $posts = Post::whereIn('user_id', function($query)
-        // {       
-        //     $query->select('user_id')
-        //             ->from('followers')
-        //             ->where('follower_id', Auth::user()->id);
-        // })->orWhere('user_id', Auth::user()->id)
-        //     ->with('user')
-        //     ->orderBy('updated_at', 'DESC')->get();
-
-        // return view('home')->with('posts', $posts);
-
-        $posts = Post::whereIn('user_id', function($followed)
+        $posts = Post::whereIn('user_id', function($query)
         {       
-            $followed->select('user_id')
+            $query->select('user_id')
                     ->from('followers')
                     ->where('follower_id', Auth::user()->id);
-        })->orwhereIn('user_id', function($shared)
-            {       
-                $shared->select('user_id')
-                        ->from('shared_posts')
-                        ->where('user_id', Auth::user()->id);
-            })->orWhere('user_id', Auth::user()->id)
-
+        })->orWhere('user_id', Auth::user()->id)
             ->with('user')
             ->orderBy('updated_at', 'DESC')->get();
 
         return view('home')->with('posts', $posts);
+
+        // $posts = Post::whereIn('user_id', function($followed)
+        //     {       
+        //         $followed->select('user_id')
+        //                 ->from('followers')
+        //                 ->where('follower_id', Auth::user()->id);
+
+        //     })->orwhereIn('user_id', function($shared)
+        //         {       
+        //             $shared->select('user_id')
+        //                     ->from('shared_posts')
+        //                     ->where('user_id', Auth::user()->id);
+        //         })->orWhere('user_id', Auth::user()->id)
+
+        //     ->with('user')
+        //     ->orderBy('updated_at', 'DESC')->get();
+
+        // return view('home')->with('posts', $posts);
    
     }
 
@@ -69,7 +70,13 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'min:140','max:255'],
+            'image' => ['mimes:jpg,jpeg,png']
+        ]);
+
         if($request->image==""){
             $post = new Post;
             $post->user_id = auth()->user()->id;

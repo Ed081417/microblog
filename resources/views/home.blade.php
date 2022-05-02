@@ -62,7 +62,7 @@
 
               <div class="row ">
                 <div class="col">
-                  <!-- Create Post Modal -->
+                  <!-- Create Post -->
                   <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#postModal">
                     <i class="bi bi-pencil-square"></i> Make a Post
                   </button>
@@ -77,41 +77,52 @@
                             <h5 class="modal-title" id="postModalLabel">Write Something</h5>
                             {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                           </div>
-
+                          
                           
                             <div class="modal-body"> 
                                     {{-- <div class="alert alert-danger" style="display:none"></div>       --}}
 
                                     <div class="mb-3">
-                                      <input type="text" class="form-control" name="title" placeholder="Title" required>
-                                      {{-- @error('title')
+                                      <input type="text" class="form-control" name="title" placeholder="Title" >
+                                      @error('title')
                                           <span style="color: red;">*Title is required!</span>
-                                      @enderror --}}
+                                      @enderror
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <textarea class="form-control" name="description" placeholder="Description" rows="6" required></textarea>
-                                      {{-- @error('description')
-                                          <span style="color: red;">*Description is required!</span>
-                                      @enderror --}}
+                                      <textarea class="form-control" name="description" placeholder="Description" rows="6" ></textarea>
+                                      @error('description')
+                                          <span style="color: red;">*Description is required and minimum of 140 characters!</span>
+                                      @enderror
                                     </div>
                                     
                                     <div class="mb-3">
                                       <input type="file" class="form-control" name="image" id="image" >
                                       <img id="uploadedImg" class="img-fluid">
+                                      @error('image')
+                                          <span style="color: red;">*Image should be of type *.jpg, *.jpeg, *.png only.</span>
+                                      @enderror
                                     </div>                            
                             </div>
 
                             <div class="modal-footer">
                               <button type="submit" class="btn btn-primary" id="formSubmit">Post</button>
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              
                             </div>
+                         
+                         
+                          <button class="btn btn-warning clearImg">Clear Image</button>
                           
-
                         </div>
+                  
+                      
                       </div>
                     </div>
-
+                  
+                    {{-- @if (Session::has('errors'))
+                      <script src="{{ asset('assets/js/openmodal.js') }}"></script>
+                    @endif --}}
                     
                   </form>
                   
@@ -371,12 +382,41 @@
       $(document).ready(function(){
 
           //Image upload preview
+          // function readURL(input, id) {
+          //     if (input.files && input.files[0]) {
+          //         var reader = new FileReader();
+
+          //         reader.onload = function (e) {
+          //             $('#' + id).attr('src', e.target.result);
+          //         }
+
+          //         reader.readAsDataURL(input.files[0]);
+          //     }
+          // }
+
+          // $("#image").change(function () {
+          //     readURL(this, 'uploadedImg');
+          // });
+
           image.onchange = evt => {
               const [file] = image.files
               if (file) {
                 uploadedImg.src = URL.createObjectURL(file)
               }
           }
+
+
+          //Clear input image field
+          $('.clearImg').click(function (e) {
+            e.preventDefault();
+
+            $("#image").val('');
+            document.getElementById('uploadedImg').src = "#"
+            //$("#uploadedImg").remove();
+            //$("#uploadedImg").src = "#";
+            
+            // $('#postModal').modal('show');
+          });
 
           //Delete Post
           $('.deleteBtn').click(function (e) {
