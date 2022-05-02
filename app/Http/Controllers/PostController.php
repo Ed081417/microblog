@@ -133,6 +133,12 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'min:140'],
+            'uploadnewImg' => ['mimes:jpg,jpeg,png']
+        ]);
+
         if($request->uploadnewImg==""){
             Post::where('id', $id)
             ->update([

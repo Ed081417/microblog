@@ -31,11 +31,17 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" value="{{ $post->title }}" name="title" >
+                        @error('title')
+                            <span style="color: red;">*Title is required!</span>
+                        @enderror
                     </div>
         
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
                         <textarea class="form-control" name="description" rows="5">{{ $post->description }}</textarea>
+                        @error('description')
+                            <span style="color: red;">*Description is required and minimum of 140 characters!</span>
+                        @enderror
                     </div>
 
                     @if (is_null($post->image_path))
@@ -46,6 +52,9 @@
                         <div class="mb-3">
                             <label class="form-label">Upload Image:</label>
                             <input type="file" class="form-control" accept="image/*" name="uploadnewImg" id="uploadnewImg" >
+                            @error('uploadnewImg')
+                                <span style="color: red;">*Image should be of type *.jpg, *.jpeg, *.png only.</span>
+                            @enderror
                             <img id="newImg" class="img-fluid">
                         </div>
                     @else
@@ -58,12 +67,16 @@
                         <div class="mb-3">
                             <label class="form-label">Upload New Image:</label>
                             <input type="file" class="form-control" accept="image/*" name="uploadnewImg" id="uploadnewImg" >
+                            @error('uploadnewImg')
+                                <span style="color: red;">*Image should be of type *.jpg, *.jpeg, *.png only.</span>
+                            @enderror
                             <img id="newImg" class="img-fluid">
                         </div>
                     @endif
                 
                     <div class="mb-3">
                         <button type="submit" class="btn btn-success float-end">Update</button>
+                        <button class="btn btn-warning clearImg">Clear Image</button>                  
                     </div>
                     
                 </form>
@@ -90,15 +103,27 @@
 
 @section('scripts')
     <script>
-   
-        //Image upload preview
-        uploadnewImg.onchange = evt => {
-            const [file] = uploadnewImg.files
-            if (file) {
-                newImg.src = URL.createObjectURL(file)
+        $(document).ready(function(){
+
+            //Image upload preview
+            uploadnewImg.onchange = evt => {
+                const [file] = uploadnewImg.files
+                if (file) {
+                    newImg.src = URL.createObjectURL(file)
+                }
             }
-        }
-     
+
+            //Clear input image field
+            $('.clearImg').click(function (e) {
+                e.preventDefault();
+                $("#uploadnewImg").val('');
+                document.getElementById('newImg').src = "#"
+
+                //$("#uploadedImg").remove();
+                //$("#uploadedImg").src = "#";
+                // $('#postModal').modal('show');
+            });
+        });
 
     </script>
     
