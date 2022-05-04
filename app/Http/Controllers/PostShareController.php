@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Share;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostShareController extends Controller
 {
@@ -15,7 +17,11 @@ class PostShareController extends Controller
      */
     public function index()
     {
-        //
+        return view('post.shared')
+            ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
+        // return view('post.shared')
+        //         ->with('user', User::where('id', Auth::user()->id)->orderBy('updated_at', 'DESC')->first());
+
     }
 
     /**
@@ -50,9 +56,10 @@ class PostShareController extends Controller
      * @param  \App\Models\Share  $share
      * @return \Illuminate\Http\Response
      */
-    public function show(Share $share)
+    public function show($id)
     {
-        //
+        return view('otheruser.sharedposts')
+                ->with('user', User::where('id', $id)->orderBy('updated_at', 'DESC')->first());
     }
 
     /**
@@ -84,8 +91,11 @@ class PostShareController extends Controller
      * @param  \App\Models\Share  $share
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Share $share)
+    public function destroy(Request $request)
     {
-        //
+        $shared = Share::find($request->delete_shared_id);
+        $shared->delete();
+
+        return redirect()->back()->with('status', 'Shared post deleted successfully!');
     }
 }

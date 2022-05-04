@@ -88,9 +88,19 @@
             @endif
 
             <div class="card-header">
-                <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
-                <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>           
+                {{-- <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>            --}}
                 
+                @if (is_null($post->user->image_path))
+                  <img src="{{asset('images/default.png')}}" alt="..." class="rounded">
+                  <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                    {{ $post->user->first_name . ' ' . $post->user->last_name}}</a> 
+                @else
+                  <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                  <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                    {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>    
+                @endif
+
                 @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
 
                     <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success 
@@ -200,8 +210,8 @@
                 @forelse ($post->comments as $comment)
                              
                     <div class="card-body">
-
-                        <h5><a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                        
+                        <h5><a href="/user/{{ $comment->user_id }}/profile" value="{{ $comment->user_id }}">
                                 {{ $comment->user->first_name . ' ' . $comment->user->last_name}}</a></h5>                 
 
                         @if (isset(Auth::user()->id) && Auth::user()->id == $comment->user_id)

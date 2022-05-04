@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,24 +32,19 @@ class PostController extends Controller
 
         return view('home')->with('posts', $posts);
 
-        // $posts = Post::whereIn('user_id', function($followed)
-        //     {       
-        //         $followed->select('user_id')
-        //                 ->from('followers')
-        //                 ->where('follower_id', Auth::user()->id);
-
-        //     })->orwhereIn('user_id', function($shared)
-        //         {       
-        //             $shared->select('user_id')
-        //                     ->from('shared_posts')
-        //                     ->where('user_id', Auth::user()->id);
-        //         })->orWhere('user_id', Auth::user()->id)
-
-        //     ->with('user')
-        //     ->orderBy('updated_at', 'DESC')->get();
+        // $posts = Post::with('user')
+        //             ->join('followers', 'followers.follower_id', '=', 'posts.user_id')
+        //             ->join('shared_posts', 'shared_posts.user_id', '=', 'posts.user_id')
+        //             ->where('followers.follower_id', '=', Auth::user()->id)
+        //             ->where('shared_posts.user_id', '=', Auth::user()->id)
+        //             ->orderBy('updated_at', 'DESC')
+        //             ->get('posts.*'); 
 
         // return view('home')->with('posts', $posts);
-   
+        
+        // $posts = User::where('id', Auth::user()->id)->with('posts', 'follows', 'followers_posts', 'shared_posts')->first();
+
+        // return view('home')->with('posts', $posts);
     }
 
     /**
@@ -72,8 +68,8 @@ class PostController extends Controller
     public function store(Request $request)
     {   
         $request->validate([
-            'title' => ['required', 'alpha_num'],
-            'description' => ['required', 'alpha_num', 'min:140'],
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string', 'min:140'],
             'image' => ['mimes:jpg,jpeg,png']
         ]);
 

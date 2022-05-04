@@ -29,8 +29,6 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-//Change Email
-// Auth::routes(['verify' => true]);
 
 //Home
 Route::get('home', function () { return view('home'); })->middleware(['auth', 'verified'])->name('home');
@@ -56,7 +54,10 @@ Route::put('update-comment', [PostCommentController::class, 'update'])->name('up
 Route::post('delete-comment', [PostCommentController::class, 'destroy'])->name('delete-comment');
 
 //Post Share
+Route::get('shared-posts', [PostShareController::class, 'index'])->name('shared-posts');
 Route::post('share-post', [PostShareController::class, 'store'])->name('share-post');
+Route::get('user/{id}/shared', [PostShareController::class, 'show'])->name('view-shared');
+Route::post('delete-shared', [PostShareController::class, 'destroy'])->name('delete-shared');
 
 //Profile
 Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');
