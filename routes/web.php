@@ -73,6 +73,8 @@ Route::put('reset-email', [UserController::class, 'resetEmail'])->name('reset-em
 //Follow/Unfollow 
 Route::post('profile/{user}/follow', [FollowController::class, 'store'])->name('follow');
 Route::post('unfollow', [FollowController::class, 'destroy'])->name('unfollow');
+Route::get('profile/{id}/followers', [FollowController::class, 'profileFollowers'])->name('view-followers');
+Route::get('profile/{id}/followings', [FollowController::class, 'profileFollowings'])->name('view-followings');
 
 //View Followers/Followings
 Route::get('followers', [FollowController::class, 'followerList'])->name('followers');

@@ -30,6 +30,18 @@ class FollowController extends Controller
         return view('follow.followings')->with('users', User::orderBy('updated_at', 'DESC')->get());
     }
 
+    public function profileFollowers($id)
+    {
+        return view('otheruser.followers')
+                ->with('user', User::where('id', $id)->orderBy('updated_at', 'DESC')->first());
+    }
+
+    public function profileFollowings($id)
+    {
+        return view('otheruser.followings')
+                ->with('user', User::where('id', $id)->orderBy('updated_at', 'DESC')->first());
+    }
+
 
     /**
      * Store a newly created resource in storage.

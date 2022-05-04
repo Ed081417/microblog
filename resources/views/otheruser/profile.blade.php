@@ -105,19 +105,23 @@
 
                         <ul class="list-group mt-2">
                             <li class="list-group-item active" aria-current="true">PROFILE</li>
+
                             <a href="/user/{{ $user->id }}/shared" class="list-group-item list-group-item-action">Shared Posts</a>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                Followers:<span class="badge bg-primary rounded-pill">{{  $user->followers->count() }}</span></li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                Following:<span class="badge bg-primary rounded-pill">{{  $user->followings->count() }}</span></li>
-                            {{-- <li class="list-group-item d-flex justify-content-between align-items-start">
-                                Email:<span class="badge bg-primary rounded-pill">{{  $user->email }}</span></li> --}}
+
+                            <a href="/profile/{{ $user->id }}/followers" class="list-group-item d-flex justify-content-between align-items-start">
+                                Followers:<span class="badge bg-primary rounded-pill">{{  $user->followers->count() }}</span></a>
+                            
+                            <a href="/profile/{{ $user->id }}/followings" class="list-group-item d-flex justify-content-between align-items-start">
+                                Following:<span class="badge bg-primary rounded-pill">{{  $user->followings->count() }}</span></a>
+                    
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 Birthdate:<span class="badge bg-primary rounded-pill">
                                     {{ date("F j, Y", strtotime( $user->date_of_birth)) }}</span></li>
+
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 Date Joined:<span class="badge bg-primary rounded-pill">
                                     {{ date("F j, Y", strtotime( $user->created_at)) }}</span></li>
+
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <span class="badge bg-primary rounded-pill">{{  $user->email }}</span></li>
                         </ul>
@@ -126,7 +130,7 @@
                     @else    
                         <div class="list-group">
                             <a href="{{ route('user-posts') }}" class="list-group-item list-group-item-action ">Posts</a>
-                
+                            <a href="/user/{{ $user->id }}/shared" class="list-group-item list-group-item-action">Shared Posts</a>
                             <a href="{{ route('followers') }}" 
                             class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
                                 Followers<span class="badge bg-primary rounded-pill">{{ Auth::user()->followers->count() }}</span></a>

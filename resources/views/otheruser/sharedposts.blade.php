@@ -126,7 +126,7 @@
                     @else    
                         <div class="list-group">
                             <a href="{{ route('user-posts') }}" class="list-group-item list-group-item-action ">Posts</a>
-                
+                            <a href="/user/{{ $user->id }}/shared" class="list-group-item list-group-item-action">Shared Posts</a>
                             <a href="{{ route('followers') }}" 
                             class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
                                 Followers<span class="badge bg-primary rounded-pill">{{ Auth::user()->followers->count() }}</span></a>
