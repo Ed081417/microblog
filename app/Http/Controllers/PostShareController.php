@@ -17,10 +17,17 @@ class PostShareController extends Controller
      */
     public function index()
     {
-        return view('post.shared')
-            ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
         // return view('post.shared')
-        //         ->with('user', User::where('id', Auth::user()->id)->orderBy('updated_at', 'DESC')->first());
+        //     ->with('posts', Post::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->get());
+
+        // $posts = Post::withOnly('shares')->get();
+        // return view('post.shared')->with('posts', $posts);
+
+        $posts = Post::with(['shares' => function ($query) {
+            $query->where('user_id', '=', Auth::user()->id);
+        }])->get();
+
+        return view('post.shared')->with('posts', $posts);
 
     }
 

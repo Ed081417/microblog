@@ -54,8 +54,12 @@ class PostController extends Controller
      */
     public function view()
     {
+        // return view('post.userposts')
+        //     ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
+
         return view('post.userposts')
-            ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
+            ->with('posts', Post::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->get());
+        
     }
 
 

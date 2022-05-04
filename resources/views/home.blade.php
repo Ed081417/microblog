@@ -157,7 +157,6 @@
                   {{-- Users Posts --}}               
                   @forelse ($posts as $post)
                     
-                     
                       <div class="card w-90">                
                         <div class="card-header imgHeader">
 

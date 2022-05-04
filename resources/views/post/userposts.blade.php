@@ -58,9 +58,9 @@
 
 
                 {{-- Users Posts --}}
-                @foreach ($posts as $post)
+                @forelse ($posts as $post)
                         
-                    @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
+                    @if (Auth::user()->id == $post->user_id)
                         <div class="card w-90">                
                             <div class="card-header imgHeader">
                                 @if (is_null($post->user->image_path))
@@ -71,11 +71,8 @@
                                     <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
                                         {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>   
                                 @endif  
-
-                                {{-- <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
-                                <a href="#">{{ $post->user->first_name . ' ' . $post->user->last_name}}</a>                        --}}
                             
-                                @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
+                                @if (Auth::user()->id == $post->user_id)
                                 <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
                                     <i class="bi bi-trash"></i></button>
 
@@ -149,8 +146,14 @@
                             </div>
                         </div>
                     @endif
+
+                @empty
                     
-                @endforeach
+                    <div class="card-body mt-5">
+                        <h1 class="display-6">No post yet.</h1>
+                    </div>    
+
+                @endforelse
                 {{-- Users Posts --}}
             </div>
 
