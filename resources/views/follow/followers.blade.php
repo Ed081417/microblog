@@ -25,7 +25,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @forelse (Auth::user()->followers as $follower)        
+                        @forelse (Auth::user()->followers->sortDesc() as $follower)        
                                 
                             <tr>
                                 <td>

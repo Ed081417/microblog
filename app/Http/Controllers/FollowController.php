@@ -22,24 +22,24 @@ class FollowController extends Controller
     public function followerList()
     {
         // return view('follow.followers')->with('followers', User::orderBy('updated_at', 'DESC' )->get());
-        return view('follow.followers')->with('users', User::orderBy('updated_at', 'DESC')->get());
+        return view('follow.followers')->with('users', User::orderBy('created_at', 'DESC')->get());
     }
 
     public function followingList()
     {
-        return view('follow.followings')->with('users', User::orderBy('updated_at', 'DESC')->get());
+        return view('follow.followings')->with('users', User::orderBy('created_at', 'DESC')->get());
     }
 
     public function profileFollowers($id)
     {
         return view('otheruser.followers')
-                ->with('user', User::where('id', $id)->orderBy('updated_at', 'DESC')->first());
+                ->with('user', User::where('id', $id)->orderBy('created_at', 'DESC')->first());
     }
 
     public function profileFollowings($id)
     {
         return view('otheruser.followings')
-                ->with('user', User::where('id', $id)->orderBy('updated_at', 'DESC')->first());
+                ->with('user', User::where('id', $id)->orderBy('created_at', 'DESC')->first());
     }
 
 

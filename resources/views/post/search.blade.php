@@ -45,7 +45,7 @@
                 @endforeach --}}
 
                 {{-- Users Posts --}}               
-                @foreach ($posts as $post)
+                @forelse ($posts as $post)
                     <div class="card w-90">                
                         <div class="card-header imgHeader">
                         <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
@@ -122,7 +122,9 @@
                         </div>
                     </div>
               
-              @endforeach
+                @empty
+                    <h1 class="mt-5">No result found.</h1>
+                @endforelse
             {{-- Users Posts --}}
 
 

@@ -38,7 +38,7 @@
                         @endforeach                  
                     @endforeach    --}}
                     <tbody>                                
-                        @forelse (Auth::user()->followings as $following)        
+                        @forelse (Auth::user()->followings->sortDesc() as $following)        
                             
                             <tr>
                                 <td>

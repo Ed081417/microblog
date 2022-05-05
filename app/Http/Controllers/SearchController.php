@@ -32,7 +32,7 @@ class SearchController extends Controller
     {
 
         if($request->has('search')) {
-            $posts = Post::search($request->search)->get();
+            $posts = Post::search($request->search)->orderBy('created_at', 'DESC')->get();
         } else {
             $posts = Post::get();
         }
@@ -47,7 +47,7 @@ class SearchController extends Controller
     {
 
         if($request->has('searchUser')) {
-            $users = User::search($request->searchUser)->get();
+            $users = User::search($request->searchUser)->orderBy('created_at', 'DESC')->get();
         } else {
             $users = User::get();
         }

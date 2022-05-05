@@ -25,7 +25,7 @@ class PostShareController extends Controller
 
         $posts = Post::with(['shares' => function ($query) {
             $query->where('user_id', '=', Auth::user()->id);
-        }])->get();
+        }])->orderBy('updated_at', 'DESC')->get();
 
         return view('post.shared')->with('posts', $posts);
 

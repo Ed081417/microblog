@@ -25,7 +25,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @forelse ($user->followings as $following)        
+                        @forelse ($user->followings->sortDesc() as $following)        
                                 
                             <tr>
                                 <td>

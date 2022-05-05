@@ -34,7 +34,7 @@
 
             <h1 class="display-6">Search result...</h1>
 
-            @foreach ($users as $user)                 
+            @forelse ($users as $user)                 
                     <div class="card mb-3" style="max-width: 550px;">
                         <div class="row g-0" style="margin-top: 0;">
                             <div class="col-md-4">
@@ -57,8 +57,11 @@
                             </div>
                         </div>
                     </div>  
-                                    
-            @endforeach  
+                
+            @empty
+                    <h1 class="mt-5">No result found.</h1>
+            
+            @endforelse  
         </div>
         {{-- Followers --}}
         <div class="col-md">           
