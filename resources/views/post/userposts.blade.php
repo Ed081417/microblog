@@ -148,11 +148,9 @@
                     @endif
 
                 @empty
-                    
-                    <div class="card-body mt-5">
-                        <h1 class="display-6">No post yet.</h1>
-                    </div>    
-
+                              
+                    <h1 class="display-6 mt-5">You have no post yet.</h1>
+                     
                 @endforelse
                 {{-- Users Posts --}}
             </div>

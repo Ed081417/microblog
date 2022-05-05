@@ -37,9 +37,16 @@
             @forelse ($users as $user)                 
                     <div class="card mb-3" style="max-width: 550px;">
                         <div class="row g-0" style="margin-top: 0;">
-                            <div class="col-md-4">
-                                <img src="{{ asset('images/' . $user->image_path) }}" class="img-thumbnail " >
-                            </div>
+                            @if (is_null($user->image_path))
+                                <div class="col-md-4">
+                                    <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="...">
+                                </div>
+                            @else
+                                <div class="col-md-4">
+                                    <img src="{{ asset('images/' . $user->image_path) }}" class="img-thumbnail " >
+                                </div>
+                            @endif
+
                             <div class="col-md-8">
                                 <div class="card-body">
                                     <h3 class="card-title">{{ $user->first_name . ' ' . $user->last_name }}</h3>

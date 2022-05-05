@@ -151,9 +151,9 @@
                     </div>
 
                 @empty
-                    <div class="container">
-                        <h1 class="display-6">No Shared Post Yet.</h1>
-                    </div>
+                  
+                    <h1 class="display-6 mt-5">No Shared Post Yet.</h1>
+                    
                 @endforelse
          
 

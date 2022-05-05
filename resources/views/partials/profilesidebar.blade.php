@@ -1,6 +1,6 @@
 <div class="card " style="max-width: 18rem;" >
     @if (is_null($user->image_path))
-        <a href="{{ route('user-posts') }}">
+        <a href="/user/{{ $user->id }}/profile">
             <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="...">
         </a>
     @else
