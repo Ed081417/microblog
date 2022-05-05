@@ -17,22 +17,22 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class PostController extends Controller
 {   
 
-    /** Paginate collection.
-    *   @param array|Collection $items
-    *   @param int $perPage
-    *   @param int $page
-    *   @param array $options
-    *   @return LengthAwarePaginator
-    */
-    // public function paginate($items, $perPage = 5, $page = null)
-    // {
-    //     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-    //     $items = $items instanceof Collection ? $items : Collection::make($items);
-    //     return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, [
-    //         'path' => Paginator::resolveCurrentPath(),
-    //         'pageName' => 'page',
-    //     ]);
-    // }
+    // /** Paginate collection.
+    // *   @param array|Collection $items
+    // *   @param int $perPage
+    // *   @param int $page
+    // *   @param array $options
+    // *   @return LengthAwarePaginator
+    // */
+    public function paginate($items, $perPage = 5, $page = null)
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => 'page',
+        ]);
+    }
 
 
 
@@ -53,9 +53,9 @@ class PostController extends Controller
             ->with('user')
             ->orderBy('updated_at', 'DESC')->get();
 
-        //$paginatePosts = $this->paginate($posts);
+        $paginatePosts = $this->paginate($posts);
 
-        return view('home')->with('posts',$posts);
+        return view('home')->with('posts',$paginatePosts);
 
         // $posts = Post::with('user')
         //             ->join('followers', 'followers.follower_id', '=', 'posts.user_id')

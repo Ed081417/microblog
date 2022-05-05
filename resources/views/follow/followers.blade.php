@@ -59,14 +59,12 @@
                     <div class="card text-white bg-primary" >
                         <div class="card-header">Suggested People</div>
                         <ul class="list-group list-group-flush">
-
                             @forelse ($users as $user)
                                 <a href="/user/{{ $user->id }}/profile" class="list-group-item">{{ $user->first_name . ' ' .  $user->last_name}} 
                                 </a>
                             @empty
                                 <h3>No suggested people</h3>
-                            @endforelse
-        
+                            @endforelse     
                         </ul>
                     </div>
                     </div>

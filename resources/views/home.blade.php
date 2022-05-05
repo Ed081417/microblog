@@ -246,11 +246,11 @@
                       <div class="card-body mt-5">
                         <h1 class="display-6">Make a post and start following other people.</h1>
                       </div>
-                  
+                      
                   @endforelse
         
                   {{-- Users Posts --}}
-
+                  {{$posts->links()}}
                 </div>
               </div>
             </div>          
@@ -263,7 +263,7 @@
           <div class="container">
             <div class="row ">
               <div class="col">
-                <div class="card" >
+                {{-- <div class="card" >
                   <div class="list-group list-group-flush">
                     <li class="list-group-item  active">Suggested Posts</li>
                       @forelse ($posts as $post)
@@ -277,7 +277,7 @@
                       @endforelse
                   </div>
                                
-                </div>
+                </div> --}}
               </div>
             </div>
           </div>          
