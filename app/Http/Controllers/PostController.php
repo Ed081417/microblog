@@ -6,8 +6,6 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\Paginator;
@@ -17,13 +15,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class PostController extends Controller
 {   
 
-    // /** Paginate collection.
-    // *   @param array|Collection $items
-    // *   @param int $perPage
-    // *   @param int $page
-    // *   @param array $options
-    // *   @return LengthAwarePaginator
-    // */
+    /** Paginate collection.
+    *   @param array|Collection $items
+    *   @param int $perPage
+    *   @param int $page
+    *   @param array $options
+    *   @return LengthAwarePaginator
+    */
     public function paginate($items, $perPage = 5, $page = null)
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
@@ -43,7 +41,7 @@ class PostController extends Controller
      */
     public function index()
     {
-
+        $allPosts = Post::orderBy('created_at', 'DESC')->get();
         $posts = Post::whereIn('user_id', function($query)
         {       
             $query->select('user_id')
@@ -55,7 +53,7 @@ class PostController extends Controller
 
         $paginatePosts = $this->paginate($posts);
 
-        return view('home')->with('posts',$paginatePosts);
+        return view('home')->with('posts',$paginatePosts)->with('allposts', $allPosts);
 
         // $posts = Post::with('user')
         //             ->join('followers', 'followers.follower_id', '=', 'posts.user_id')
@@ -157,8 +155,8 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => ['required', 'alpha_num', 'max:255'],
-            'description' => ['required', 'alpha_num', 'min:140'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'min:140'],
             'uploadnewImg' => ['mimes:jpg,jpeg,png']
         ]);
 

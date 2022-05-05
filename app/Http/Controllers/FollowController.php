@@ -6,9 +6,30 @@ use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FollowController extends Controller
 {
+    /** Paginate collection.
+    *   @param array|Collection $items
+    *   @param int $perPage
+    *   @param int $page
+    *   @param array $options
+    *   @return LengthAwarePaginator
+    */
+    public function paginate($items, $perPage = 5, $page = null)
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => 'page',
+        ]);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -20,9 +41,13 @@ class FollowController extends Controller
     }
 
     public function followerList()
-    {
-        // return view('follow.followers')->with('followers', User::orderBy('updated_at', 'DESC' )->get());
-        return view('follow.followers')->with('users', User::orderBy('created_at', 'DESC')->get());
+    {   
+      
+
+        $users = User::orderBy('created_at', 'DESC')->get();
+        //$paginateFollowers =  $this->paginate($users);
+        
+        return view('follow.followers')->with('users',  $users);
     }
 
     public function followingList()

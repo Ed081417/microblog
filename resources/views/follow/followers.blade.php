@@ -47,7 +47,9 @@
                             </div>
                         @endforelse            
                     </tbody>                       
-                </table>            
+                </table> 
+                
+                {{-- {{ $users->links() }} --}}
                   
             </div>
 
@@ -56,17 +58,24 @@
                 <div class="container">
                 <div class="row ">
                     <div class="col">
-                    <div class="card text-white bg-primary" >
-                        <div class="card-header">Suggested People</div>
-                        <ul class="list-group list-group-flush">
-                            @forelse ($users as $user)
-                                <a href="/user/{{ $user->id }}/profile" class="list-group-item">{{ $user->first_name . ' ' .  $user->last_name}} 
-                                </a>
-                            @empty
-                                <h3>No suggested people</h3>
-                            @endforelse     
-                        </ul>
-                    </div>
+                        <div class="card" >
+                            <div class="list-group list-group-flush">
+                              <li class="list-group-item  active">Suggested People</li>
+                                {{-- @forelse ($notFollowers as $notFollower)
+                                    
+                                        <a href="/user/{{ $notFollower->id }}/profile" class="list-group-item list-group-item-action">
+                                            {{ $notFollower->first_name . ' ' .  $notFollower->last_name}}</a>
+                         
+                                        <a href="/user/{{ $notFollower->user->id }}/profile" class="list-group-item list-group-item-action">
+                                            {{ $notFollower->first_name . ' ' .  $notFollower->last_name}}</a>
+
+                                   
+                                @empty
+                                      <h4>No suggested people yet.</h4>
+                                @endforelse --}}
+                            </div>
+                                         
+                          </div>
                     </div>
                 </div>
                 </div>          

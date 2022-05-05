@@ -77,7 +77,7 @@
                                 <a href="/user/{{ $user->id }}/profile" class="list-group-item">{{ $user->first_name . ' ' .  $user->last_name}} 
                                 </a>
                             @empty
-                                <h3>No suggested people</h3>
+                                <h4>No suggested people</h4>
                             @endforelse       
                         </ul>
                     </div>

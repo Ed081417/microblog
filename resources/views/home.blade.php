@@ -263,13 +263,13 @@
           <div class="container">
             <div class="row ">
               <div class="col">
-                {{-- <div class="card" >
+                <div class="card" >
                   <div class="list-group list-group-flush">
                     <li class="list-group-item  active">Suggested Posts</li>
-                      @forelse ($posts as $post)
-                        @if ($post->user_id != Auth::user()->id)
-                          <a href="/post/{{ $post->id }}/view" class="list-group-item list-group-item-action">
-                            {{ $post->title }}</a>
+                      @forelse ($allposts->take(10) as $listofPosts)
+                        @if ($listofPosts->user_id != Auth::user()->id)
+                          <a href="/post/{{ $listofPosts->id }}/view" class="list-group-item list-group-item-action">
+                            {{ $listofPosts->title }}</a>
                         @endif  
                         
                       @empty
@@ -277,7 +277,7 @@
                       @endforelse
                   </div>
                                
-                </div> --}}
+                </div>
               </div>
             </div>
           </div>          
