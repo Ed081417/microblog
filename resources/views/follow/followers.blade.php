@@ -56,20 +56,19 @@
                 <div class="container">
                 <div class="row ">
                     <div class="col">
-                    {{-- <div class="card text-white bg-primary" >
-                        <div class="card-header">Follow other People</div>
+                    <div class="card text-white bg-primary" >
+                        <div class="card-header">Suggested People</div>
                         <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}  
-                            <a type="button" class="btn btn-primary btn-sm " href="#"><i class="bi bi-plus"></i>Follow</a>
-                        </li>
-                        <li class="list-group-item">Monkey D. Luffy
-                            <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                        </li>
-                        <li class="list-group-item">Roronoa Zoro
-                            <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                        </li>
+
+                            @forelse ($users as $user)
+                                <a href="/user/{{ $user->id }}/profile" class="list-group-item">{{ $user->first_name . ' ' .  $user->last_name}} 
+                                </a>
+                            @empty
+                                <h3>No suggested people</h3>
+                            @endforelse
+        
                         </ul>
-                    </div> --}}
+                    </div>
                     </div>
                 </div>
                 </div>          

@@ -9,10 +9,31 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 
 class PostController extends Controller
 {   
+
+    /** Paginate collection.
+    *   @param array|Collection $items
+    *   @param int $perPage
+    *   @param int $page
+    *   @param array $options
+    *   @return LengthAwarePaginator
+    */
+    // public function paginate($items, $perPage = 5, $page = null)
+    // {
+    //     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+    //     $items = $items instanceof Collection ? $items : Collection::make($items);
+    //     return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, [
+    //         'path' => Paginator::resolveCurrentPath(),
+    //         'pageName' => 'page',
+    //     ]);
+    // }
+
 
 
     /**
@@ -32,7 +53,9 @@ class PostController extends Controller
             ->with('user')
             ->orderBy('updated_at', 'DESC')->get();
 
-        return view('home')->with('posts', $posts);
+        //$paginatePosts = $this->paginate($posts);
+
+        return view('home')->with('posts',$posts);
 
         // $posts = Post::with('user')
         //             ->join('followers', 'followers.follower_id', '=', 'posts.user_id')
