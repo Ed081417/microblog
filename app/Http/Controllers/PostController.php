@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 
 
 class PostController extends Controller
-{
+{   
+
+
     /**
      * Display a listing of the resource.
      *
@@ -39,11 +41,9 @@ class PostController extends Controller
         //             ->where('shared_posts.user_id', '=', Auth::user()->id)
         //             ->orderBy('updated_at', 'DESC')
         //             ->get('posts.*'); 
-
         // return view('home')->with('posts', $posts);
         
         // $posts = User::where('id', Auth::user()->id)->with('posts', 'follows', 'followers_posts', 'shared_posts')->first();
-
         // return view('home')->with('posts', $posts);
     }
 

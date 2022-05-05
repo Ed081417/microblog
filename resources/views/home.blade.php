@@ -157,7 +157,7 @@
                   {{-- Users Posts --}}               
                   @forelse ($posts as $post)
                     
-                      <div class="card w-90">                
+                      <div class="card w-90 mb-5">                
                         <div class="card-header imgHeader">
 
                           @if (is_null($post->user->image_path))
@@ -258,31 +258,31 @@
         {{-- Posts --}}
 
 
-        {{-- Followers --}}
+        {{-- Suggested Posts --}}
         <div class="col-md ">           
           <div class="container">
             <div class="row ">
               <div class="col">
-                {{-- <div class="card text-white bg-primary" >
-                  <div class="card-header">Follow other People</div>
-                  
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}  
-                      <a type="button" class="btn btn-primary btn-sm " href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                    <li class="list-group-item">Monkey D. Luffy
-                      <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                    <li class="list-group-item">Roronoa Zoro
-                      <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                  </ul>
-                </div> --}}
+                <div class="card" >
+                  <div class="list-group list-group-flush">
+                    <li class="list-group-item  active">Suggested Posts</li>
+                      @forelse ($posts as $post)
+                        @if ($post->user_id != Auth::user()->id)
+                          <a href="/post/{{ $post->id }}/view" class="list-group-item list-group-item-action">
+                            {{ $post->title }}</a>
+                        @endif  
+                        
+                      @empty
+                            <h3>No suggested post yet.</h3>
+                      @endforelse
+                  </div>
+                               
+                </div>
               </div>
             </div>
           </div>          
         </div>
-        {{-- Followers --}}
+        {{-- Suggested Posts --}}
 
       </div>
     </div>
