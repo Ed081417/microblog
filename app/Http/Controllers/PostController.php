@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Traits\pagination;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Auth;
@@ -43,12 +44,18 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function view()
-    {
-        // return view('post.userposts')
-        //     ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
+    {   
+
+
+        $user = User::where('id', Auth::user()->id)->orderBy('updated_at', 'DESC')->first();
+        $userPosts=User::find(Auth::user()->id);
+        $users = $userPosts->posts()->orderBy('updated_at', 'DESC')->paginate(5);
+
+        return view('otheruser.profile', compact('users'))->with('user', $user);
         
-        return view('post.userposts')
-            ->with('posts', Post::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->get());
+
+        // return view('post.userposts')
+        //     ->with('posts', Post::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->get());
         
     }
 

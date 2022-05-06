@@ -58,7 +58,7 @@
 
 
                 {{-- Users Posts --}}
-                @forelse ($posts as $post)
+                @forelse ($users as $post)
                         
                     @if (Auth::user()->id == $post->user_id)
                         <div class="card w-90 mb-5">                
@@ -152,6 +152,8 @@
                     <h1 class="display-6 mt-5">You have no post yet.</h1>
                      
                 @endforelse
+
+                {{ $users->links() }}
                 {{-- Users Posts --}}
             </div>
 
