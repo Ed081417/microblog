@@ -273,7 +273,7 @@
                         @endif  
                         
                       @empty
-                            <h3>No suggested post yet.</h3>
+                            <h4>No suggested post yet.</h4>
                       @endforelse
                   </div>
                                

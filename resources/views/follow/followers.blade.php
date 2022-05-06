@@ -58,10 +58,10 @@
                 <div class="container">
                 <div class="row ">
                     <div class="col">
-                        <div class="card" >
+                        {{-- <div class="card" >
                             <div class="list-group list-group-flush">
                               <li class="list-group-item  active">Suggested People</li>
-                                {{-- @forelse ($notFollowers as $notFollower)
+                                @forelse ($notFollowers as $notFollower)
                                     
                                         <a href="/user/{{ $notFollower->id }}/profile" class="list-group-item list-group-item-action">
                                             {{ $notFollower->first_name . ' ' .  $notFollower->last_name}}</a>
@@ -72,10 +72,10 @@
                                    
                                 @empty
                                       <h4>No suggested people yet.</h4>
-                                @endforelse --}}
+                                @endforelse
                             </div>
                                          
-                          </div>
+                        </div> --}}
                     </div>
                 </div>
                 </div>          

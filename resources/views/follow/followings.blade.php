@@ -70,7 +70,7 @@
                 <div class="container">
                 <div class="row ">
                     <div class="col">
-                    <div class="card text-white bg-primary" >
+                    {{-- <div class="card text-white bg-primary" >
                         <div class="card-header">Suggested People</div>
                         <ul class="list-group list-group-flush">                          
                             @forelse ($users as $user)
@@ -80,7 +80,7 @@
                                 <h4>No suggested people</h4>
                             @endforelse       
                         </ul>
-                    </div>
+                    </div> --}}
                     </div>
                 </div>
                 </div>          

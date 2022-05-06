@@ -3,35 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\User;
+use App\Traits\pagination;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 
 class PostController extends Controller
 {   
-
-    /** Paginate collection.
-    *   @param array|Collection $items
-    *   @param int $perPage
-    *   @param int $page
-    *   @param array $options
-    *   @return LengthAwarePaginator
-    */
-    public function paginate($items, $perPage = 5, $page = null)
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-            'pageName' => 'page',
-        ]);
-    }
-
+    use pagination;
 
 
     /**
@@ -41,6 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
+
         $allPosts = Post::orderBy('created_at', 'DESC')->get();
         $posts = Post::whereIn('user_id', function($query)
         {       
@@ -51,21 +32,9 @@ class PostController extends Controller
             ->with('user')
             ->orderBy('updated_at', 'DESC')->get();
 
-        $paginatePosts = $this->paginate($posts);
+        $paginatedPosts = $this->paginate($posts);
+        return view('home')->with('posts',$paginatedPosts)->with('allposts', $allPosts);
 
-        return view('home')->with('posts',$paginatePosts)->with('allposts', $allPosts);
-
-        // $posts = Post::with('user')
-        //             ->join('followers', 'followers.follower_id', '=', 'posts.user_id')
-        //             ->join('shared_posts', 'shared_posts.user_id', '=', 'posts.user_id')
-        //             ->where('followers.follower_id', '=', Auth::user()->id)
-        //             ->where('shared_posts.user_id', '=', Auth::user()->id)
-        //             ->orderBy('updated_at', 'DESC')
-        //             ->get('posts.*'); 
-        // return view('home')->with('posts', $posts);
-        
-        // $posts = User::where('id', Auth::user()->id)->with('posts', 'follows', 'followers_posts', 'shared_posts')->first();
-        // return view('home')->with('posts', $posts);
     }
 
     /**

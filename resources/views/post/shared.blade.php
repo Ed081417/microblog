@@ -119,30 +119,31 @@
                 @endforeach --}}
 
 
-                @forelse ($user->shares->sortByDesc('updated_at') as $sharedpost)
+                @forelse ($sharedPosts as $sharedpost)
+            
                     <div class="card w-90">                
                         <div class="card-header imgHeader">
 
-                            @if (is_null( $sharedpost->user->image_path))
+                            @if (is_null( Auth::user()->image_path))
                                 <img src="{{asset('images/default.png')}}" alt="..." class="rounded">
-                                <a href="#">{{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a>  
+                                <a href="#">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name}}</a>  
                             @else
-                                <img src="{{asset('images/' . $sharedpost->user->image_path)}}" alt="..." class="rounded">
-                                <a href="/user/{{ $sharedpost->user->id }}/profile" value="{{ $sharedpost->user->id }}">
-                                    {{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a>    
+                                <img src="{{asset('images/' . Auth::user()->image_path)}}" alt="..." class="rounded">
+                                <a href="/user/{{ Auth::user()->id }}/profile" value="{{ Auth::user()->id }}">
+                                    {{ Auth::user()->first_name . ' ' . Auth::user()->last_name}}</a>    
                             @endif  
 
-                            @if ($sharedpost->user_id == Auth::user()->id)
-                                <span>You shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
-                                    {{ $sharedpost->post->user->first_name }} </a></span>
+                            {{-- @if ($sharedpost->user_id == Auth::user()->id)
+                                <span>You shared a post from <a href="/user/{{ $sharedpost->user->id }}/profile">
+                                    {{ $sharedpost->user->first_name }} </a></span>
                             
-                            @elseif($sharedpost->post->user_id == Auth::user()->id)
-                                <span>Shared a post from you.</span>
+                            @elseif($sharedpost->user_id == Auth::user()->id)
+                                <span>Shared a post from you.</span> --}}
                             
-                            @else
-                                <span>Shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
-                                    {{ $sharedpost->post->user->first_name }} </a></span>
-                            @endif
+                            {{-- @else --}}
+                                <span>You shared a post from <a href="/user/{{ $sharedpost->user->id }}/profile">
+                                    {{ $sharedpost->user->first_name }} </a></span>
+                            {{-- @endif --}}
                             
                         
                             @if (isset(Auth::user()->id) && Auth::user()->id == $sharedpost->user_id)
@@ -155,22 +156,34 @@
 
                         <div class="card-body">
 
-                            @if ($sharedpost->post->image_path=="")
-                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
-                                <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                            @if ($sharedpost->image_path=="")
+                                <a href="/post/{{ $sharedpost->id }}/view" type="button"  value="{{ $sharedpost->id }}"> 
+                                <h5>{{ $sharedpost->title }}</h5> </a> <p class="card-text">{{ $sharedpost->description }}</p>
                             @else
-                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
-                                <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
-                                <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid">
+                                <a href="/post/{{ $sharedpost->id }}/view" type="button"  value="{{ $sharedpost->id }}"> 
+                                <h5>{{ $sharedpost->title }}</h5> </a> <p class="card-text">{{ $sharedpost->description }}</p>
+                                <img src="{{asset('images/' . $sharedpost->image_path)}}" alt="..." class="img-fluid">
                             @endif
 
                         </div>
 
                         <div class="card-footer" style="display: inline;">
-
-                            <span style="float: right" class="text-muted">
+       
+                            <span class="badge bg-primary">
+                                {{ $sharedpost->likes->count() }} {{ Str::plural('Like', $sharedpost->likes->count()) }}
+                            </span>
+      
+                            <span class="badge bg-primary">
+                                {{ $sharedpost->comments->count() }} {{ Str::plural('Comment', $sharedpost->comments->count()) }}
+                            </span>                       
+                              
+                            <span class="badge bg-primary">
+                                {{ $sharedpost->shares->count($sharedpost->id) }} {{ Str::plural('Share', $sharedpost->shares->count($sharedpost->id)) }}
+                            </span>
+      
+                            {{-- <span style="float: right" class="text-muted">
                                 Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
-                            </span>  
+                            </span>   --}}
         
                         </div>
 
@@ -183,7 +196,7 @@
                 @endforelse
                 {{-- Shared Posts --}}
 
-
+                {{$sharedPosts->links()}}
             </div>
 
             {{-- Followers --}}

@@ -94,7 +94,9 @@
                 
 
                 @forelse ($user->shares->sortByDesc('updated_at') as $sharedpost)
-                    <div class="card w-90">                
+
+       
+                    <div class="card w-90 mb-5">                
                         <div class="card-header imgHeader">
 
                             @if (is_null( $sharedpost->user->image_path))
@@ -156,7 +158,7 @@
                     
                 @endforelse
          
-
+                {{-- {{ $user->links() }} --}}
        
 
             </div>

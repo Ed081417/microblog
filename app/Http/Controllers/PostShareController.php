@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Share;
+use App\Traits\pagination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class PostShareController extends Controller
 {
+    use pagination;
+
     /**
      * Display a listing of the resource.
      *
@@ -17,17 +21,20 @@ class PostShareController extends Controller
      */
     public function index()
     {
+
+        $sharedPosts = Post::whereHas('shares', function (Builder $query) {
+            $query->where('user_id', '=', Auth::user()->id);
+        })->orderBy('updated_at', 'DESC')->get();
+        
+        $paginatedSharedPosts = $this->paginate($sharedPosts);
+
+        return view('post.shared')->with('sharedPosts', $paginatedSharedPosts);
+
+        //$sharedPosts = User::where('id', Auth::user()->id)->orderBy('created_at', 'DESC')->first();
         // return view('post.shared')
         //     ->with('posts', Post::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->get());
-
-        return view('post.shared')
-                ->with('user', User::where('id', Auth::user()->id)->orderBy('created_at', 'DESC')->first());
-
-        // $posts = Post::with(['shares' => function ($query) {
-        //     $query->where('user_id', '=', Auth::user()->id);
-        // }])->orderBy('updated_at', 'DESC')->get();
-
-        // return view('post.shared')->with('posts', $posts);
+        //return view('post.shared')->with('user', $paginatedSharedPosts);
+        
 
     }
 
@@ -65,8 +72,15 @@ class PostShareController extends Controller
      */
     public function show($id)
     {
-        return view('otheruser.sharedposts')
-                ->with('user', User::where('id', $id)->orderBy('updated_at', 'DESC')->first());
+        $user = User::find($id);
+        //$userShares = $user->shares()->paginate(5); 
+        // $userShares = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
+        // $paginatedShares = $user->shares();
+        // return view('otheruser.sharedposts')->with('user', $paginatedShares);
+
+        $userShares = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
+        return view('otheruser.sharedposts')->with('user', $userShares);
+
     }
 
     /**
