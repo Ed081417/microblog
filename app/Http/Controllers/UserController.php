@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Post;
-
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -124,8 +122,15 @@ class UserController extends Controller
     public function show($id)
     {
         //View other user profile
-        return view('otheruser.profile')
-                ->with('user', User::where('id', $id)->orderBy('updated_at', 'DESC')->first());
+        // $users = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
+        // $user = $users->posts()->paginate(5);
+        // return view('otheruser.profile', compact('user'));
+
+        $user = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
+        $userPosts=User::find($id);
+        $users = $userPosts->posts()->orderBy('updated_at', 'DESC')->paginate(5);
+
+        return view('otheruser.profile', compact('users'))->with('user', $user);
 
         // return view('otheruser.profile')
         //     ->with('posts', Post::orderBy('updated_at', 'DESC')->get());

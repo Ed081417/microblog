@@ -93,7 +93,7 @@
                 @endif
                 
 
-                @forelse ($user->shares->sortByDesc('updated_at') as $sharedpost)
+                @forelse ($users->sortByDesc('updated_at') as $sharedpost)
 
        
                     <div class="card w-90 mb-5">                
@@ -158,7 +158,7 @@
                     
                 @endforelse
          
-                {{-- {{ $user->links() }} --}}
+                {{ $users->links() }}
        
 
             </div>

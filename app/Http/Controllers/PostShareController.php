@@ -78,8 +78,14 @@ class PostShareController extends Controller
         // $paginatedShares = $user->shares();
         // return view('otheruser.sharedposts')->with('user', $paginatedShares);
 
-        $userShares = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
-        return view('otheruser.sharedposts')->with('user', $userShares);
+        $usersShares = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
+        
+        $userShares=User::find($id);
+        $users = $userShares->shares()->orderBy('updated_at', 'DESC')->paginate(5);
+
+        return view('otheruser.sharedposts', compact('users'))->with('user', $usersShares);
+
+        //return view('otheruser.sharedposts')->with('user', $usersShares);
 
     }
 

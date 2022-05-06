@@ -61,7 +61,7 @@
                 @forelse ($posts as $post)
                         
                     @if (Auth::user()->id == $post->user_id)
-                        <div class="card w-90">                
+                        <div class="card w-90 mb-5">                
                             <div class="card-header imgHeader">
                                 @if (is_null($post->user->image_path))
                                     <img src="{{asset('images/default.png')}}" alt="..." class="rounded">

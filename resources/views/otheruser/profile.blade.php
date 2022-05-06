@@ -93,7 +93,106 @@
                 @endif
                 
 
-                @forelse ($user->user->sortByDesc('updated_at') as $post)
+                {{-- @forelse ($user->user->sortByDesc('updated_at') as $post)
+                    <div class="card w-90">                
+                        <div class="card-header imgHeader">
+
+                        @if (is_null($post->user->image_path))
+                            <img src="{{asset('images/default.png')}}" alt="..." class="rounded">
+                            <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                                {{ $post->user->first_name . ' ' . $post->user->last_name}}</a> 
+                        @else
+                            <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
+                            <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
+                                {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>   
+                        @endif                      
+                        
+                        @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
+                            <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
+                            <i class="bi bi-trash"></i></button>
+
+                            <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success float-end updateBtn" >
+                            <i class="bi bi-pencil-square"></i></a>
+                        @endif                     
+                        
+                        </div>
+
+                        <div class="card-body">
+
+                            @if ($post->image_path=="")
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> <h5>{{ $post->title }}</h5> </a>
+                            <p class="card-text">{{ $post->description }}</p>
+                            @else
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> <h5>{{ $post->title }}</h5> </a>
+                            <p class="card-text">{{ $post->description }}</p>
+                            <img src="{{asset('images/' . $post->image_path)}}" alt="..." class="img-fluid">
+                            @endif
+
+                        </div> --}}
+
+                        {{-- <span>{{ $post->likes->count() }} {{ Str::plural('Like', $post->likes->count()) }}</span> --}}
+
+                        {{-- <div class="card-footer" style="display: inline;">
+                            @if (!$post->likedBy(auth()->user()))
+                            <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
+                                @csrf
+                                <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                <button type="submit" class="btn btn-primary btn-sm"> Like </button> 
+                            </form>
+                            @else
+                            <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+            
+                                    <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                    <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                            </form>
+                            @endif
+
+                            
+                            <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                            <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
+                            class="btn btn-primary btn-sm"> Comment </a> 
+                        
+                            
+                            <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
+
+                            @if (!$post->sharedBy(auth()->user()) && $post->user_id != Auth::user()->id)
+                                <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
+                                    Share</button>
+
+                            @elseif($post->sharedBy(auth()->user()))
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                    data-bs-target="#shareModal" disabled> Shared </button> 
+
+                            @else
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                    data-bs-target="#shareModal" disabled> Share </button>
+                            @endif
+
+                            @if ($post->created_at == $post->updated_at)
+                            <span style="float: right" class="text-muted">
+                                Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
+                            </span>              
+                            @else
+                            <span style="float: right" class="text-muted">
+                                Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
+                            </span>
+                            @endif
+    
+                        </div>
+                    </div>
+
+                @empty
+                    
+                        <h1 class="display-6 mt-5">No Post Yet.</h1>
+                    
+                @endforelse --}}
+         
+
+
+                @forelse ($users->sortDesc() as $post)
+
                     <div class="card w-90">                
                         <div class="card-header imgHeader">
 
@@ -188,9 +287,8 @@
                         <h1 class="display-6 mt-5">No Post Yet.</h1>
                     
                 @endforelse
-         
 
-       
+                {{ $users->links() }}
 
             </div>
             
