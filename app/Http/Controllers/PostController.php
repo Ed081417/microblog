@@ -24,6 +24,7 @@ class PostController extends Controller
     {
 
         $allPosts = Post::orderBy('created_at', 'DESC')->get();
+        
         $posts = Post::whereIn('user_id', function($query)
         {       
             $query->select('user_id')

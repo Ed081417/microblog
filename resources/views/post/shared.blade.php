@@ -141,8 +141,8 @@
                                 <span>Shared a post from you.</span> --}}
                             
                             {{-- @else --}}
-                                <span>You shared a post from <a href="/user/{{ $sharedpost->user->id }}/profile">
-                                    {{ $sharedpost->user->first_name }} </a></span>
+                                <span>You shared a post from <a href="/user/{{ $sharedpost->post->user_id }}/profile">
+                                    {{ $sharedpost->post->user->first_name }} </a></span>
                             {{-- @endif --}}
                             
                         
@@ -156,13 +156,13 @@
 
                         <div class="card-body">
 
-                            @if ($sharedpost->image_path=="")
-                                <a href="/post/{{ $sharedpost->id }}/view" type="button"  value="{{ $sharedpost->id }}"> 
-                                <h5>{{ $sharedpost->title }}</h5> </a> <p class="card-text">{{ $sharedpost->description }}</p>
+                            @if ($sharedpost->post->image_path=="")
+                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  > 
+                                <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
                             @else
-                                <a href="/post/{{ $sharedpost->id }}/view" type="button"  value="{{ $sharedpost->id }}"> 
-                                <h5>{{ $sharedpost->title }}</h5> </a> <p class="card-text">{{ $sharedpost->description }}</p>
-                                <img src="{{asset('images/' . $sharedpost->image_path)}}" alt="..." class="img-fluid">
+                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button" > 
+                                <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                                <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid">
                             @endif
 
                         </div>
@@ -170,20 +170,20 @@
                         <div class="card-footer" style="display: inline;">
        
                             <span class="badge bg-primary">
-                                {{ $sharedpost->likes->count() }} {{ Str::plural('Like', $sharedpost->likes->count()) }}
+                                {{ $sharedpost->post->likes->count() }} {{ Str::plural('Like', $sharedpost->post->likes->count()) }}
                             </span>
       
                             <span class="badge bg-primary">
-                                {{ $sharedpost->comments->count() }} {{ Str::plural('Comment', $sharedpost->comments->count()) }}
+                                {{ $sharedpost->post->comments->count() }} {{ Str::plural('Comment', $sharedpost->post->comments->count()) }}
                             </span>                       
                               
                             <span class="badge bg-primary">
-                                {{ $sharedpost->shares->count($sharedpost->id) }} {{ Str::plural('Share', $sharedpost->shares->count($sharedpost->id)) }}
+                                {{ $sharedpost->post->shares->count($sharedpost->id) }} {{ Str::plural('Share', $sharedpost->post->shares->count($sharedpost->id)) }}
                             </span>
       
-                            {{-- <span style="float: right" class="text-muted">
+                            <span style="float: right" class="text-muted">
                                 Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
-                            </span>   --}}
+                            </span>  
         
                         </div>
 

@@ -22,13 +22,21 @@ class PostShareController extends Controller
     public function index()
     {
 
-        $sharedPosts = Post::whereHas('shares', function (Builder $query) {
-            $query->where('user_id', '=', Auth::user()->id);
-        })->orderBy('updated_at', 'DESC')->get();
+        // $sharedPosts = Post::whereHas('shares', function (Builder $query) {
+        //     $query->where('user_id', '=', Auth::user()->id);
+        // })->orderBy('updated_at', 'DESC')->get();
         
-        $paginatedSharedPosts = $this->paginate($sharedPosts);
+        // $paginatedSharedPosts = $this->paginate($sharedPosts);
 
-        return view('post.shared')->with('sharedPosts', $paginatedSharedPosts);
+        // return view('post.shared')->with('sharedPosts', $paginatedSharedPosts);
+
+        $authId = Auth::user()->id;
+        $usersShares = User::where('id', $authId)->orderBy('updated_at', 'DESC')->first();
+        
+        $userShares=User::find($authId);
+        $sharedPosts = $userShares->shares()->orderBy('updated_at', 'DESC')->paginate(5);
+
+        return view('post.shared', compact('sharedPosts'))->with('user', $usersShares);
 
         //$sharedPosts = User::where('id', Auth::user()->id)->orderBy('created_at', 'DESC')->first();
         // return view('post.shared')
@@ -72,7 +80,7 @@ class PostShareController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        //$user = User::find($id);
         //$userShares = $user->shares()->paginate(5); 
         // $userShares = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
         // $paginatedShares = $user->shares();
