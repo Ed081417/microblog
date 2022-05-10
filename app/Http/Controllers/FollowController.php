@@ -41,30 +41,49 @@ class FollowController extends Controller
     }
 
     public function followerList()
-    {   
-      
+    {     
+        // $users = User::orderBy('created_at', 'DESC')->get();       
+        // return view('follow.followers')->with('users',  $users);
 
-        $users = User::orderBy('created_at', 'DESC')->get();
-        //$paginateFollowers =  $this->paginate($users);
-        
-        return view('follow.followers')->with('users',  $users);
+        //$dateFollowed = Follow::where('user_id');
+        $followers = User::find(Auth::user()->id);
+        $users = $followers->followers()->paginate(5);
+
+        return view('follow.followers', compact('users'));
     }
 
     public function followingList()
     {
-        return view('follow.followings')->with('users', User::orderBy('created_at', 'DESC')->get());
+        //return view('follow.followings')->with('users', User::orderBy('created_at', 'DESC')->get());
+
+        $followings = User::find(Auth::user()->id);
+        $users = $followings->followings()->paginate(5);
+
+        return view('follow.followings', compact('users'));
     }
 
     public function profileFollowers($id)
     {
-        return view('otheruser.followers')
-                ->with('user', User::where('id', $id)->orderBy('created_at', 'DESC')->first());
+        // return view('otheruser.followers')
+        //         ->with('user', User::where('id', $id)->orderBy('created_at', 'DESC')->first());
+
+        $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
+        $profilefollowers = User::find($id);
+        $users = $profilefollowers->followers()->paginate(5);
+
+        return view('otheruser.followers', compact('users'))->with('user', $user);
     }
 
     public function profileFollowings($id)
     {
-        return view('otheruser.followings')
-                ->with('user', User::where('id', $id)->orderBy('created_at', 'DESC')->first());
+        // return view('otheruser.followings')
+        //         ->with('user', User::where('id', $id)->orderBy('created_at', 'DESC')->first());
+
+        $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
+        $profilefollowings = User::find($id);
+        $users = $profilefollowings->followings()->paginate(5);
+
+        return view('otheruser.followings', compact('users'))->with('user', $user);
     }
 
 

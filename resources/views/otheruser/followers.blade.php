@@ -13,7 +13,7 @@
 
             <div class="col-md-6">
                 
-                <h1 class="display-6">Followers - {{ $user->followers->count() }}</h1>
+                <h1 class="display-6">Follower - {{ $user->followers->count() }}</h1>
                 
                 <hr>
                 <table class="table table-striped">
@@ -25,15 +25,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @forelse ($user->followers->sortDesc() as $follower)        
+                        @forelse ($users->sortDesc() as $follower)        
                                 
                             <tr>
                                 <td>
-                                    <a href="/user/{{ $follower->id }}/profile" value="{{ $follower->id }}">
-                                        {{ $follower->first_name . ' ' . $follower->last_name }}</a>
+                                    <h5>{{ $follower->first_name . ' ' . $follower->last_name }}</h5>
                                 </td>
                                 <td>
-                                    {{ date("F j, Y", strtotime( $follower->created_at)) }}
+                                    <a href="/user/{{ $follower->id }}/profile" value="{{ $follower->id }}" 
+                                        type="button" class="btn btn-sm btn-primary">View Profile</a>
                                 </td>
                                 {{-- <td>
                                     <button type="button" class="btn btn-danger btn-sm">Remove Follower</button>
@@ -42,13 +42,13 @@
                         
                         @empty
                             <div class="card-body">
-                                <h1 class="display-6">You have no followers yet.</h1>
+                                <h1 class="display-6">No followers yet.</h1>
 
                             </div>
                         @endforelse            
                     </tbody>                       
                 </table>            
-                  
+                {{ $users->links() }}
             </div>
 
             {{-- Followers --}}

@@ -20,20 +20,23 @@
                     <thead>
                     <tr>
                         <th scope="col">Full Name</th>
-                        <th scope="col">Date followed</th>
+                        <th scope="col">Action</th>
                         {{-- <th scope="col">Action</th> --}}
                     </tr>
                     </thead>
                     <tbody>
-                        @forelse (Auth::user()->followers->sortDesc() as $follower)        
+                        @forelse ($users->sortDesc() as $follower)        
                                 
                             <tr>
                                 <td>
-                                    <a href="/user/{{ $follower->id }}/profile" value="{{ $follower->id }}">
-                                        {{ $follower->first_name . ' ' . $follower->last_name }}</a>
+                                    <h5>{{ $follower->first_name . ' ' . $follower->last_name }}</h5>
+                                    {{-- <a href="/user/{{ $follower->id }}/profile" value="{{ $follower->id }}">
+                                        {{ $follower->first_name . ' ' . $follower->last_name }}</a> --}}
                                 </td>
                                 <td>
-                                    {{ date("F j, Y", strtotime( $follower->created_at)) }}
+                                    <a href="/user/{{ $follower->id }}/profile" value="{{ $follower->id }}" 
+                                        type="button" class="btn btn-sm btn-primary">View Profile</a>
+                                    {{-- {{ date("F j, Y", strtotime( $follower->follows->created_at)) }} --}}
                                 </td>
                                 {{-- <td>
                                     <button type="button" class="btn btn-danger btn-sm">Remove Follower</button>
@@ -49,7 +52,7 @@
                     </tbody>                       
                 </table> 
                 
-                {{-- {{ $users->links() }} --}}
+                {{ $users->links() }}
                   
             </div>
 

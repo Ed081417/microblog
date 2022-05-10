@@ -19,7 +19,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Full Name</th>
-                        <th scope="col">Date followed</th>
+                        <th scope="col">Action</th>
                         {{-- <th scope="col">Action</th> --}}
                     </tr>
                     </thead>
@@ -38,15 +38,18 @@
                         @endforeach                  
                     @endforeach    --}}
                     <tbody>                                
-                        @forelse (Auth::user()->followings->sortDesc() as $following)        
+                        @forelse ($users->sortDesc() as $following)        
                             
                             <tr>
                                 <td>
-                                    <a href="/user/{{ $following->id }}/profile" value="{{ $following->id }}">
-                                        {{ $following->first_name . ' ' . $following->last_name }}</a>
+                                    <h5>{{ $following->first_name . ' ' . $following->last_name }}</h5>
+                                    {{-- <a href="/user/{{ $following->id }}/profile" value="{{ $following->id }}">
+                                        {{ $following->first_name . ' ' . $following->last_name }}</a> --}}
                                 </td>
                                 <td>
-                                    {{ date("F j, Y", strtotime( $following->created_at)) }}
+                                    <a href="/user/{{ $following->id }}/profile" value="{{ $following->id }}" 
+                                        type="button" class="btn btn-sm btn-primary">View Profile</a>
+                                    {{-- {{ date("F j, Y", strtotime( $following->created_at)) }} --}}
                                 </td>
                                 {{-- <td>
                                     <button type="button" class="btn btn-secondary btn-sm">Unfollow</button>
@@ -61,7 +64,9 @@
                         @endforelse                  
                     </tbody>            
 
-                </table>    
+                </table>   
+                
+                {{ $users->links() }}
                   
             </div>
 

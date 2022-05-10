@@ -13,7 +13,7 @@
 
             <div class="col-md-6">
                 
-                <h1 class="display-6">Followings - {{ $user->followings->count() }}</h1>
+                <h1 class="display-6">Following - {{ $user->followings->count() }}</h1>
                 
                 <hr>
                 <table class="table table-striped">
@@ -25,15 +25,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @forelse ($user->followings->sortDesc() as $following)        
+                        @forelse ($users->sortDesc() as $following)        
                                 
                             <tr>
                                 <td>
-                                    <a href="/user/{{ $following->id }}/profile" value="{{ $following->id }}">
-                                        {{ $following->first_name . ' ' . $following->last_name }}</a>
+                                    <h5>{{ $following->first_name . ' ' . $following->last_name }}</h5>
                                 </td>
                                 <td>
-                                    {{ date("F j, Y", strtotime( $following->created_at)) }}
+                                    <a href="/user/{{ $following->id }}/profile" value="{{ $following->id }}" 
+                                        type="button" class="btn btn-sm btn-primary">View Profile</a>
                                 </td>
                                 {{-- <td>
                                     <button type="button" class="btn btn-danger btn-sm">Remove Follower</button>
@@ -48,7 +48,7 @@
                         @endforelse            
                     </tbody>                       
                 </table>            
-                  
+                {{ $users->links() }}
             </div>
 
             {{-- Followers --}}

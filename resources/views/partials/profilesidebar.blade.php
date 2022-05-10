@@ -46,7 +46,7 @@
                     Followers:<span class="badge bg-primary rounded-pill">{{  $user->followers->count() }}</span></a>
                 
                 <a href="/profile/{{ $user->id }}/followings" class="list-group-item d-flex justify-content-between align-items-start">
-                    Following:<span class="badge bg-primary rounded-pill">{{  $user->followings->count() }}</span></a>
+                    Followings:<span class="badge bg-primary rounded-pill">{{  $user->followings->count() }}</span></a>
         
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     Birthdate:<span class="badge bg-primary rounded-pill">
