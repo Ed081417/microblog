@@ -45,7 +45,7 @@
                 @endforeach --}}
 
                 {{-- Users Posts --}}               
-                @forelse ($posts as $post)
+                @forelse ($posts->sortDesc() as $post)
                     <div class="card w-90 mb-5">                
                         <div class="card-header imgHeader">
                         <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">

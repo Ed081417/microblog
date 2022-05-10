@@ -24,7 +24,10 @@
 
                         <a href=" {{ route('viewposts') }} " type="button" class="btn btn-primary" style="margin-right: 10px;">Home </a> 
                         
-                        <input class="form-control me-2" type="search" name="search" placeholder="Search post..." aria-label="Search">                     
+                        <input class="form-control me-2" type="search" name="search" placeholder="Search post..." aria-label="Search"> 
+                        {{-- @error('search')
+                            <span class="text-danger">*Search input is required.</span>
+                        @enderror                     --}}
                         
                     </form>
 
