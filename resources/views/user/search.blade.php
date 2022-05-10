@@ -64,11 +64,13 @@
                             </div>
                         </div>
                     </div>  
-                
+            
             @empty
                     <h1 class="mt-5">No result found.</h1>
             
             @endforelse  
+
+            {{ $users->links() }}
         </div>
         {{-- Followers --}}
         <div class="col-md">           

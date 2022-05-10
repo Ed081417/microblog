@@ -46,7 +46,7 @@
 
                 {{-- Users Posts --}}               
                 @forelse ($posts as $post)
-                    <div class="card w-90">                
+                    <div class="card w-90 mb-5">                
                         <div class="card-header imgHeader">
                         <img src="{{asset('images/' . $post->user->image_path)}}" alt="..." class="rounded">
                         <a href="/user/{{ $post->user->id }}/profile" value="{{ $post->user->id }}">
@@ -125,6 +125,8 @@
                 @empty
                     <h1 class="mt-5">No result found.</h1>
                 @endforelse
+
+                {{ $posts->links() }}
             {{-- Users Posts --}}
 
 
