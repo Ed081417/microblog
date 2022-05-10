@@ -121,7 +121,7 @@
 
                 @forelse ($sharedPosts as $sharedpost)
             
-                    <div class="card w-90">                
+                    <div class="card w-90 mb-5">                
                         <div class="card-header imgHeader">
 
                             @if (is_null( Auth::user()->image_path))

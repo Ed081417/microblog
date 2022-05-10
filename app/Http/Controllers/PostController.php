@@ -52,7 +52,8 @@ class PostController extends Controller
         $userPosts=User::find(Auth::user()->id);
         $users = $userPosts->posts()->orderBy('updated_at', 'DESC')->paginate(5);
 
-        return view('otheruser.profile', compact('users'))->with('user', $user);
+        return view('post.userposts', compact('users'))->with('user', $user);
+        //return view('otheruser.profile', compact('users'))->with('user', $user);
         
 
         // return view('post.userposts')
