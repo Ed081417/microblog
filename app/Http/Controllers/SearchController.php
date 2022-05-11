@@ -30,6 +30,9 @@ class SearchController extends Controller
 
     public function queryPost(Request $request)
     {
+        $request->validate([
+            'search' => ['required', 'string']
+        ]);
 
         if($request->has('search')) {
             $posts = Post::search($request->search)->orderBy('created_at', 'DESC')->paginate(3);
@@ -45,6 +48,9 @@ class SearchController extends Controller
 
     public function queryUser(Request $request)
     {
+        $request->validate([
+            'searchUser' => ['required', 'string']
+        ]);
 
         if($request->has('searchUser')) {
             $users = User::search($request->searchUser)->orderBy('created_at', 'DESC')->paginate(3);

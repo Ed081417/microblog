@@ -5,6 +5,25 @@
 @section('content')
     
 <div class="container" style="margin-top: 20px;">
+
+    {{-- Search Modal --}}
+    <div class="modal fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="searchModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Search</h5>
+            </div>
+            <div class="modal-body text-danger">
+              <h4>Search input is required!</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{-- Search Modal --}}
+
     <div class="row">
         <div class="col-md">
             @include('partials.sidebar')

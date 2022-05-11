@@ -246,7 +246,7 @@
                             <button type="button" value="{{ $comment->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >
                               <i class="bi bi-trash"></i></button>
 
-                            <button type="button"  value="{{ $comment->id }}" class="btn btn-success btn-sm float-end updateBtn" > 
+                            <button type="button"  value="{{ $comment->id }}" class="btn btn-success btn-sm me-1 float-end updateBtn" > 
                               <i class="bi bi-pencil-square"></i></button>
                         @endif   
 
