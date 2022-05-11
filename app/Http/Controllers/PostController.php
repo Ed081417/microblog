@@ -29,7 +29,8 @@ class PostController extends Controller
         {       
             $query->select('user_id')
                     ->from('followers')
-                    ->where('follower_id', Auth::user()->id);
+                    ->where('follower_id', Auth::user()->id)
+                    ->whereNull('deleted_at');
         })->orWhere('user_id', Auth::user()->id)
             ->with('user')
             ->orderBy('updated_at', 'DESC')->get();
