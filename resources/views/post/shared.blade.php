@@ -147,7 +147,7 @@
                             
                         
                             @if (isset(Auth::user()->id) && Auth::user()->id == $sharedpost->user_id)
-                                <button type="button" value="{{ $sharedpost->id }}" class="btn btn-danger float-end deleteBtn" >
+                                <button type="button" value="{{ $sharedpost->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >
                                     <i class="bi bi-trash"></i></button>
 
                             @endif         

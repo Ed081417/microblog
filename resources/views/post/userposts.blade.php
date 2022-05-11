@@ -73,11 +73,11 @@
                                 @endif  
                             
                                 @if (Auth::user()->id == $post->user_id)
-                                <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
+                                <button type="button" value="{{ $post->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >
                                     <i class="bi bi-trash"></i></button>
 
-                                <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success float-end updateBtn" >
-                                    <i class="bi bi-pencil-square"></i></a>
+                                <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success 
+                                    me-1 btn-sm float-end updateBtn" ><i class="bi bi-pencil-square"></i></a>
                                 @endif                     
                                 
                             </div>

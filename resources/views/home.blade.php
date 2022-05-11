@@ -171,20 +171,22 @@
                           @endif
                                                                            
                           @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
-                            <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
+                            <button type="button" value="{{ $post->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >
                               <i class="bi bi-trash"></i></button>
 
-                            <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success float-end updateBtn" >
-                              <i class="bi bi-pencil-square"></i></a>
+                            <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success btn-sm 
+                              me-1 float-end updateBtn" ><i class="bi bi-pencil-square"></i></a>
                           @endif                                              
                         </div>
 
                         <div class="card-body">
                             @if ($post->image_path=="")
-                              <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> <h5>{{ $post->title }}</h5> </a>
+                              <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> 
+                                <h5>{{ $post->title }}</h5> </a>
                               <p class="card-text">{{ $post->description }}</p>
                             @else
-                              <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> <h5>{{ $post->title }}</h5> </a>
+                              <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}"> 
+                                <h5>{{ $post->title }}</h5> </a>
                               <p class="card-text">{{ $post->description }}</p>
                               <img src="{{asset('images/' . $post->image_path)}}" alt="..." class="img-fluid">
                             @endif
