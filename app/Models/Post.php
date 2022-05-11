@@ -54,6 +54,32 @@ class Post extends Model
     {
         return $this->hasMany(Share::class);
     }
-  
+    
+    /**
+     * Bootstrap the model and its traits.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($posts) {
+            
+            // Softdelete associated post likes, comments, shares.       
+            $posts->likes()->each(function ($likes) {
+                $likes->delete();
+            });
+
+            $posts->comments()->each(function ($comments) {
+                $comments->delete();
+            });
+
+            $posts->shares()->each(function ($shares) {
+                $shares->delete();
+            });
+
+        });
+    }
 
 }
