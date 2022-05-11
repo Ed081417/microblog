@@ -73,6 +73,34 @@
         </form>           
         {{-- Update Comment Modal --}}
 
+        {{-- Share Post Modal --}}
+        <form action="{{ route('share-post') }}" method="post" >
+          @csrf
+        
+          <div class="modal fade" id="shareModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="shareModalLabel" 
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="shareModalLabel">Share Post</h5>
+                </div>
+
+                  <input type="hidden" name="share_post_id" id="share_post_id">
+                          
+                  <div class="modal-body"> 
+                          <p>Do you want to share this post?</p>                         
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Share</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+        </form>           
+        {{-- Share Post Modal --}}  
 
 
         <div class="card w-50 mb-5 ">
@@ -165,8 +193,8 @@
                 
               <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
               @if (!$post->sharedBy(auth()->user()) && $post->user_id != Auth::user()->id)
-                <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
-                  Share</button>
+              <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
+                Share</button>
 
               @elseif($post->sharedBy(auth()->user()))
                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
@@ -174,7 +202,7 @@
 
               @else
                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
-                  data-bs-target="#shareModal" disabled> Share </button>
+                data-bs-target="#shareModal" disabled> Share </button>
               @endif
 
               @if ($post->created_at == $post->updated_at)
@@ -277,6 +305,16 @@
                 $("#update_comment_id").val(update_comment_id);
               }
             });       
+          });
+
+          //Share Post
+          $('.sharedBtn').click(function (e) {
+            e.preventDefault();
+
+            var share_post_id = $(this).val();
+            $("#share_post_id").val(share_post_id);
+            $('#shareModal').modal('show');
+           
           });
           
       });

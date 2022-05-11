@@ -29,7 +29,6 @@ Route::get('/', function () {
 
 require __DIR__.'/auth.php';
 
-
 //Home
 Route::get('home', function () { return view('home'); })->middleware(['auth', 'verified'])->name('home');
 Route::get('home', [PostController::class, 'index'])->middleware(['auth', 'verified'])->name('viewposts');
@@ -80,8 +79,7 @@ Route::get('profile/{id}/followings', [FollowController::class, 'profileFollowin
 Route::get('followers', [FollowController::class, 'followerList'])->name('followers');
 Route::get('followings', [FollowController::class, 'followingList'])->name('followings');
 
-//Search Result
-// Route::post('search', [SearchController::class, 'index'])->name('searchresult');
+//Search 
 Route::get('findpeople', [SearchController::class, 'index'])->name('find-people');
 Route::get('/search/post', [SearchController::class, 'queryPost'])->name('search-post');
 Route::get('/search/user', [SearchController::class, 'queryUser'])->name('search-user');
