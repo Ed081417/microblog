@@ -12,7 +12,9 @@
     @endif
 
     @if (Auth::user()->middle_name=="")
+      <div class="card-header">
         <h4 class="fs-4" style="text-align: center;">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}</h4>
+      </div>
     @else
       <div class="card-header">
         <h4 class="fs-4" style="text-align: center;">

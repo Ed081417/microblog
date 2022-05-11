@@ -32,17 +32,10 @@ class PostShareController extends Controller
 
         $authId = Auth::user()->id;
         $usersShares = User::where('id', $authId)->orderBy('updated_at', 'DESC')->first();
-        
         $userShares=User::find($authId);
         $sharedPosts = $userShares->shares()->orderBy('updated_at', 'DESC')->paginate(5);
 
-        return view('post.shared', compact('sharedPosts'))->with('user', $usersShares);
-
-        //$sharedPosts = User::where('id', Auth::user()->id)->orderBy('created_at', 'DESC')->first();
-        // return view('post.shared')
-        //     ->with('posts', Post::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->get());
-        //return view('post.shared')->with('user', $paginatedSharedPosts);
-        
+        return view('post.shared', compact('sharedPosts'))->with('user', $usersShares);       
 
     }
 
