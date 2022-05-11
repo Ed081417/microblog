@@ -20,7 +20,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Full Name</th>
-                        <th scope="col">Date followed</th>
+                        <th scope="col">Action</th>
                         {{-- <th scope="col">Action</th> --}}
                     </tr>
                     </thead>
