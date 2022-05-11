@@ -29,6 +29,23 @@
 
     </head>
     <body>
+      {{-- Search Modal --}}
+      <div class="modal fade" id="searchModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="searchModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Search</h5>
+            </div>
+            <div class="modal-body text-danger">
+              <h4>Search input is required!</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{-- Search Modal --}}
 
         @include('partials.navbar');
 
@@ -59,8 +76,8 @@
         @elseif ($errors->has('search'))
           <script type="text/javascript" src="{{asset('assets/js/opensearchmodal.js')}}"></script>
 
-        @elseif ($errors->has('searchUser'))
-          <script type="text/javascript" src="{{asset('assets/js/opensearchmodal.js')}}"></script>
+        {{-- @elseif ($errors->has('searchUser'))
+          <script type="text/javascript" src="{{asset('assets/js/opensearchmodal.js')}}"></script> --}}
 
         @elseif ($errors->has('updateComment'))
           <script type="text/javascript" src="{{asset('assets/js/updatecomment.js')}}"></script>

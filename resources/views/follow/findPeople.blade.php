@@ -50,6 +50,9 @@
 
                 <div class="mb-3">
                     <input type="search" name="searchUser" class="form-control" placeholder="Search name..." aria-label="Search">
+                    @error('searchUser')
+                            <span class="text-danger">*Search input field is required!</span>
+                    @enderror
                 </div>                     
                 
             </form>
