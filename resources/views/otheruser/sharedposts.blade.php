@@ -107,8 +107,10 @@
                                 <a href="/user/{{ $sharedpost->user->id }}/profile" value="{{ $sharedpost->user->id }}">
                                     {{ $sharedpost->user->first_name . ' ' . $sharedpost->user->last_name}}</a>    
                             @endif  
-
-                            @if ($sharedpost->user_id == Auth::user()->id)
+                            
+                            @if ($trashedPosts->contains('id', $sharedpost->post_id))
+                                    <span>Shared post deleted</span>
+                            @elseif ($sharedpost->user_id == Auth::user()->id)
                                 <span>You shared a post from <a href="/user/{{ $sharedpost->post->user->id }}/profile">
                                     {{ $sharedpost->post->user->first_name }} </a></span>
                             
@@ -130,25 +132,58 @@
                         </div>
 
                         <div class="card-body">
-
-                            @if ($sharedpost->post->image_path=="")
-                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
-                                <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                            @if ($trashedPosts->contains('id', $sharedpost->post_id))
+                                <h3>Content is not available</h3>
+                            
                             @else
-                                <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
-                                <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
-                                <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid">
+                                {{-- @if ($sharedpost->post->image_path=="")
+                                    <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
+                                    <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                                @else
+                                    <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
+                                    <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                                    <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid">
+                                @endif --}}
+                                @if (!empty($sharedpost->post->image_path))
+                                    <a href="/post/{{ $sharedpost->post_id }}/view" type="button" > 
+                                    <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                                    <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid"> 
+                                @else
+                                    <a href="/post/{{ $sharedpost->post_id }}/view" type="button"  > 
+                                    <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
+                                @endif
                             @endif
-
                         </div>
 
-                        <div class="card-footer" style="display: inline;">
+                        {{-- <div class="card-footer" style="display: inline;">
 
                             <span style="float: right" class="text-muted">
                                 Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
                             </span>  
         
+                        </div> --}}
+                        <div class="card-footer" style="display: inline;">
+                            @if ($trashedPosts->contains('id', $sharedpost->post_id))
+                                <span style="float: right" class="text-muted"></span>
+                            @else
+                                <span class="badge bg-primary">
+                                    {{ $sharedpost->post->likes->count() }} {{ Str::plural('Like', $sharedpost->post->likes->count()) }}
+                                </span>
+        
+                                <span class="badge bg-primary">
+                                    {{ $sharedpost->post->comments->count() }} {{ Str::plural('Comment', $sharedpost->post->comments->count()) }}
+                                </span>                       
+                                
+                                <span class="badge bg-primary">
+                                    {{ $sharedpost->post->shares->count($sharedpost->id) }} {{ Str::plural('Share', $sharedpost->post->shares->count($sharedpost->id)) }}
+                                </span>
+        
+                                <span style="float: right" class="text-muted">
+                                    Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
+                                </span>  
+                            @endif
                         </div>
+
 
                     </div>
 
