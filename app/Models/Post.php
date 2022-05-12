@@ -55,7 +55,7 @@ class Post extends Model
         return $this->hasMany(Share::class);
     }
     
-    /**
+    /** Soft Delete related likes and comments of a soft deleted post.
      * Bootstrap the model and its traits.
      *
      * @return void
@@ -66,17 +66,13 @@ class Post extends Model
 
         self::deleting(function ($posts) {
             
-            // Softdelete associated post likes, comments, shares.       
+            // Softdelete associated post likes, comments.       
             $posts->likes()->each(function ($likes) {
                 $likes->delete();
             });
 
             $posts->comments()->each(function ($comments) {
                 $comments->delete();
-            });
-
-            $posts->shares()->each(function ($shares) {
-                $shares->delete();
             });
 
         });
