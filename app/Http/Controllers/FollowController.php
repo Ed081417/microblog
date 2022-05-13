@@ -12,22 +12,26 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class FollowController extends Controller
 {
-    /** Paginate collection.
-    *   @param array|Collection $items
-    *   @param int $perPage
-    *   @param int $page
-    *   @param array $options
-    *   @return LengthAwarePaginator
-    */
-    public function paginate($items, $perPage = 5, $page = null)
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-            'pageName' => 'page',
-        ]);
-    }
+    /**
+     * Paginate collection package.
+     *
+     * @param  array|Collection $items
+     * @param  int              $perPage
+     * @param  int              $page
+     * @param  array            $options
+     * @return LengthAwarePaginator
+     */
+    // public function paginate($items, $perPage = 5, $page = null)
+    // {
+    //     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+    //     $items = $items instanceof Collection ? $items : Collection::make($items);
+    //     return new LengthAwarePaginator(
+    //         $items->forPage($page, $perPage), $items->count(), $perPage, $page, [
+    //         'path' => Paginator::resolveCurrentPath(),
+    //         'pageName' => 'page',
+    //         ]
+    //     );
+    // }
 
 
     /**
@@ -42,10 +46,6 @@ class FollowController extends Controller
 
     public function followerList()
     {     
-        // $users = User::orderBy('created_at', 'DESC')->get();       
-        // return view('follow.followers')->with('users',  $users);
-
-        //$dateFollowed = Follow::where('user_id');
         $followers = User::find(Auth::user()->id);
         $users = $followers->followers()->paginate(5);
 
@@ -54,8 +54,6 @@ class FollowController extends Controller
 
     public function followingList()
     {
-        //return view('follow.followings')->with('users', User::orderBy('created_at', 'DESC')->get());
-
         $followings = User::find(Auth::user()->id);
         $users = $followings->followings()->paginate(5);
 
@@ -64,9 +62,6 @@ class FollowController extends Controller
 
     public function profileFollowers($id)
     {
-        // return view('otheruser.followers')
-        //         ->with('user', User::where('id', $id)->orderBy('created_at', 'DESC')->first());
-
         $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
         $profilefollowers = User::find($id);
         $users = $profilefollowers->followers()->paginate(5);
@@ -76,9 +71,6 @@ class FollowController extends Controller
 
     public function profileFollowings($id)
     {
-        // return view('otheruser.followings')
-        //         ->with('user', User::where('id', $id)->orderBy('created_at', 'DESC')->first());
-
         $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
         $profilefollowings = User::find($id);
         $users = $profilefollowings->followings()->paginate(5);
@@ -90,15 +82,17 @@ class FollowController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(User $user, Request $request)
     {
 
-        $user->follows()->create([
+        $user->follows()->create(
+            [
             'follower_id' => $request->user()->id,
-        ]);
+            ]
+        );
 
 
         return redirect()->back()->with('message', 'Followed Successfully!');
@@ -108,7 +102,7 @@ class FollowController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)

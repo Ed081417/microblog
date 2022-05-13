@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
-{   
+{
+   
 
     public function __construct()
     {
@@ -35,14 +36,15 @@ class UserController extends Controller
 
     public function resetPassword(Request $request)
     {     
-        $request->validate([
+        $request->validate(
+            [
             'currentPassword' => 'required',
             'password' => 'required|min:8|confirmed',
-        ]);
+            ]
+        );
 
         $current_password = $request->input('currentPassword');
-        if(Hash::check($current_password, Auth::user()->password)) 
-        {
+        if (Hash::check($current_password, Auth::user()->password)) {
             $hashed_password = Hash::make($request->input('password'));
             $reset_password = User::find(Auth::user()->id);
             $reset_password->password = $hashed_password;
@@ -62,16 +64,16 @@ class UserController extends Controller
 
     public function resetEmail(Request $request)
     {
-        $request->validate([
+        $request->validate(
+            [
             'current_password' => 'required',
             'email' => 'required|email:rfc',
-        ]);
+            ]
+        );
 
-        if($request->input('email') == $request->input('email_confirmation')) 
-        {
+        if ($request->input('email') == $request->input('email_confirmation')) {
             $current_password = $request->input('current_password');
-            if(Hash::check($current_password, Auth::user()->password)) 
-            {
+            if (Hash::check($current_password, Auth::user()->password)) {
                 $reset_email = User::find(Auth::user()->id);
                 $reset_email->email = $request->input('email');
                 $reset_email->email_verified_at = null;
@@ -104,7 +106,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
 
@@ -116,32 +118,22 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //View other user profile
-        // $users = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
-        // $user = $users->posts()->paginate(5);
-        // return view('otheruser.profile', compact('user'));
-
         $user = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
         $userPosts=User::find($id);
         $users = $userPosts->posts()->orderBy('updated_at', 'DESC')->paginate(5);
 
         return view('otheruser.profile', compact('users'))->with('user', $user);
-
-        // return view('otheruser.profile')
-        //     ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
-
-   
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -154,7 +146,7 @@ class UserController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $image_location =  public_path().'/images' . '/' .Auth::user()->image_path;
-        if(File::exists($image_location)) {
+        if (File::exists($image_location)) {
             File::delete($image_location);
         }
 
@@ -168,13 +160,14 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int                      $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $request->validate(
+            [
             'fname' => ['required', 'alpha', 'string', 'max:150'],
             // 'mname' => ['required', 'string', 'max:150'],
             'lname' => ['required', 'alpha', 'string', 'max:150'],
@@ -182,20 +175,23 @@ class UserController extends Controller
             'uname' => ['required', 'alpha_num', 'string', 'max:150'],
             'uploadnewImg' => ['mimes:jpg,jpeg,png']
 
-        ]);
+            ]
+        );
 
 
-        if($request->uploadnewImg==""){
+        if ($request->uploadnewImg=="") {
             User::where('id', $id)
-                ->update([
+                ->update(
+                    [
                     'first_name' => $request->input('fname'),
                     'middle_name' => $request->input('mname'),
                     'last_name' => $request->input('lname'),
                     'date_of_birth' => $request->input('dob'),
                     'username' => $request->input('uname')
-                ]);
+                    ]
+                );
         
-        return redirect('/profile')->with('message', 'Profile Updated Successfully!');
+            return redirect('/profile')->with('message', 'Profile Updated Successfully!');
 
         } else {
             $image_location =  public_path().'/images' . '/' . Auth::user()->image_path;
@@ -206,27 +202,29 @@ class UserController extends Controller
                 $request->uploadnewImg->move(public_path('images'), $newImageName);
         
                 User::where('id', $id)
-                    ->update([
+                    ->update(
+                        [
                         'first_name' => $request->input('fname'),
                         'middle_name' => $request->input('mname'),
                         'last_name' => $request->input('lname'),
                         'date_of_birth' => $request->input('dob'),
                         'username' => $request->input('uname'),
                         'image_path' => $newImageName
-                    ]);
+                        ]
+                    );
             } else {
                 return redirect('/profile')->with('status', 'Error updating profile. Try again.');
             }
             
             
-        return redirect('/profile')->with('message', 'Profile Updated Successfully!');
+            return redirect('/profile')->with('message', 'Profile Updated Successfully!');
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

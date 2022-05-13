@@ -31,19 +31,23 @@ class PostCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Post $post, Request $request)
     {
-        $request->validate([
+        $request->validate(
+            [
             'comment' => ['required', 'string']
-        ]);
+            ]
+        );
 
-        $post->comments()->create([
+        $post->comments()->create(
+            [
             'user_id' => $request->user()->id,
             'comment' => $request->input('comment'),
-        ]);
+            ]
+        );
 
         return redirect()->back()->with('message', 'Comment Posted Successfully');
     }
@@ -51,7 +55,7 @@ class PostCommentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
     public function show(Comment $comment)
@@ -62,30 +66,34 @@ class PostCommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $comment = Comment::find($id);
-        return response()->json([
+        return response()->json(
+            [
             'status' => 200,
             'comment' => $comment,
-        ]);
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comment  $comment
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Comment      $comment
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
-        $request->validate([
+        $request->validate(
+            [
             'updateComment' => ['required', 'string']
-        ]);
+            ]
+        );
 
         $comment_id = $request->input('update_comment_id');
         $comment = Comment::find($comment_id);
@@ -98,7 +106,7 @@ class PostCommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request  
+     * @param  \Illuminate\Http\Request $request  
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)

@@ -21,14 +21,10 @@ class PostShareController extends Controller
      */
     public function index()
     {
-        
-        //$userShares=User::find($authId);
-        //$sharedPosts = $userShares->shares()->orderBy('updated_at', 'DESC')->paginate(5);
         $usersShares = User::where('id', Auth::user()->id)->orderBy('updated_at', 'DESC')->first();
         $trashedPosts = Post::onlyTrashed()->orderBy('created_at', 'DESC')->get();
         $sharedPosts = Share::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->paginate(5);
         return view('post.shared', compact('sharedPosts'))->with('user', $usersShares)->with('trashedPosts', $trashedPosts);       
-
     }
 
     /**
@@ -44,7 +40,7 @@ class PostShareController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -60,32 +56,22 @@ class PostShareController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Share  $share
+     * @param  \App\Models\Share $share
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //$user = User::find($id);
-        //$userShares = $user->shares()->paginate(5); 
-        // $userShares = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
-        // $paginatedShares = $user->shares();
-        // return view('otheruser.sharedposts')->with('user', $paginatedShares);
-
         $usersShares = User::where('id', $id)->orderBy('updated_at', 'DESC')->first();
         $trashedPosts = Post::onlyTrashed()->orderBy('created_at', 'DESC')->get();
-        //$userShares=User::find($id);
         $users = Share::where('user_id', $id)->orderBy('created_at', 'DESC')->paginate(5);
 
         return view('otheruser.sharedposts', compact('users'))->with('user', $usersShares)->with('trashedPosts', $trashedPosts);
-
-        //return view('otheruser.sharedposts')->with('user', $usersShares);
-
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Share  $share
+     * @param  \App\Models\Share $share
      * @return \Illuminate\Http\Response
      */
     public function edit(Share $share)
@@ -96,8 +82,8 @@ class PostShareController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Share  $share
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Share        $share
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Share $share)
@@ -108,7 +94,6 @@ class PostShareController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Share  $share
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)

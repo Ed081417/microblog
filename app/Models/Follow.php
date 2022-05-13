@@ -16,12 +16,6 @@ class Follow extends Model
         'follower_id',
     ];
 
-     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-
     public function user()
     {
         return $this->belongsTo(User::class);

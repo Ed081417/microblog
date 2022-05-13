@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 
 
 class PostController extends Controller
-{   
+{
+   
     use pagination;
 
 
@@ -25,18 +26,19 @@ class PostController extends Controller
 
         $allPosts = Post::orderBy('created_at', 'DESC')->get();
         
-        $posts = Post::whereIn('user_id', function($query)
-        {       
-            $query->select('user_id')
+        $posts = Post::whereIn(
+            'user_id', function ($query) {
+                $query->select('user_id')
                     ->from('followers')
                     ->where('follower_id', Auth::user()->id)
                     ->whereNull('deleted_at');
-        })->orWhere('user_id', Auth::user()->id)
+            }
+        )->orWhere('user_id', Auth::user()->id)
             ->with('user')
             ->orderBy('updated_at', 'DESC')->get();
 
         $paginatedPosts = $this->paginate($posts);
-        return view('home')->with('posts',$paginatedPosts)->with('allposts', $allPosts);
+        return view('home')->with('posts', $paginatedPosts)->with('allposts', $allPosts);
 
     }
 
@@ -54,11 +56,6 @@ class PostController extends Controller
         $users = $userPosts->posts()->orderBy('updated_at', 'DESC')->paginate(5);
 
         return view('post.userposts', compact('users'))->with('user', $user);
-        //return view('otheruser.profile', compact('users'))->with('user', $user);
-        
-
-        // return view('post.userposts')
-        //     ->with('posts', Post::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->get());
         
     }
 
@@ -66,18 +63,20 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {   
-        $request->validate([
+        $request->validate(
+            [
             'title' => ['required', 'string'],
             'description' => ['required', 'string', 'min:140'],
             'image' => ['mimes:jpg,jpeg,png']
-        ]);
+            ]
+        );
 
-        if($request->image==""){
+        if($request->image=="") {
             $post = new Post;
             $post->user_id = auth()->user()->id;
             $post->title = $request->input('title');
@@ -104,7 +103,8 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     * 
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -115,52 +115,54 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-
         return view('post.edit')->with('post', Post::where('id', $id)->first());
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int                      $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $request->validate(
+            [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'min:140'],
             'uploadnewImg' => ['mimes:jpg,jpeg,png']
-        ]);
+            ]
+        );
 
-        if($request->uploadnewImg==""){
+        if($request->uploadnewImg=="") {
             Post::where('id', $id)
-            ->update([
-                'user_id' => auth()->user()->id,
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-            ]);
+                ->update(
+                    [
+                    'user_id' => auth()->user()->id,
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description') ]
+                );
         
-        return redirect('/home')->with('message', 'Post Updated Successfully!');
+            return redirect('/home')->with('message', 'Post Updated Successfully!');
 
         } else {
 
             $newImageName = time() . '.' . $request->uploadnewImg->extension();
             $request->uploadnewImg->move(public_path('images'), $newImageName);
     
-            Post::where('id', $id)
-                ->update([
+            Post::where('id', $id)->update(
+                [
                     'user_id' => auth()->user()->id,
                     'title' => $request->input('title'),
                     'description' => $request->input('description'),
-                    'image_path' => $newImageName,
-                ]);
+                'image_path' => $newImageName ]
+            );
             
             return redirect('/home')->with('message', 'Post Updated Successfully!');
         }
@@ -185,12 +187,11 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
-
         $post = Post::find($request->delete_post_id);
         if($post->image_path != "") {
             $image_location =  public_path().'/images' . '/' .$post->image_path;
