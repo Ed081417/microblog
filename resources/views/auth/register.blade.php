@@ -57,10 +57,10 @@
             <div>
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block w-full" type="email" name="email" :value="old('email')"  />
+                <x-input id="email" class="block w-full" type="text" name="email" :value="old('email')"  />
             </div>
             @error('email')
-                <span style="color: red;">*Email is required!.</span>
+                <span style="color: red;">*{{ $message }}</span>
             @enderror
 
             <div >
@@ -75,7 +75,7 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation"  />
             </div>
             @error('password')
-                <span style="color: red;">*Password confirmation do not match!</span>
+                <span style="color: red;">*{{ $message }}</span>
             @enderror
 
             <div >
@@ -84,7 +84,7 @@
                 <x-input id="image" type="file" name="image"  />
             </div>
             @error('image')
-                <span style="color: red;">*Please upload an image.</span>
+                <span style="color: red;">*{{ $message }}</span>
             @enderror
 
             <div class="flex items-center justify-end ">
