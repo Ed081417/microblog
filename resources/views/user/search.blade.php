@@ -93,7 +93,8 @@
             
             @endforelse  
 
-            {{ $users->links() }}
+            {{$users->appends(request()->query())->links()}}
+            {{-- {{ $users->links() }} --}}
         </div>
         {{-- Followers --}}
         <div class="col-md">           

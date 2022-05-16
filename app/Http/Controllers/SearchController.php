@@ -27,9 +27,9 @@ class SearchController extends Controller
         );
 
         if ($request->has('search')) {
-            $posts = Post::search($request->search)->orderBy('created_at', 'DESC')->paginate(3);
+            $posts = Post::search($request->search)->orderBy('created_at', 'DESC')->paginate(5);
         } else {
-            $posts = Post::paginate(3);
+            $posts = Post::paginate(5);
         }
 
         return view(
@@ -48,9 +48,9 @@ class SearchController extends Controller
         );
 
         if ($request->has('searchUser')) {
-            $users = User::search($request->searchUser)->orderBy('created_at', 'DESC')->paginate(3);
+            $users = User::search($request->searchUser)->orderBy('created_at', 'DESC')->paginate(5);
         } else {
-            $users = User::paginate(3);
+            $users = User::paginate(5);
         }
 
         return view(

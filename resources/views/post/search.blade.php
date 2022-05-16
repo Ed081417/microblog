@@ -53,10 +53,10 @@
                             {{ $post->user->first_name . ' ' . $post->user->last_name}}</a>                       
                         
                         @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
-                            <button type="button" value="{{ $post->id }}" class="btn btn-danger float-end deleteBtn" >
+                            <button type="button" value="{{ $post->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >
                             <i class="bi bi-trash"></i></button>
 
-                            <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success float-end updateBtn" >
+                            <a href="/post/{{ $post->id }}/edit" type="button"  value="{{ $post->id }}" class="btn btn-success btn-sm me-1 float-end updateBtn" >
                             <i class="bi bi-pencil-square"></i></a>
                         @endif                                              
                         </div>
@@ -126,7 +126,8 @@
                     <h1 class="mt-5">No result found.</h1>
                 @endforelse
 
-                {{ $posts->links() }}
+                {{$posts->appends(request()->query())->links()}}
+                {{-- {{ $posts->links() }} --}}
             {{-- Users Posts --}}
 
 
