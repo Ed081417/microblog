@@ -168,9 +168,9 @@ class UserController extends Controller
     {
         $request->validate(
             [
-            'fname' => ['required', 'alpha', 'string', 'max:150'],
+            'fname' => ['required', 'string', 'max:150'],
             // 'mname' => ['required', 'string', 'max:150'],
-            'lname' => ['required', 'alpha', 'string', 'max:150'],
+            'lname' => ['required', 'string', 'max:150'],
             'dob' => ['required', 'date'],
             'uname' => ['required', 'alpha_num', 'string', 'max:150'],
             'uploadnewImg' => ['mimes:jpg,jpeg,png']
@@ -179,7 +179,7 @@ class UserController extends Controller
         );
 
 
-        if ($request->uploadnewImg=="") {
+        if ($request->uploadnewImg=="" && $request->mname !="") {
             User::where('id', $id)
                 ->update(
                     [
@@ -193,6 +193,18 @@ class UserController extends Controller
         
             return redirect('/profile')->with('message', 'Profile Updated Successfully!');
 
+        } elseif ($request->uploadnewImg=="" && $request->mname =="") {
+            User::where('id', $id)
+            ->update(
+                [
+                'first_name' => $request->input('fname'),
+                'last_name' => $request->input('lname'),
+                'date_of_birth' => $request->input('dob'),
+                'username' => $request->input('uname')
+                ]
+            );
+    
+            return redirect('/profile')->with('message', 'Profile Updated Successfully!');
         } else {
             $image_location =  public_path().'/images' . '/' . Auth::user()->image_path;
             if(File::exists($image_location)) {

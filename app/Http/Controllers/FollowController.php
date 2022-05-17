@@ -47,7 +47,7 @@ class FollowController extends Controller
     public function followerList()
     {     
         $followers = User::find(Auth::user()->id);
-        $users = $followers->followers()->paginate(5);
+        $users = $followers->followers()->paginate(3);
 
         return view('follow.followers', compact('users'));
     }
@@ -55,7 +55,7 @@ class FollowController extends Controller
     public function followingList()
     {
         $followings = User::find(Auth::user()->id);
-        $users = $followings->followings()->paginate(5);
+        $users = $followings->followings()->paginate(3);
 
         return view('follow.followings', compact('users'));
     }
@@ -64,7 +64,7 @@ class FollowController extends Controller
     {
         $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
         $profilefollowers = User::find($id);
-        $users = $profilefollowers->followers()->paginate(5);
+        $users = $profilefollowers->followers()->paginate(3);
 
         return view('otheruser.followers', compact('users'))->with('user', $user);
     }
@@ -73,7 +73,7 @@ class FollowController extends Controller
     {
         $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
         $profilefollowings = User::find($id);
-        $users = $profilefollowings->followings()->paginate(5);
+        $users = $profilefollowings->followings()->paginate(3);
 
         return view('otheruser.followings', compact('users'))->with('user', $user);
     }

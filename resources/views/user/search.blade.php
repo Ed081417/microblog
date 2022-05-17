@@ -57,7 +57,7 @@
 
             <h1 class="display-6">Search result...</h1>
 
-            @forelse ($users as $user)                 
+            @forelse ($users->sortDesc() as $user)                 
                     <div class="card mb-3" style="max-width: 550px;">
                         <div class="row g-0" style="margin-top: 0;">
                             @if (is_null($user->image_path))
@@ -93,8 +93,8 @@
             
             @endforelse  
 
-            {{$users->appends(request()->query())->links()}}
-            {{-- {{ $users->links() }} --}}
+            {{-- {{$users->appends(request()->query())->links()}} --}}
+            {{ $users->links() }}
         </div>
         {{-- Followers --}}
         <div class="col-md">           
