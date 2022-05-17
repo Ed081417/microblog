@@ -15,7 +15,7 @@ class SearchController extends Controller
      */
     public function index()
     {
-        return view('follow.findpeople');
+        return view('follow.findPeople');
     }
 
     public function queryPost(Request $request)

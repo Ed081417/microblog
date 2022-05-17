@@ -24,7 +24,7 @@ class PostController extends Controller
     public function index()
     {
 
-        $allPosts = Post::orderBy('created_at', 'DESC')->get();
+        $allPosts = Post::where('user_id', '!=', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(10);
         
         $posts = Post::whereIn(
             'user_id', function ($query) {
