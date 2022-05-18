@@ -77,7 +77,7 @@
             <div class="container">
                 {{-- Flash messages --}}
                 @if (session()->has('message'))
-                <div class="alert alert-primary" role="alert">
+                <div class="alert alert-primary " role="alert">
                     {{ session()->get('message') }}
                 </div>
                 @elseif (session()->has('status'))

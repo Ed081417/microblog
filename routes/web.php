@@ -37,7 +37,7 @@ Route::get('home', [PostController::class, 'index'])->middleware(['auth', 'verif
 Route::get('post/{id}/view', [PostController::class, 'show'])->name('view-post');
 Route::get('userposts', [PostController::class, 'view'])->middleware(['auth', 'verified'])->name('user-posts');
 Route::post('posts', [PostController::class, 'store'])->name('posts');
-Route::get('post/{id}/edit', [PostController::class, 'edit'])->name('edit-post');
+Route::get('post/{post}/edit', [PostController::class, 'edit'])->name('edit-post');
 Route::put('post/{id}', [PostController::class, 'update'])->name('update-post');
 Route::put('remove-image', [PostController::class, 'removeImg'])->name('remove-image');
 Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-post');

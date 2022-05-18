@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\User;
 use App\Traits\pagination;
@@ -15,6 +16,15 @@ class PostController extends Controller
    
     use pagination;
 
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    // public function __construct()
+    // {
+    //     $this->authorizeResource(Post::class, 'post');
+    // }
 
     /**
      * Display a listing of the resource.
@@ -70,9 +80,9 @@ class PostController extends Controller
     {   
         $request->validate(
             [
-            'title' => ['required', 'string'],
-            'description' => ['required', 'string', 'min:140'],
-            'image' => ['mimes:jpg,jpeg,png']
+            'title' => ['required', 'string', 'max:80'],
+            'description' => ['required', 'string', 'max:140'],
+            'image' => ['mimes:jpg,jpeg,png', 'max:5120']
             ]
         );
 
@@ -109,7 +119,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return view('post.view')->with('post', Post::where('id', $id)->first());
+        return view('post.view')->with('post', Post::where('id', $id)->firstOrFail());
     }
 
     /**
@@ -118,9 +128,11 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        return view('post.edit')->with('post', Post::where('id', $id)->first());
+        $this->authorize('update', $post);
+        return view('post.edit')->with('post', Post::where('id', $post->id)->first());
+            
     }
 
     /**
@@ -134,8 +146,8 @@ class PostController extends Controller
     {
         $request->validate(
             [
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'min:140'],
+            'title' => ['required', 'string', 'max:80'],
+            'description' => ['required', 'string', 'max:140'],
             'uploadnewImg' => ['mimes:jpg,jpeg,png']
             ]
         );
@@ -190,8 +202,10 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Post $post)
     {
+        $this->authorize('delete', $post);
+
         $post = Post::find($request->delete_post_id);
         if($post->image_path != "") {
             $image_location =  public_path().'/images' . '/' .$post->image_path;

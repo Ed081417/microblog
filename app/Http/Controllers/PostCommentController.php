@@ -38,7 +38,7 @@ class PostCommentController extends Controller
     {
         $request->validate(
             [
-            'comment' => ['required', 'string']
+            'comment' => ['required', 'string', 'max:140']
             ]
         );
 
@@ -91,7 +91,7 @@ class PostCommentController extends Controller
     {
         $request->validate(
             [
-            'updateComment' => ['required', 'string']
+            'updateComment' => ['required', 'string', 'max:140']
             ]
         );
 

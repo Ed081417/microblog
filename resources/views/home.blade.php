@@ -76,10 +76,9 @@
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <textarea class="form-control" name="description" placeholder="Description" rows="6" >{{ old('description') }} 
-                                      </textarea>
+                                      <textarea class="form-control" name="description" placeholder="Description" rows="6" >{{ old('description') }}</textarea>
                                       @error('description')
-                                          <span class="text-danger">*Description is required and minimum of 140 characters!</span>
+                                          <span class="text-danger">{{ $message }}</span>
                                       @enderror
                                     </div>
                                     
@@ -87,7 +86,7 @@
                                       <input type="file" class="form-control" name="image" id="image" >
                                       <img id="uploadedImg" class="img-fluid">
                                       @error('image')
-                                          <span class="text-danger">*Image should be of type *.jpg, *.jpeg, *.png only.</span>
+                                          <span class="text-danger">{{ $message }}</span>
                                       @enderror
                                     </div>                            
                             </div>
