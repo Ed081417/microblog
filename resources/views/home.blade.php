@@ -69,14 +69,15 @@
                                     {{-- <div class="alert alert-danger" style="display:none"></div>       --}}
 
                                     <div class="mb-3">
-                                      <input type="text" class="form-control" name="title" placeholder="Title" >
+                                      <input type="text" class="form-control" name="title" value="{{ old('title') }}" placeholder="Title" >
                                       @error('title')
                                           <span class="text-danger">*Title is required!</span>
                                       @enderror
                                     </div>
                                     
                                     <div class="mb-3">
-                                      <textarea class="form-control" name="description" placeholder="Description" rows="6" ></textarea>
+                                      <textarea class="form-control" name="description" placeholder="Description" rows="6" >{{ old('description') }} 
+                                      </textarea>
                                       @error('description')
                                           <span class="text-danger">*Description is required and minimum of 140 characters!</span>
                                       @enderror
