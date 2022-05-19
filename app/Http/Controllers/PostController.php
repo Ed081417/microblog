@@ -204,20 +204,24 @@ class PostController extends Controller
      */
     public function destroy(Request $request, Post $post)
     {
+        
         $this->authorize('delete', $post);
 
-        $post = Post::find($request->delete_post_id);
-        if($post->image_path != "") {
-            $image_location =  public_path().'/images' . '/' .$post->image_path;
+        $postId = Post::find($post->id);
+
+        if($postId->image_path != "") {
+            $image_location =  public_path().'/images' . '/' .$postId->image_path;
             if(File::exists($image_location)) {
                 File::delete($image_location);
             }
-            $post->delete();
+            $postId->delete();
 
             return redirect()->back()->with('status', 'Post deleted successfully!');
+
         } else {
-            $post = Post::find($request->delete_post_id);
-            $post->delete();
+
+            $postId = Post::find($post->id);
+            $postId->delete();
     
             return redirect()->back()->with('status', 'Post deleted successfully!');
     

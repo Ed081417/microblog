@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\Request;
@@ -71,13 +72,16 @@ class PostCommentController extends Controller
      */
     public function edit($id)
     {
-        $comment = Comment::find($id);
+
+        $userComment = Comment::find($id);
+
         return response()->json(
             [
             'status' => 200,
-            'comment' => $comment,
+            'comment' => $userComment,
             ]
         );
+
     }
 
     /**
@@ -87,16 +91,18 @@ class PostCommentController extends Controller
      * @param  \App\Models\Comment      $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Comment $comment)
     {
+        $this->authorize('update', $comment);
+
         $request->validate(
             [
             'updateComment' => ['required', 'string', 'max:140']
             ]
         );
 
-        $comment_id = $request->input('update_comment_id');
-        $comment = Comment::find($comment_id);
+        //$comment_id = $comment->id;
+        $comment = Comment::find($comment->id);
         $comment->comment = $request->input('updateComment');
         $comment->update();
 
@@ -109,13 +115,14 @@ class PostCommentController extends Controller
      * @param  \Illuminate\Http\Request $request  
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Comment $comment)
     {
-        
-            $comment = Comment::find($request->delete_comment_id);
-            $comment->delete();
-    
-            return redirect()->back()->with('status', 'Comment deleted successfully!');
+        $this->authorize('delete', $comment);
+
+        $userComment = Comment::find($comment->id);
+        $userComment->delete();
+
+        return redirect()->back()->with('status', 'Comment deleted successfully!');
         
     }
 }

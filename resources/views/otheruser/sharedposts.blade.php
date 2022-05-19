@@ -35,35 +35,6 @@
     </form>           
     {{-- Unfollow Modal --}}
 
-    {{-- Delete Shared Post Modal --}}
-    <form action=" {{ route('delete-post') }} " method="post" enctype="multipart/form-data">
-        @csrf
-        
-        <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Delete Post</h5>
-                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
-              </div>
-
-                <input type="hidden" name="delete_post_id" id="delete_post_id">
-                
-                <div class="modal-body"> 
-                        <p>Do you want to delete this post?</p>                         
-                </div>
-
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </div>
-              
-            </div>
-          </div>
-        </div>
-      </form>           
-      {{-- Delete Shared Post Modal --}}
-
     <div class="row">
         <div class="col-md">
             @include('partials.profilesidebar')
@@ -136,14 +107,6 @@
                                 <h3>Content is not available</h3>
                             
                             @else
-                                {{-- @if ($sharedpost->post->image_path=="")
-                                    <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
-                                    <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
-                                @else
-                                    <a href="/post/{{ $sharedpost->post->id }}/view" type="button"  value="{{ $sharedpost->post->id }}"> 
-                                    <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
-                                    <img src="{{asset('images/' . $sharedpost->post->image_path)}}" alt="..." class="img-fluid">
-                                @endif --}}
                                 @if (!empty($sharedpost->post->image_path))
                                     <a href="/post/{{ $sharedpost->post_id }}/view" type="button" > 
                                     <h5>{{ $sharedpost->post->title }}</h5> </a> <p class="card-text">{{ $sharedpost->post->description }}</p>
@@ -155,13 +118,6 @@
                             @endif
                         </div>
 
-                        {{-- <div class="card-footer" style="display: inline;">
-
-                            <span style="float: right" class="text-muted">
-                                Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
-                            </span>  
-        
-                        </div> --}}
                         <div class="card-footer" style="display: inline;">
                             @if ($trashedPosts->contains('id', $sharedpost->post_id))
                                 <span style="float: right" class="text-muted"></span>

@@ -105,44 +105,13 @@
                       
                       </div>
                     </div>
-                  
-                    {{-- @if (Session::has('errors'))
-                      <script src="{{ asset('assets/js/openmodal.js') }}"></script>
-                    @endif --}}
                     
                   </form>
                   
                   {{-- Create Post Modal --}}
 
 
-                  {{-- Delete Post Modal --}}
-                  <form action=" {{ route('delete-post') }} " method="post" enctype="multipart/form-data">
-                    @csrf
-                    
-                    <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">Delete Post</h5>
-                            {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
-                          </div>
-
-                            <input type="hidden" name="delete_post_id" id="delete_post_id">
-                            
-                            <div class="modal-body"> 
-                                    <p>Do you want to delete this post?</p>                         
-                            </div>
-
-                            <div class="modal-footer">
-                              <button type="submit" class="btn btn-danger">Delete</button>
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            </div>
-                          
-                        </div>
-                      </div>
-                    </div>
-                  </form>           
-                  {{-- Delete Post Modal --}}
+                  
 
                   {{-- Share Post Modal --}}
                   <form action="{{ route('share-post') }}" method="post" >
@@ -175,6 +144,33 @@
           
                   {{-- Users Posts --}}               
                   @forelse ($posts as $post)
+
+                    {{-- Delete Post Modal --}}
+                    <form action=" {{ route('delete-post', $post) }} " method="post" enctype="multipart/form-data">
+                      @csrf
+                      
+                      <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="deleteModalLabel">Delete Post</h5>
+                            </div>
+                              
+                            <div class="modal-body"> 
+                                    <p>Do you want to delete this post?</p>                         
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </form>           
+                    {{-- Delete Post Modal --}}
+
                     
                       <div class="card w-90 mb-5">                
                         <div class="card-header imgHeader">

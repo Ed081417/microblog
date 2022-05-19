@@ -6,72 +6,7 @@
     
     <div class="container d-flex justify-content-center">
 
-        {{-- Delete Comment Modal --}}
-        <form action="  {{ route('delete-comment') }} " method="POST">
-            @csrf
-            
-            <div class="modal fade" id="deleteCommentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteCommentLabel"
-                 aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="deleteCommentLabel">Delete Post</h5>
-                  </div>
-
-                    <input type="hidden" name="delete_comment_id" id="delete_comment_id">
-                    
-                    <div class="modal-body"> 
-                            <p>Do you want to delete this comment?</p>                         
-                    </div>
-
-                    <div class="modal-footer">
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                  
-                </div>
-              </div>
-            </div>
-        </form>           
-        {{-- Delete Comment Modal --}}
-
-        {{-- Update Comment Modal --}}
-        <form action="{{ route('update-comment') }}" method="POST">
-          @csrf
-          @method('PUT')
-
-          <div class="modal fade" id="updateCommentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="updateCommentLabel"
-               aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="updateCommentLabel">Update Comment</h5>
-                </div>
-
-                  <input type="hidden" name="update_comment_id" id="update_comment_id">
-                  
-                  <div class="modal-body"> 
-                    
-                    <div class="mb-3">
-                      <textarea class="form-control" name="updateComment" id="updateComment" rows="4" required></textarea>
-                      {{-- @error('updateComment')
-                          <span class="text-danger">*Comment cannot be empty!</span>
-                      @enderror --}}
-                    </div>
-                  </div>
-
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Update</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  </div>
-                
-              </div>
-            </div>
-          </div>
-
-
-        </form>           
-        {{-- Update Comment Modal --}}
+        
 
         {{-- Share Post Modal --}}
         <form action="{{ route('share-post') }}" method="post" >
@@ -221,6 +156,7 @@
 
                 <form action="{{ route('comment-post', $post) }}" method="POST">
                     @csrf
+
                     <div class="card-body">
                         <div class="mb-3">
                             <textarea class="form-control" name="comment" id="comment" rows="2" placeholder="Enter Comment..." ></textarea>
@@ -236,6 +172,73 @@
                 
                 
                 @forelse ($post->comments as $comment)
+
+                  {{-- Delete Comment Modal --}}
+                  <form action="  {{ route('delete-comment', $comment) }} " method="POST">
+                    @csrf
+                    
+                    <div class="modal fade" id="deleteCommentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteCommentLabel"
+                        aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Delete Comment</h5>
+                          </div>
+
+                            {{-- <input type="hidden" name="delete_comment_id" id="delete_comment_id"> --}}
+                            
+                            <div class="modal-body"> 
+                                    <p>Do you want to delete this comment?</p>                         
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                </form>           
+                {{-- Delete Comment Modal --}}
+
+                {{-- Update Comment Modal --}}
+                <form action="{{ route('update-comment', $comment) }}" method="POST">
+                  @csrf
+                  @method('PUT')
+
+                  <div class="modal fade" id="updateCommentModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="updateCommentLabel"
+                      aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="updateCommentLabel">Update Comment</h5>
+                        </div>
+
+                          {{-- <input type="hidden" name="update_comment_id" id="update_comment_id"> --}}
+                          
+                          <div class="modal-body"> 
+                            
+                            <div class="mb-3">
+                              <textarea class="form-control" name="updateComment" id="updateComment" rows="4" required></textarea>
+                              {{-- @error('updateComment')
+                                  <span class="text-danger">*Comment cannot be empty!</span>
+                              @enderror --}}
+                            </div>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Update</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+
+
+                </form>           
+                {{-- Update Comment Modal --}}
                              
                     <div class="card-body">
                         
@@ -288,7 +291,7 @@
            
           });
 
-          //Update Post
+          //Update Comment
           $(document).on('click', '.updateBtn', function() {
 
             var update_comment_id = $(this).val();

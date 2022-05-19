@@ -40,7 +40,7 @@ Route::post('posts', [PostController::class, 'store'])->name('posts');
 Route::get('post/{post}/edit', [PostController::class, 'edit'])->name('edit-post');
 Route::put('post/{id}', [PostController::class, 'update'])->name('update-post');
 Route::put('remove-image', [PostController::class, 'removeImg'])->name('remove-image');
-Route::post('delete-post', [PostController::class, 'destroy'])->name('delete-post');
+Route::post('post/{post}/delete', [PostController::class, 'destroy'])->name('delete-post');
 
 //Post Like
 Route::post('post/{post}/likes', [PostLikeController::class, 'store'])->name('like-post');
@@ -49,8 +49,8 @@ Route::delete('post/{post}/unlikes', [PostLikeController::class, 'destroy'])->na
 //Post Comment
 Route::post('post/{post}/comments', [PostCommentController::class, 'store'])->name('comment-post');
 Route::get('edit-comment/{id}', [PostCommentController::class, 'edit'])->name('edit-comment');
-Route::put('update-comment', [PostCommentController::class, 'update'])->name('update-comment');
-Route::post('delete-comment', [PostCommentController::class, 'destroy'])->name('delete-comment');
+Route::put('comment/{comment}/update', [PostCommentController::class, 'update'])->name('update-comment');
+Route::post('comment/{comment}/delete', [PostCommentController::class, 'destroy'])->name('delete-comment');
 
 //Post Share
 Route::get('shared-posts', [PostShareController::class, 'index'])->name('shared-posts');
