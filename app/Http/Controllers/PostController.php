@@ -17,16 +17,6 @@ class PostController extends Controller
     use pagination;
 
     /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
-    // public function __construct()
-    // {
-    //     $this->authorizeResource(Post::class, 'post');
-    // }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -60,7 +50,6 @@ class PostController extends Controller
      */
     public function view()
     {   
-
 
         $user = User::where('id', Auth::user()->id)->orderBy('updated_at', 'DESC')->first();
         $userPosts=User::find(Auth::user()->id);
@@ -182,7 +171,11 @@ class PostController extends Controller
         
     }
 
-
+    /**
+     * Remove image uploaded in updating profile.
+     *
+     * @param  \Illuminate\Http\Request $request
+     */
     public function removeImg(Request $request)
     {
         $post = Post::find($request->input('post_id'));

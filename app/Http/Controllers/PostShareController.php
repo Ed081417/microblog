@@ -29,16 +29,6 @@ class PostShareController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -67,29 +57,6 @@ class PostShareController extends Controller
         $users = Share::where('user_id', $id)->orderBy('created_at', 'DESC')->paginate(5);
 
         return view('otheruser.sharedposts', compact('users'))->with('user', $usersShares)->with('trashedPosts', $trashedPosts);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Share $share
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Share $share)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Share        $share
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Share $share)
-    {
-        //
     }
 
     /**

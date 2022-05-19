@@ -6,33 +6,9 @@ use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class FollowController extends Controller
 {
-    /**
-     * Paginate collection package.
-     *
-     * @param  array|Collection $items
-     * @param  int              $perPage
-     * @param  int              $page
-     * @param  array            $options
-     * @return LengthAwarePaginator
-     */
-    // public function paginate($items, $perPage = 5, $page = null)
-    // {
-    //     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-    //     $items = $items instanceof Collection ? $items : Collection::make($items);
-    //     return new LengthAwarePaginator(
-    //         $items->forPage($page, $perPage), $items->count(), $perPage, $page, [
-    //         'path' => Paginator::resolveCurrentPath(),
-    //         'pageName' => 'page',
-    //         ]
-    //     );
-    // }
-
 
     /**
      * Display a listing of the resource.
@@ -44,6 +20,11 @@ class FollowController extends Controller
         return view('otheruser.profile');
     }
 
+    /**
+     * Display follower list of Authenticated user.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function followerList()
     {     
         $followers = User::find(Auth::user()->id);
@@ -52,6 +33,11 @@ class FollowController extends Controller
         return view('follow.followers', compact('users'));
     }
 
+    /**
+     * Display following list of Authenticated user.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function followingList()
     {
         $followings = User::find(Auth::user()->id);
@@ -60,6 +46,11 @@ class FollowController extends Controller
         return view('follow.followings', compact('users'));
     }
 
+    /**
+     * Display follower list of other user.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function profileFollowers($id)
     {
         $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
@@ -69,6 +60,11 @@ class FollowController extends Controller
         return view('otheruser.followers', compact('users'))->with('user', $user);
     }
 
+    /**
+     * Display following list of other user.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function profileFollowings($id)
     {
         $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
@@ -93,7 +89,6 @@ class FollowController extends Controller
             'follower_id' => $request->user()->id,
             ]
         );
-
 
         return redirect()->back()->with('message', 'Followed Successfully!');
     }

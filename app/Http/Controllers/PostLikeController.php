@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class PostLikeController extends Controller
 {
+
+    /**
+     * Store user like.
+     * 
+     * @param  \App\Models\Post
+     * @param  \Illuminate\Http\Request $request
+     * @return 
+     */
     public function store(Post $post, Request $request) 
     {
         if ($post->likedBy($request->user())) {
@@ -22,6 +30,13 @@ class PostLikeController extends Controller
         return back();
     }
 
+    /**
+     * Delete user like.
+     * 
+     * @param  \App\Models\Post
+     * @param  \Illuminate\Http\Request $request
+     * @return 
+     */
     public function destroy(Post $post, Request $request)
     {    
         $request->user()->likes()->where('post_id', $post->id)->delete();

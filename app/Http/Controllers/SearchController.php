@@ -18,6 +18,11 @@ class SearchController extends Controller
         return view('follow.findPeople');
     }
 
+    /**
+     * Display search result for post.
+     *
+     * @param  \Illuminate\Http\Request $request
+     */
     public function queryPost(Request $request)
     {
         $request->validate(
@@ -39,6 +44,11 @@ class SearchController extends Controller
         );
     }
 
+    /**
+     * Display search result for user.
+     *
+     * @param  \Illuminate\Http\Request $request
+     */
     public function queryUser(Request $request)
     {
         $request->validate(
