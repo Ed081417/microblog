@@ -54,8 +54,8 @@ class FollowController extends Controller
     public function profileFollowers($id)
     {
         $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
-        $profilefollowers = User::find($id);
-        $users = $profilefollowers->followers()->paginate(3);
+        $profileFollowers = User::find($id);
+        $users = $profileFollowers->followers()->paginate(3);
 
         return view('otheruser.followers', compact('users'))->with('user', $user);
     }
@@ -68,8 +68,8 @@ class FollowController extends Controller
     public function profileFollowings($id)
     {
         $user = User::where('id', $id)->orderBy('created_at', 'DESC')->first();
-        $profilefollowings = User::find($id);
-        $users = $profilefollowings->followings()->paginate(3);
+        $profileFollowings = User::find($id);
+        $users = $profileFollowings->followings()->paginate(3);
 
         return view('otheruser.followings', compact('users'))->with('user', $user);
     }

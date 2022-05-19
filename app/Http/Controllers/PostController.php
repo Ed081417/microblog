@@ -179,9 +179,9 @@ class PostController extends Controller
     public function removeImg(Request $request)
     {
         $post = Post::find($request->input('post_id'));
-        $image_location =  public_path().'/images' . '/' .$post->image_path;
-        if(File::exists($image_location)) {
-            File::delete($image_location);
+        $imageLocation =  public_path().'/images' . '/' .$post->image_path;
+        if(File::exists($imageLocation)) {
+            File::delete($imageLocation);
         }
 
         $post->image_path = null;
@@ -204,9 +204,9 @@ class PostController extends Controller
         $postId = Post::find($post->id);
 
         if($postId->image_path != "") {
-            $image_location =  public_path().'/images' . '/' .$postId->image_path;
-            if(File::exists($image_location)) {
-                File::delete($image_location);
+            $imageLocation =  public_path().'/images' . '/' .$postId->image_path;
+            if(File::exists($imageLocation)) {
+                File::delete($imageLocation);
             }
             $postId->delete();
 

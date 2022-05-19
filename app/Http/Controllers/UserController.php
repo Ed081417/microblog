@@ -43,12 +43,12 @@ class UserController extends Controller
             ]
         );
 
-        $current_password = $request->input('currentPassword');
-        if (Hash::check($current_password, Auth::user()->password)) {
-            $hashed_password = Hash::make($request->input('password'));
-            $reset_password = User::find(Auth::user()->id);
-            $reset_password->password = $hashed_password;
-            $reset_password->save();
+        $currentPassword = $request->input('currentPassword');
+        if (Hash::check($currentPassword, Auth::user()->password)) {
+            $hashedPassword = Hash::make($request->input('password'));
+            $resetPassword = User::find(Auth::user()->id);
+            $resetPassword->password = $hashedPassword;
+            $resetPassword->save();
     
             return redirect('/change-password')->with('message', 'Password reset successfully');
         } else {
@@ -72,17 +72,15 @@ class UserController extends Controller
         );
 
         if ($request->input('email') == $request->input('email_confirmation')) {
-            $current_password = $request->input('current_password');
-            if (Hash::check($current_password, Auth::user()->password)) {
-                $reset_email = User::find(Auth::user()->id);
-                $reset_email->email = $request->input('email');
-                $reset_email->email_verified_at = null;
-                $reset_email->save();
-        
-                // return redirect('home');
-                event(new Registered($reset_email));
+            $currentPassword = $request->input('current_password');
+            if (Hash::check($currentPassword, Auth::user()->password)) {
+                $resetEmail = User::find(Auth::user()->id);
+                $resetEmail->email = $request->input('email');
+                $resetEmail->email_verified_at = null;
+                $resetEmail->save();
 
-                Auth::login($reset_email);
+                event(new Registered($resetEmail));
+                Auth::login($resetEmail);
                 return redirect(RouteServiceProvider::HOME);
 
             } else {
@@ -125,9 +123,9 @@ class UserController extends Controller
     public function removeImg()
     {
         $user = User::find(Auth::user()->id);
-        $image_location =  public_path().'/images' . '/' .Auth::user()->image_path;
-        if (File::exists($image_location)) {
-            File::delete($image_location);
+        $imageLocation =  public_path().'/images' . '/' .Auth::user()->image_path;
+        if (File::exists($imageLocation)) {
+            File::delete($imageLocation);
         }
 
         $user->image_path = null;
@@ -186,9 +184,9 @@ class UserController extends Controller
     
             return redirect('/profile')->with('message', 'Profile Updated Successfully!');
         } else {
-            $image_location =  public_path().'/images' . '/' . Auth::user()->image_path;
-            if(File::exists($image_location)) {
-                File::delete($image_location);
+            $imageLocation =  public_path().'/images' . '/' . Auth::user()->image_path;
+            if(File::exists($imageLocation)) {
+                File::delete($imageLocation);
 
                 $newImageName = time() . '.' . $request->uploadnewImg->extension();
                 $request->uploadnewImg->move(public_path('images'), $newImageName);
