@@ -136,9 +136,11 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        return view('user.editprofile')->with('user', User::where('id', $id)->first());
+        $this->authorize('update',$user);
+
+        return view('user.editprofile')->with('user', User::where('id', Auth::user()->id)->firstOrFail());
     }
 
 
@@ -171,9 +173,9 @@ class UserController extends Controller
             'fname' => ['required', 'string', 'max:150'],
             // 'mname' => ['required', 'string', 'max:150'],
             'lname' => ['required', 'string', 'max:150'],
-            'dob' => ['required', 'date'],
+            'dob' => ['required', 'date', 'before:today'],
             'uname' => ['required', 'alpha_num', 'string', 'max:150'],
-            'uploadnewImg' => ['mimes:jpg,jpeg,png']
+            'uploadnewImg' => ['mimes:jpg,jpeg,png', 'max:5048']
 
             ]
         );

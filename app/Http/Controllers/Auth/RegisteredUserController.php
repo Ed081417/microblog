@@ -34,11 +34,11 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'fname' => ['required', 'string', 'max:255'],
-            'lname' => ['required', 'string', 'max:255'],
-            'dob' => ['required', 'date'],
-            'uname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'fname' => ['required', 'string', 'max:50'],
+            'lname' => ['required', 'string', 'max:50'],
+            'dob' => ['required', 'date', 'before:today'],
+            'uname' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:80', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'image' => [ 'required', 'image', 'mimes:jpeg,png,jpg','max:5048'],
         ]);
@@ -66,6 +66,7 @@ class RegisteredUserController extends Controller
             return redirect(RouteServiceProvider::HOME);
 
         } else {
+
             $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $newImageName);
 

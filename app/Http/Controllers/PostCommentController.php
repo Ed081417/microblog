@@ -101,7 +101,6 @@ class PostCommentController extends Controller
             ]
         );
 
-        //$comment_id = $comment->id;
         $comment = Comment::find($comment->id);
         $comment->comment = $request->input('updateComment');
         $comment->update();

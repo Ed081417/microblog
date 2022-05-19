@@ -48,6 +48,7 @@ class PostController extends Controller
             ->orderBy('updated_at', 'DESC')->get();
 
         $paginatedPosts = $this->paginate($posts);
+        
         return view('home')->with('posts', $paginatedPosts)->with('allposts', $allPosts);
 
     }

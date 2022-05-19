@@ -161,7 +161,7 @@
                         <div class="mb-3">
                             <textarea class="form-control" name="comment" id="comment" rows="2" placeholder="Enter Comment..." ></textarea>
                             @error('comment')
-                                <span class="text-danger">*Please enter a comment!</span>
+                                <span class="text-danger">{{ $message }}</span>
                             @enderror
                             
                         </div>
@@ -169,8 +169,7 @@
                     </div>    
 
                 </form>
-                
-                
+    
                 @forelse ($post->comments as $comment)
 
                   {{-- Delete Comment Modal --}}
@@ -214,16 +213,14 @@
                         <div class="modal-header">
                           <h5 class="modal-title" id="updateCommentLabel">Update Comment</h5>
                         </div>
-
-                          {{-- <input type="hidden" name="update_comment_id" id="update_comment_id"> --}}
                           
                           <div class="modal-body"> 
                             
                             <div class="mb-3">
-                              <textarea class="form-control" name="updateComment" id="updateComment" rows="4" required></textarea>
-                              {{-- @error('updateComment')
-                                  <span class="text-danger">*Comment cannot be empty!</span>
-                              @enderror --}}
+                              <textarea class="form-control" name="updateComment" id="updateComment" rows="4">{{ old('updateComment') }}</textarea>
+                              @error('updateComment')
+                                  <span class="text-danger">{{ $message }}</span>
+                              @enderror
                             </div>
                           </div>
 
@@ -265,14 +262,10 @@
                         <h5>No Comments Yet.</h5>
                     </div>
                     
-                @endforelse
-        
-        </div>
-
-        
-       
+                @endforelse       
+        </div>           
     </div>
-    
+  
 @endsection
 
 
@@ -285,7 +278,6 @@
             e.preventDefault();
 
             var delete_comment_id = $(this).val();
-            // console.log(delete_post_id);
             $("#delete_comment_id").val(delete_comment_id);
             $('#deleteCommentModal').modal('show');
            
@@ -295,15 +287,12 @@
           $(document).on('click', '.updateBtn', function() {
 
             var update_comment_id = $(this).val();
-            //console.log(update_comment_id);
-            //$("#update_comment_id").val(update_comment_id);
             $('#updateCommentModal').modal('show');
 
             $.ajax({
               type: "GET",
               url: "/edit-comment/"+update_comment_id,
               success: function (response) {
-                //console.log(response);
                 $('#updateComment').val(response.comment.comment);
                 $("#update_comment_id").val(update_comment_id);
               }

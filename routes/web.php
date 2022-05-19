@@ -56,11 +56,11 @@ Route::post('comment/{comment}/delete', [PostCommentController::class, 'destroy'
 Route::get('shared-posts', [PostShareController::class, 'index'])->name('shared-posts');
 Route::post('share-post', [PostShareController::class, 'store'])->name('share-post');
 Route::get('user/{id}/shared', [PostShareController::class, 'show'])->name('view-shared');
-Route::post('delete-shared', [PostShareController::class, 'destroy'])->name('delete-shared');
+Route::post('share/{sharedpost}/delete', [PostShareController::class, 'destroy'])->name('delete-shared');
 
 //Profile
 Route::get('profile', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('profile');
-Route::get('profile/{id}/edit', [UserController::class, 'edit'])->name('edit-profile');
+Route::get('profile/{user}/edit', [UserController::class, 'edit'])->name('edit-profile');
 Route::put('profile/{id}', [UserController::class, 'update'])->name('update-profile');
 Route::put('remove-profileImg', [UserController::class, 'removeImg'])->name('remove-profileImg');
 Route::get('user/{id}/profile', [UserController::class, 'show'])->name('view-profile');

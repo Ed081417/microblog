@@ -117,7 +117,7 @@
             $('.clearImg').click(function (e) {
                 e.preventDefault();
                 $("#uploadnewImg").val('');
-                document.getElementById('newImg').src = "#"
+                document.getElementById('newImg').src = ""
 
                 //$("#uploadedImg").remove();
                 //$("#uploadedImg").src = "#";

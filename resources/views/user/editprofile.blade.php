@@ -50,7 +50,7 @@
                         <label class="form-label">Date of Birth(DD/MM/YYYY) </label>
                         <input type="date" class="form-control" value="{{ Auth::user()->date_of_birth }}" name="dob" >
                         @error('dob')
-                            <span class="text-danger">*Date of birth is required!</span>
+                            <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 

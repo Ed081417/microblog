@@ -37,12 +37,12 @@
             @enderror
 
             <div>
-                <x-label for="dob" :value="__('Date of Birth')" />
+                <x-label for="date of bith" :value="__('Date of Birth')" />
 
                 <x-input id="dob" class="block w-full" type="date" name="dob" :value="old('dob')"  autofocus />
             </div>
             @error('dob')
-                <span style="color: red;">*Date of Birth is required!</span>
+                <span style="color: red;">{{ $message }}</span>
             @enderror
       
             <div>
@@ -79,7 +79,7 @@
             @enderror
 
             <div >
-                <x-label for="image" :value="__('Upload Profile Picture')" />
+                <x-label for="image" :value="__('Upload Profile Picture(max. 5mb, type: .jpg, .jpeg, .png)')" />
 
                 <x-input id="image" type="file" name="image"  />
             </div>

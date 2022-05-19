@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
-
-use App\Models\Post;
 use App\Models\Comment;
-use App\Policies\PostPolicy;
+use App\Models\Post;
+use App\Models\Share;
+use App\Models\User;
 use App\Policies\CommentPolicy;
+use App\Policies\PostPolicy;
+use App\Policies\SharePolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -21,6 +24,8 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Post' => 'App\Policies\PostPolicy',
         Post::class => PostPolicy::class,
         Comment::class => CommentPolicy::class,
+        User::class => UserPolicy::class,
+        Share::class => SharePolicy::class,
     ];
 
     /**
@@ -31,11 +36,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        // Gate::define('delete-post', function ($user, $post) {
-        //     return $user->id == $post->user_id;
-        // });
-
-        // Gate::define('delete-post', 'App\Policies\PostPolicy@delete');
     }
 }

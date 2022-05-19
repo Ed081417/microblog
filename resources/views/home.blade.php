@@ -11,7 +11,6 @@
       </div>
         {{-- Sidebar --}}
 
-
         {{-- Posts --}}
         <div class="col-md-6">      
             <div class="container">
@@ -29,7 +28,7 @@
 
               <div class="row ">
                 <div class="col">
-                  <!-- Create Post -->
+                  <!-- Create Post Button-->
                   <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#postModal">
                     <i class="bi bi-pencil-square"></i> Make a Post
                   </button>
@@ -51,8 +50,7 @@
                     </div>
                   </div>
                   {{-- Search Modal --}}
-
-                  
+                
                   <!-- Create Post Modal -->
                   <form action="{{ route('posts') }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -61,57 +59,45 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="postModalLabel">Write Something</h5>
-                            {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                           </div>
-                          
-                          
-                            <div class="modal-body"> 
-                                    {{-- <div class="alert alert-danger" style="display:none"></div>       --}}
-
-                                    <div class="mb-3">
-                                      <input type="text" class="form-control" name="title" value="{{ old('title') }}" placeholder="Title" >
-                                      @error('title')
-                                          <span class="text-danger">*Title is required!</span>
-                                      @enderror
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                      <textarea class="form-control" name="description" placeholder="Description" rows="6" >{{ old('description') }}</textarea>
-                                      @error('description')
-                                          <span class="text-danger">{{ $message }}</span>
-                                      @enderror
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                      <input type="file" class="form-control" name="image" id="image" >
-                                      <img id="uploadedImg" class="img-fluid">
-                                      @error('image')
-                                          <span class="text-danger">{{ $message }}</span>
-                                      @enderror
-                                    </div>                            
-                            </div>
-
-                            <div class="modal-footer">
-                              <button type="submit" class="btn btn-primary" id="formSubmit">Post</button>
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              
-                            </div>
-                         
-                         
-                          <button class="btn btn-warning clearImg">Clear Image</button>
-                          
-                        </div>
-                  
                       
+                          <div class="modal-body"> 
+                            <div class="mb-3">
+                              <input type="text" class="form-control" name="title" value="{{ old('title') }}" placeholder="Title" >
+                              @error('title')
+                                  <span class="text-danger">*Title is required!</span>
+                              @enderror
+                            </div>
+                            
+                            <div class="mb-3">
+                              <textarea class="form-control" name="description" placeholder="Description" rows="6" >{{ old('description') }}</textarea>
+                              @error('description')
+                                  <span class="text-danger">{{ $message }}</span>
+                              @enderror
+                            </div>
+                            
+                            <div class="mb-3">
+                              <label>Upload image (max. 5mb)</label>
+                              <input type="file" class="form-control" name="image" id="image" >
+                              <img id="uploadedImg" class="img-fluid">
+                              @error('image')
+                                  <span class="text-danger">{{ $message }}</span>
+                              @enderror
+                            </div>                            
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="formSubmit">Post</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="window.location.reload();">Close</button>
+                            
+                          </div>
+              
+                          <button class="btn btn-warning clearImg">Clear Image</button>                       
+                        </div>                  
                       </div>
-                    </div>
-                    
-                  </form>
-                  
+                    </div>                    
+                  </form>                 
                   {{-- Create Post Modal --}}
-
-
-                  
 
                   {{-- Share Post Modal --}}
                   <form action="{{ route('share-post') }}" method="post" >
@@ -311,23 +297,6 @@
     <script>
       $(document).ready(function(){
 
-          //Image upload preview
-          // function readURL(input, id) {
-          //     if (input.files && input.files[0]) {
-          //         var reader = new FileReader();
-
-          //         reader.onload = function (e) {
-          //             $('#' + id).attr('src', e.target.result);
-          //         }
-
-          //         reader.readAsDataURL(input.files[0]);
-          //     }
-          // }
-
-          // $("#image").change(function () {
-          //     readURL(this, 'uploadedImg');
-          // });
-
           image.onchange = evt => {
               const [file] = image.files
               if (file) {
@@ -339,12 +308,9 @@
           //Clear input image field
           $('.clearImg').click(function (e) {
             e.preventDefault();
-            $("#image").val('');
-            document.getElementById('uploadedImg').src = "#"
 
-            //$("#uploadedImg").remove();
-            //$("#uploadedImg").src = "#";
-            // $('#postModal').modal('show');
+            $("#image").val('');
+            document.getElementById('uploadedImg').src = ""
           });
 
           //Delete Post
@@ -352,7 +318,6 @@
             e.preventDefault();
 
             var delete_post_id = $(this).val();
-            // console.log(delete_post_id);
             $("#delete_post_id").val(delete_post_id);
             $('#deleteModal').modal('show');
            

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Share;
 use App\Traits\pagination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Builder;
 
 class PostShareController extends Controller
 {
@@ -24,6 +24,7 @@ class PostShareController extends Controller
         $usersShares = User::where('id', Auth::user()->id)->orderBy('updated_at', 'DESC')->first();
         $trashedPosts = Post::onlyTrashed()->orderBy('created_at', 'DESC')->get();
         $sharedPosts = Share::where('user_id', Auth::user()->id)->orderBy('updated_at', 'DESC')->paginate(5);
+
         return view('post.shared', compact('sharedPosts'))->with('user', $usersShares)->with('trashedPosts', $trashedPosts);       
     }
 
@@ -96,9 +97,11 @@ class PostShareController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Share $sharedpost)
     {
-        $shared = Share::find($request->delete_shared_id);
+        $this->authorize('delete', $sharedpost);
+
+        $shared = Share::find($sharedpost->id);
         $shared->delete();
 
         return redirect()->back()->with('status', 'Shared post deleted successfully!');
