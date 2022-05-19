@@ -11,7 +11,6 @@
         </div>
 
         {{-- User Change Password --}}
-
         <div class="col-md-6">
             {{-- Flash messages --}}
             @if (session()->has('message'))
@@ -31,8 +30,6 @@
             <form method="POST" action="{{ route('reset-password') }}">
                 @csrf
                 @method('PUT')
-
-                {{-- <input type="hidden" name="reset_user_id" id="reset_user_id" value="{{ Auth::user()->id }}"> --}}
 
                 <div class="input-group mb-3">            
                     <span class="input-group-text" id="email">Email</span>
@@ -70,30 +67,16 @@
         {{-- User Change Password --}}
         
 
-        {{-- Followers --}}
+        {{-- Col --}}
         <div class="col-md">           
             <div class="container">
             <div class="row ">
                 <div class="col">
-                {{-- <div class="card text-white bg-primary" >
-                    <div class="card-header">Follow other People</div>
-                    <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}  
-                        <a type="button" class="btn btn-primary btn-sm " href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                    <li class="list-group-item">Monkey D. Luffy
-                        <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                    <li class="list-group-item">Roronoa Zoro
-                        <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                    </ul>
-                </div> --}}
                 </div>
             </div>
             </div>          
         </div>
-        {{-- Followers --}}
+        {{-- Col --}}
     </div>
 </div>
     

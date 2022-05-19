@@ -77,7 +77,7 @@
                             </div>
                             
                             <div class="mb-3">
-                              <label>Upload image (max. 5mb)</label>
+                              <label>Upload image (max. 5mb, type: .jpg, .jpeg, .png only)</label>
                               <input type="file" class="form-control" name="image" id="image" >
                               <img id="uploadedImg" class="img-fluid">
                               @error('image')
@@ -156,8 +156,7 @@
                       </div>
                     </form>           
                     {{-- Delete Post Modal --}}
-
-                    
+                   
                       <div class="card w-90 mb-5">                
                         <div class="card-header imgHeader">
 
@@ -192,7 +191,6 @@
                               <img src="{{asset('images/' . $post->image_path)}}" alt="..." class="img-fluid">
                             @endif
                         </div>
-                        {{-- <span>{{ $post->likes->count() }} {{ Str::plural('Like', $post->likes->count()) }}</span> --}}
 
                         <div class="card-footer" style="display: inline;">
                             @if (!$post->likedBy(auth()->user()))

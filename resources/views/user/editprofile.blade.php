@@ -33,9 +33,9 @@
                     <div class="mb-3">
                         <label class="form-label">Middle Name</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->middle_name }}" name="mname" >
-                        {{-- @error('mname')
-                            <span class="text-danger">*Middle name is required!</span>
-                        @enderror --}}
+                        @error('mname')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
@@ -102,8 +102,7 @@
                 <form action="{{ route('remove-profileImg') }}" method="POST">
                     @csrf
                     @method('PUT')
-
-                    
+                                 
                     @if (Auth::user()->image_path != "")
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                         <button type="submit" class="btn btn-danger" >Remove image uploaded.</button>

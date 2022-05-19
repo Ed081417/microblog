@@ -11,16 +11,12 @@
         </div>
 
         {{-- User Profile --}}
-
-        <div class="col-md-6">
-           
-            
+        <div class="col-md-6">   
             <div class="container">
                 <a href="/profile/{{ Auth::user()->id }}/edit" value="{{ Auth::user()->id }}"type="button" class="btn btn-success float-end" >
                     <i class="bi bi-pencil-square"></i> Update Profile
                 </a>
             </div>
-            
 
              {{-- Flash messages --}}
             <div class="container">
@@ -55,39 +51,23 @@
                     @else
                         <img src="{{ asset('images/' . Auth::user()->image_path) }}" alt="..." class="img-fluid"> 
                         <hr> 
-                    @endif
-                                 
-            
+                    @endif                                          
                 </div>
             </div>
         </div>
         {{-- User Profile --}}
         
 
-        {{-- Followers --}}
+        {{-- Col --}}
         <div class="col-md">           
             <div class="container">
             <div class="row ">
                 <div class="col">
-                {{-- <div class="card text-white bg-primary" >
-                    <div class="card-header">Follow other People</div>
-                    <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}  
-                        <a type="button" class="btn btn-primary btn-sm " href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                    <li class="list-group-item">Monkey D. Luffy
-                        <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                    <li class="list-group-item">Roronoa Zoro
-                        <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                    </li>
-                    </ul>
-                </div> --}}
                 </div>
             </div>
             </div>          
         </div>
-        {{-- Followers --}}
+        {{-- Col --}}
     </div>
 </div>
     

@@ -149,7 +149,7 @@ class UserController extends Controller
         $request->validate(
             [
             'fname' => ['required', 'string', 'max:150'],
-            // 'mname' => ['required', 'string', 'max:150'],
+            'mname' => ['string', 'max:150'],
             'lname' => ['required', 'string', 'max:150'],
             'dob' => ['required', 'date', 'before:today'],
             'uname' => ['required', 'alpha_num', 'string', 'max:150'],

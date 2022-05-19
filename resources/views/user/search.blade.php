@@ -48,8 +48,7 @@
                 <div class="mb-3">
                     <input type="search" name="searchUser" class="form-control" placeholder="Search name..." aria-label="Search">
                     @error('searchUser')
-                            {{-- <span class="text-danger">*Search input is required.</span> --}}
-                            {{-- <span class="text-danger">Search input is required!</span> --}}
+
                     @enderror 
                 </div>                     
                 
@@ -96,30 +95,16 @@
             {{-- {{$users->appends(request()->query())->links()}} --}}
             {{ $users->links() }}
         </div>
-        {{-- Followers --}}
+        {{-- Col --}}
         <div class="col-md">           
             <div class="container">
             <div class="row ">
                 <div class="col">
-                    {{-- <div class="card text-white bg-primary" >
-                        <div class="card-header">Follow other People</div>
-                        <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ Auth::user()->first_name . ' ' .  Auth::user()->last_name}}  
-                            <a type="button" class="btn btn-primary btn-sm " href="#"><i class="bi bi-plus"></i>Follow</a>
-                        </li>
-                        <li class="list-group-item">Monkey D. Luffy
-                            <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                        </li>
-                        <li class="list-group-item">Roronoa Zoro
-                            <a type="button" class="btn btn-primary btn-sm" href="#"><i class="bi bi-plus"></i>Follow</a>
-                        </li>
-                        </ul>
-                    </div> --}}
                 </div>
             </div>
             </div>          
         </div>
-        {{-- Followers --}}
+        {{-- Col --}}
     </div>
 </div>
     
