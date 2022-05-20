@@ -168,7 +168,7 @@
                             <form action=" {{ route('delete-shared', $sharedpost) }} " method="post" enctype="multipart/form-data">
                                 @csrf
                                 
-                                <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="deleteSharedModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                     <div class="modal-header">
@@ -212,7 +212,7 @@
                                     @endif
                 
                                     @if (isset(Auth::user()->id) && Auth::user()->id == $sharedpost->user_id)
-                                        <button type="button" value="{{ $sharedpost->id }}" class="btn btn-danger btn-sm float-end deleteBtn" >
+                                        <button type="button" value="{{ $sharedpost->id }}" class="btn btn-danger btn-sm float-end deleteSharedBtn" >
                                             <i class="bi bi-trash"></i></button>
                                     @endif         
                                 
@@ -236,27 +236,27 @@
     
                                 </div>
     
-                                {{-- <div class="card-footer" style="display: inline;">
-                                  @if ($trashedPosts->contains('id', $sharedpost->post_id))
-                                      <span style="float: right" class="text-muted"></span>
-                                  @else
-                                      <span class="badge bg-primary">
-                                          {{ $sharedpost->post->likes->count() }} {{ Str::plural('Like', $sharedpost->post->likes->count()) }}
-                                      </span>
-              
-                                      <span class="badge bg-primary">
-                                          {{ $sharedpost->post->comments->count() }} {{ Str::plural('Comment', $sharedpost->post->comments->count()) }}
-                                      </span>                       
-                                      
-                                      <span class="badge bg-primary">
-                                          {{ $sharedpost->post->shares->count($sharedpost->id) }} {{ Str::plural('Share', $sharedpost->post->shares->count($sharedpost->id)) }}
-                                      </span>
-              
-                                      <span style="float: right" class="text-muted">
-                                          Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
-                                      </span>  
-                                  @endif
-                                </div> --}}
+{{-- <div class="card-footer" style="display: inline;">
+  @if ($trashedPosts->contains('id', $sharedpost->post_id))
+      <span style="float: right" class="text-muted"></span>
+  @else
+      <span class="badge bg-primary">
+          {{ $sharedpost->post->likes->count() }} {{ Str::plural('Like', $sharedpost->post->likes->count()) }}
+      </span>
+
+      <span class="badge bg-primary">
+          {{ $sharedpost->post->comments->count() }} {{ Str::plural('Comment', $sharedpost->post->comments->count()) }}
+      </span>                       
+      
+      <span class="badge bg-primary">
+          {{ $sharedpost->post->shares->count($sharedpost->id) }} {{ Str::plural('Share', $sharedpost->post->shares->count($sharedpost->id)) }}
+      </span>
+
+      <span style="float: right" class="text-muted">
+          Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
+      </span>  
+  @endif
+</div> --}}
 
                                 <div class="card-footer" style="display: inline;">
                                   @if (!$post->likedBy(auth()->user()))
@@ -401,7 +401,7 @@
                       @endif                                    
                     
                   {{-- POSTS --}}
-                  @if ($post->user_id !== Auth::user()->id )                  
+                  @if ($sharedPosts->contains('post_id', $post->id))                  
                     <div class="card w-90 mb-5">                
                       <div class="card-header imgHeader">
 
@@ -565,6 +565,16 @@
             var delete_post_id = $(this).val();
             $("#delete_post_id").val(delete_post_id);
             $('#deleteModal').modal('show');
+           
+          });
+
+           //Delete Shared Post
+           $('.deleteSharedBtn').click(function (e) {
+            e.preventDefault();
+
+            var delete_shared_id = $(this).val();
+            $("#delete_shared_id").val(delete_shared_id);
+            $('#deleteSharedModal').modal('show');
            
           });
 
