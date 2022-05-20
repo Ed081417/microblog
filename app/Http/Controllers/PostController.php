@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Share;
 use App\Traits\pagination;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,8 @@ class PostController extends Controller
     {
 
         $allPosts = Post::where('user_id', '!=', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(10);
-        
+        $sharedPosts = Share::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+        $trashedPosts = Post::onlyTrashed()->orderBy('created_at', 'DESC')->get();
         $posts = Post::whereIn(
             'user_id', function ($query) {
                 $query->select('user_id')
@@ -39,7 +41,7 @@ class PostController extends Controller
 
         $paginatedPosts = $this->paginate($posts);
         
-        return view('home')->with('posts', $paginatedPosts)->with('allposts', $allPosts);
+        return view('home', compact('sharedPosts', 'trashedPosts'))->with('posts', $paginatedPosts)->with('allposts', $allPosts);
 
     }
 
