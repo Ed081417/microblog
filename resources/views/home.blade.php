@@ -236,7 +236,7 @@
     
                                 </div>
     
-                                <div class="card-footer" style="display: inline;">
+                                {{-- <div class="card-footer" style="display: inline;">
                                   @if ($trashedPosts->contains('id', $sharedpost->post_id))
                                       <span style="float: right" class="text-muted"></span>
                                   @else
@@ -256,6 +256,55 @@
                                           Shared on {{ date("F j, Y", strtotime( $sharedpost->created_at)) }} 
                                       </span>  
                                   @endif
+                                </div> --}}
+
+                                <div class="card-footer" style="display: inline;">
+                                  @if (!$post->likedBy(auth()->user()))
+                                  <form action="{{ route('like-post', $post) }}" method="POST" style ="display:inline-block;">
+                                        @csrf
+                                        <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                        <button type="submit" class="btn btn-primary btn-sm"> Like </button> 
+                                  </form>
+                                  @else
+                                    <form action="{{ route('unlike-post', $post) }}" method="POST" style ="display:inline-block;">
+                                          @csrf
+                                          @method('DELETE')
+                  
+                                          <span class="badge bg-secondary">{{ $post->likes->count() }}</span>
+                                          <button type="submit" class="btn btn-primary btn-sm">Unlike</button> 
+                                    </form>
+                                  @endif
+            
+                                  <span class="badge bg-secondary">{{ $post->comments->count() }}</span>
+                                  <a href="/post/{{ $post->id }}/view" type="button"  value="{{ $post->id }}" type="button" 
+                                    class="btn btn-primary btn-sm"> Comment </a>                         
+                                    
+                                  <span class="badge bg-secondary">{{ $post->shares->count($post->id) }}</span>
+    
+                                  @if (!$post->sharedBy(auth()->user()) && $post->user_id != Auth::user()->id)
+                                    <button type="button" value="{{ $post->id }}" class="btn btn-primary btn-sm sharedBtn" >
+                                      Share</button>
+    
+                                  @elseif($post->sharedBy(auth()->user()))
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                      data-bs-target="#shareModal" disabled> Shared </button> 
+    
+                                  @else
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                                    data-bs-target="#shareModal" disabled> Share </button>
+                                  @endif
+    
+                                  @if ($post->created_at == $post->updated_at)
+                                    <span style="float: right" class="text-muted">
+                                      Posted on {{ date("F j, Y", strtotime( $post->created_at)) }} 
+                                    </span>  
+    
+                                  @else
+                                    <span style="float: right" class="text-muted">
+                                      Post Updated on {{ date("F j, Y", strtotime( $post->updated_at)) }} 
+                                    </span>
+                                  @endif
+            
                                 </div>
     
                             </div>                                  
@@ -351,10 +400,9 @@
                         {{-- POSTS --}}  
                       @endif                                    
                     
-                  
-                  {{-- @if ($post->user_id !== Auth::user()->id ) --}}
-                    {{-- POSTS --}}
-                    {{-- <div class="card w-90 mb-5">                
+                  {{-- POSTS --}}
+                  @if ($post->user_id !== Auth::user()->id )                  
+                    <div class="card w-90 mb-5">                
                       <div class="card-header imgHeader">
 
                         @if (is_null($post->user->image_path))
@@ -437,9 +485,9 @@
                           @endif
     
                       </div>
-                    </div>    --}}
-                    {{-- POSTS --}}   
-                  {{-- @endif   --}}
+                    </div>                   
+                  @endif  
+                  {{-- POSTS --}} 
 
                   @empty
                       

@@ -25,7 +25,7 @@ class PostController extends Controller
     public function index()
     {
 
-        $allPosts = Post::where('user_id', '!=', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $allPosts = Post::where('user_id', '!=', Auth::user()->id)->orderBy('created_at', 'DESC')->whereNull('deleted_at')->paginate(10);
         $sharedPosts = Share::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $trashedPosts = Post::onlyTrashed()->orderBy('created_at', 'DESC')->get();
         $posts = Post::whereIn(
