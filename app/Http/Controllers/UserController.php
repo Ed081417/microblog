@@ -147,7 +147,7 @@ class UserController extends Controller
         $request->validate(
             [
             'fname' => ['required', 'string', 'max:150'],
-            'mname' => ['string', 'max:150'],
+            'mname' => ['string', 'nullable','max:150'],
             'lname' => ['required', 'string', 'max:150'],
             'dob' => ['required', 'date', 'before:today'],
             'uname' => ['required', 'alpha_num', 'string', 'max:150'],
@@ -157,7 +157,7 @@ class UserController extends Controller
         );
 
 
-        if ($request->uploadnewImg=="" && $request->mname !="") {
+        if ($request->uploadnewImg=="" && $request->mname !=="") {
             User::where('id', $id)
                 ->update(
                     [
@@ -171,18 +171,48 @@ class UserController extends Controller
         
             return redirect('/profile')->with('message', 'Profile Updated Successfully!');
 
-        } elseif ($request->uploadnewImg=="" && $request->mname =="") {
-            User::where('id', $id)
-            ->update(
-                [
-                'first_name' => $request->input('fname'),
-                'last_name' => $request->input('lname'),
-                'date_of_birth' => $request->input('dob'),
-                'username' => $request->input('uname')
-                ]
-            );
+        } elseif ($request->mname =="" && $request->uploadnewImg!=="") {
+            $middleName = "";
+            $imageLocation =  public_path().'/images' . '/' . Auth::user()->image_path;
+            if(File::exists($imageLocation)) {
+                File::delete($imageLocation);
+
+                $newImageName = time() . '.' . $request->uploadnewImg->extension();
+                $request->uploadnewImg->move(public_path('images'), $newImageName);
+        
+                User::where('id', $id)
+                    ->update(
+                        [
+                        'first_name' => $request->input('fname'),
+                        'middle_name' => $middleName,
+                        'last_name' => $request->input('lname'),
+                        'date_of_birth' => $request->input('dob'),
+                        'username' => $request->input('uname'),
+                        'image_path' => $newImageName
+                        ]
+                    );
+            } else {
+                return redirect('/profile')->with('status', 'Error updating profile. Try again.');
+            }
     
+            return redirect('/profile')->with('message', 'Profile updated successfully!');
+
+        } elseif ($request->uploadnewImg=="" && $request->mname =="") {
+            $middleName = "";
+            User::where('id', $id)
+                ->update(
+                    [
+                    'first_name' => $request->input('fname'),
+                    'middle_name' => $middleName,
+                    'last_name' => $request->input('lname'),
+                    'date_of_birth' => $request->input('dob'),
+                    'username' => $request->input('uname')
+                    ]
+                );
+        
             return redirect('/profile')->with('message', 'Profile Updated Successfully!');
+    
+   
         } else {
             $imageLocation =  public_path().'/images' . '/' . Auth::user()->image_path;
             if(File::exists($imageLocation)) {

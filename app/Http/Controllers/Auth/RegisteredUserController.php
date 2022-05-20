@@ -35,22 +35,44 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'fname' => ['required', 'string', 'max:50'],
+            'mname' => ['string', 'nullable','max:50'],
             'lname' => ['required', 'string', 'max:50'],
             'dob' => ['required', 'date', 'before:today'],
             'uname' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:80', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'image' => [ 'required', 'image', 'mimes:jpeg,png,jpg','max:5048'],
+            'image' => ['mimes:jpeg,png,jpg','max:5048'],
         ]);
 
-        if (is_null($request->mname)) {
-            $middle_name = "";
+        if ($request->mname=="" && $request->image=="") {
+            $middleName = "";
+            $emptyImg = null;
+
+            $user = User::create([
+                'first_name' => $request->fname,
+                'middle_name' => $middleName,
+                'last_name' => $request->lname,
+                'date_of_birth' => $request->dob,
+                'username' => $request->uname,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'image_path' => $emptyImg
+            ]);
+
+            event(new Registered($user));
+
+            Auth::login($user);
+
+            return redirect(RouteServiceProvider::HOME);   
+
+        } elseif (is_null($request->mname)) {
+            $middleName = "";
             $newImageName = time() . '-' . $request->fname . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $newImageName);
 
             $user = User::create([
                 'first_name' => $request->fname,
-                'middle_name' => $middle_name,
+                'middle_name' => $middleName,
                 'last_name' => $request->lname,
                 'date_of_birth' => $request->dob,
                 'username' => $request->uname,

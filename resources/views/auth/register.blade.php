@@ -13,7 +13,7 @@
             @csrf
 
             <div>
-                <x-label for="fname" :value="__('First Name')" />
+                <x-label for="fname" :value="__('First Name (required)')" />
 
                 <x-input id="fname" class="block  w-full" type="text" name="fname" :value="old('fname')"  autofocus />
             </div>
@@ -22,13 +22,13 @@
             @enderror
 
             <div>
-                <x-label for="mname" :value="__('Middle Name')" />
+                <x-label for="mname" :value="__('Middle Name (optional)')" />
 
                 <x-input id="mname" class="block  w-full" type="text" name="mname" :value="old('mname')"  autofocus />
             </div>
 
             <div>
-                <x-label for="lname" :value="__('Last Name')" />
+                <x-label for="lname" :value="__('Last Name (required)')" />
 
                 <x-input id="lname" class="block  w-full" type="text" name="lname" :value="old('lname')"  autofocus />
             </div>
@@ -37,7 +37,7 @@
             @enderror
 
             <div>
-                <x-label for="date of bith" :value="__('Date of Birth')" />
+                <x-label for="date of bith" :value="__('Date of Birth (required)')" />
 
                 <x-input id="dob" class="block w-full" type="date" name="dob" :value="old('dob')"  autofocus />
             </div>
@@ -46,7 +46,7 @@
             @enderror
       
             <div>
-                <x-label for="uname" :value="__('Username')" />
+                <x-label for="uname" :value="__('Username (required)')" />
 
                 <x-input id="uname" class=" w-full" type="text" name="uname" :value="old('uname')"  autofocus />
             </div>
@@ -55,7 +55,7 @@
             @enderror
             
             <div>
-                <x-label for="email" :value="__('Email')" />
+                <x-label for="email" :value="__('Email (required)')" />
 
                 <x-input id="email" class="block w-full" type="text" name="email" :value="old('email')"  />
             </div>
@@ -64,13 +64,13 @@
             @enderror
 
             <div >
-                <x-label for="password" :value="__('Password')" />
+                <x-label for="password" :value="__('Password (required)')" />
 
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" autocomplete="new-password" />
             </div>
 
             <div >
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
+                <x-label for="password_confirmation" :value="__('Confirm Password (required)')" />
 
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation"  />
             </div>
@@ -79,7 +79,7 @@
             @enderror
 
             <div >
-                <x-label for="image" :value="__('Upload Profile Picture(max. 5mb, type: .jpg, .jpeg, .png)')" />
+                <x-label for="image" :value="__('Upload image (optional, max. 5mb, type: .jpg, .jpeg, .png)')" />
 
                 <x-input id="image" type="file" name="image"  />
             </div>
